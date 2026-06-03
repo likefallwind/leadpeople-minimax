@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AI 领军人才画像研究 · 北京中关村学院</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0d1025 100%);
+    color: #e0e6ed;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+  .container { max-width: 1280px; margin: 0 auto; padding: 40px 32px 80px; }
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 80px 32px 60px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 60px;
+  }
+  .hero h1 {
+    font-size: 56px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #64b5f6 0%, #ba68c8 50%, #f06292 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+  .hero .sub {
+    font-size: 22px;
+    color: #9aa5b8;
+    margin-bottom: 16px;
+  }
+  .hero .meta {
+    font-size: 14px;
+    color: #6b7280;
+    letter-spacing: 1px;
+  }
+  /* SECTION */
+  section { margin-bottom: 80px; }
+  h2 {
+    font-size: 32px;
+    color: #64b5f6;
+    margin-bottom: 32px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(100, 181, 246, 0.2);
+  }
+  h3 {
+    font-size: 22px;
+    color: #e0e6ed;
+    margin: 32px 0 16px;
+  }
+  p { margin-bottom: 16px; color: #c0c8d4; }
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: linear-gradient(135deg, rgba(100,181,246,0.1) 0%, rgba(186,104,200,0.1) 100%);
+    border: 1px solid rgba(100,181,246,0.3);
+    border-radius: 16px;
+    padding: 32px;
+    margin: 24px 0;
+  }
+  .highlight .lead {
+    font-size: 20px;
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  /* METRIC CARDS */
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .metric {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .metric .value {
+    font-size: 36px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #64b5f6, #ba68c8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .metric .label {
+    font-size: 13px;
+    color: #9aa5b8;
+    margin-top: 8px;
+  }
+  /* PROTOTYPE CARDS */
+  .prototype-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+  }
+  .prototype {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 24px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .prototype:hover {
+    transform: translateY(-4px);
+    border-color: rgba(100,181,246,0.5);
+  }
+  .prototype .name {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .prototype .name-en {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 16px;
+  }
+  .prototype .desc {
+    font-size: 14px;
+    color: #c0c8d4;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+  .prototype .count {
+    display: inline-block;
+    background: rgba(100,181,246,0.15);
+    color: #64b5f6;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .prototype .people {
+    font-size: 13px;
+    color: #9aa5b8;
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+  .prototype .people strong {
+    color: #e0e6ed;
+    font-weight: 600;
+  }
+  .radar-container {
+    height: 280px;
+    margin: 16px 0 0;
+    position: relative;
+  }
+  .prototype .key-insight {
+    font-size: 13px;
+    color: #9aa5b8;
+    margin-top: 12px;
+    line-height: 1.6;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 12px;
+  }
+  .badge-zh, .badge-en {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 11px;
+    margin-right: 6px;
+  }
+  .badge-zh { background: rgba(255,107,107,0.2); color: #ff8a80; }
+  .badge-en { background: rgba(100,181,246,0.2); color: #64b5f6; }
+  /* MATRIX */
+  .matrix-container {
+    overflow-x: auto;
+    background: rgba(0,0,0,0.3);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+  }
+  .matrix-table {
+    border-collapse: collapse;
+    font-size: 11px;
+    min-width: 100%;
+  }
+  .matrix-table th, .matrix-table td {
+    padding: 6px 8px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .matrix-table th {
+    background: rgba(255,255,255,0.06);
+    color: #c0c8d4;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+  }
+  .matrix-table th.name-col, .matrix-table td.name-col {
+    text-align: left;
+    font-weight: 500;
+    color: #e0e6ed;
+    min-width: 140px;
+  }
+  .matrix-table tbody tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+  .matrix-table tbody tr:hover { background: rgba(100,181,246,0.1); }
+  .heat-0 { background: rgba(239, 68, 68, 0.15); }
+  .heat-1 { background: rgba(249, 115, 22, 0.18); }
+  .heat-2 { background: rgba(234, 179, 8, 0.2); }
+  .heat-3 { background: rgba(132, 204, 22, 0.22); }
+  .heat-4 { background: rgba(34, 197, 94, 0.28); }
+  .heat-5 { background: rgba(16, 185, 129, 0.4); color: #fff; font-weight: 600; }
+  /* DIMENSION BAR */
+  .dim-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+  }
+  .dim-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .dim-card .dim-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .dim-card .dim-desc {
+    font-size: 12px;
+    color: #9aa5b8;
+    margin-bottom: 12px;
+  }
+  .dim-bar-bg {
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .dim-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #64b5f6, #ba68c8);
+    border-radius: 4px;
+  }
+  .dim-card .score {
+    font-size: 12px;
+    color: #c0c8d4;
+    margin-top: 6px;
+  }
+  .dim-card .score strong {
+    color: #64b5f6;
+    font-size: 18px;
+  }
+  /* FINDINGS */
+  .findings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 24px;
+  }
+  .finding {
+    background: rgba(255,255,255,0.04);
+    border-left: 3px solid #64b5f6;
+    border-radius: 8px;
+    padding: 20px 24px;
+  }
+  .finding .tag {
+    display: inline-block;
+    background: rgba(100,181,246,0.2);
+    color: #64b5f6;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 11px;
+    margin-bottom: 12px;
+  }
+  .finding h4 {
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .finding p {
+    font-size: 14px;
+    color: #c0c8d4;
+    margin-bottom: 0;
+  }
+  /* TIMELINE */
+  .timeline {
+    margin: 32px 0;
+  }
+  .timeline-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .timeline-row .year {
+    font-size: 16px;
+    font-weight: 700;
+    color: #64b5f6;
+  }
+  .timeline-row .event {
+    font-size: 14px;
+    color: #c0c8d4;
+  }
+  .timeline-row .event strong {
+    color: #fff;
+  }
+  /* RECOMMENDATIONS */
+  .reco-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 24px;
+  }
+  .reco {
+    background: linear-gradient(135deg, rgba(100,181,246,0.08), rgba(186,104,200,0.05));
+    border: 1px solid rgba(100,181,246,0.2);
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .reco .num {
+    display: inline-block;
+    background: rgba(100,181,246,0.2);
+    color: #64b5f6;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .reco h4 {
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .reco p {
+    font-size: 14px;
+    color: #c0c8d4;
+    margin-bottom: 8px;
+  }
+  .reco .target {
+    font-size: 12px;
+    color: #9aa5b8;
+    margin-top: 8px;
+    font-style: italic;
+  }
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    color: #6b7280;
+    font-size: 13px;
+  }
+  .footer .links a {
+    color: #64b5f6;
+    text-decoration: none;
+    margin: 0 8px;
+  }
+  .footer .links a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HERO -->
+<div class="hero">
+  <h1>AI 领军人才画像</h1>
+  <div class="sub">60 位公认 AI 领军人才 × 8 维能力 × 6 个原型</div>
+  <div class="sub" style="font-size: 16px; color: #6b7280;">服务于北京中关村学院 · 博士生人才培养目标</div>
+  <div class="meta">研究方法：扎根理论（Grounded Theory） + K-means 聚类 | 数据基础：600+ 原子能力 + 20 个二级能力簇 | 完成：2026-06-03</div>
+</div>
+
+<!-- 核心摘要 -->
+<section>
+  <h2>核心发现</h2>
+  <div class="highlight">
+    <div class="lead">"AI 领军人才 = 8 维能力 × 长期主义 × 跨太平洋学术训练的乘积"</div>
+    <p>60 位 AI 黄金一代的画像可分解为 8 个互相交织的核心维度。其中 <strong style="color:#64b5f6">D7 跨界整合（3.50）</strong>权重最高，<strong style="color:#ba68c8">D5 政策/治理（2.10）</strong>最稀缺。</p>
+    <p>中西方路径分化明显：<strong style="color:#64b5f6">西方擅长"思想+制度+公共叙事"</strong>（Hinton、LeCun、Bengio、Bostrom、Russell），<strong style="color:#ba68c8">中国擅长"工程化+商业化+国家战略"</strong>（DeepSeek、宇树、飞桨、寒武纪、智谱）。</p>
+  </div>
+
+  <div class="metric-grid">
+    <div class="metric">
+      <div class="value">60</div>
+      <div class="label">研究样本</div>
+    </div>
+    <div class="metric">
+      <div class="value">8</div>
+      <div class="label">核心维度</div>
+    </div>
+    <div class="metric">
+      <div class="value">6</div>
+      <div class="label">领军人才原型</div>
+    </div>
+    <div class="metric">
+      <div class="value">20</div>
+      <div class="label">二级能力簇</div>
+    </div>
+    <div class="metric">
+      <div class="value">600+</div>
+      <div class="label">原子能力</div>
+    </div>
+    <div class="metric">
+      <div class="value">3.45</div>
+      <div class="label">D1 原创算法均分</div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 个核心维度 -->
+<section>
+  <h2>8 个核心维度</h2>
+  <p>从 60 张事实卡的 600+ 原子能力，归纳出 20 个二级能力簇，再抽象为 8 个核心维度。每个维度都给出了"可操作定义"和"0-5 分制评分标准"。</p>
+
+  <div class="dim-list">
+    <div class="dim-card">
+      <div class="dim-name">D1 原创理论/算法</div>
+      <div class="dim-desc">提出改变方向的核心算法/理论（可被独立引用的工作）</div>
+      <div class="dim-bar-bg"><div class="dim-bar-fill" style="width: 69%;"></div></div>
+      <div class="score">均分 <strong>3.45</strong> / 5.0</div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-name">D2 系统工程与规模化</div>
+      <div class="dim-desc">把算法工程化为可大规模运行的系统</div>
+      <div class="dim-bar-bg"><div class="dim-bar-fill" style="width: 64%;"></div></div>
+      <div class="score">均分 <strong>3.20</strong> / 5.0</div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-name">D3 学术机构/师承网络</div>
+      <div class="dim-desc">创建学院/学派/实验室/持续培养下一代</div>
+      <div class="dim-bar-bg"><div class="dim-bar-fill" style="width: 64%;"></div></div>
+      <div class="score">均分 <strong>3.20</strong> / 5.0</div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-name">D4 创业/商业化</div>
+      <div class="dim-desc">创建公司/推动产品/实现商业规模</div>
+      <div class="dim-bar-bg"><div class="dim-bar-fill" style="width: 62%;"></div></div>
+      <div class="score">均分 <strong>3.10</strong> / 5.0</div>
+    </div>
+    <div class="dim-card">
+      <div class="="dim-name" style="color:#f06292;">D5 政策/治理/AI 安全</div>
+      <div class="dim-desc">国家/国际政策对话或 AI 安全/治理研究</div>
+      <div class="dim-bar-bg"><div class="dim-bar-fill" style="width: 42%; background: linear-gradient(90deg, #f06292, #ff8a80);"></div></div>
+      <div class="score">均分 <strong>2.10</strong> / 5.0 <span style="color:#f06292;">（最稀缺）</span></div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-name">D6 长期主义/单平台</div>
+      <div class="dim-desc">单一组织/单一方向坚持 10+ 年（甚至 30+ 年）</div>
+      <div class="dim-bar-bg"><div class="dim-bar-fill" style="width: 68%;"></div></div>
+      <div class="score">均分 <strong>3.40</strong> / 5.0</div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-name" style="color:#ba68c8;">D7 跨界整合（最稀缺）</div>
+      <div class="dim-desc">跨学界/工业/政府/创业/治理/教育多角色整合</div>
+      <div class="dim-bar-bg"><div class="dim-bar-fill" style="width: 70%; background: linear-gradient(90deg, #ba68c8, #f06292);"></div></div>
+      <div class="score">均分 <strong>3.50</strong> / 5.0 <span style="color:#ba68c8;">（最高）</span></div>
+    </div>
+    <div class="dim-card">
+      <div class="dim-name">D8 教育/公共影响</div>
+      <div class="dim-desc">教材/课程/公共写作/千万级受众</div>
+      <div class="dim-bar-bg"><div class="dim-bar-fill" style="width: 69%;"></div></div>
+      <div class="score">均分 <strong>3.45</strong> / 5.0</div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 个原型 -->
+<section>
+  <h2>6 个领军人才原型</h2>
+  <p>用 8 维向量对 60 人做 K-means 聚类，得到 6 个清晰的领军人才原型。中西方分工清晰，P3 / P5 / P6 是某一方独有的原型。</p>
+
+  <div class="prototype-grid">
+
+    <!-- P1 学术源流派 -->
+    <div class="prototype">
+      <span class="badge-en">西方主导</span>
+      <div class="name">P1 学术源流派</div>
+      <div class="name-en">Academic Originator</div>
+      <div class="desc">"长期扎根学界，原创算法为王"</div>
+      <span class="count">11 人 · 18%</span>
+      <div class="people"><strong>代表人物</strong>：Hinton, LeCun, Bengio, Sutton, Goodfellow, 鄂维南, 朱松纯, 张钹, 周志华, Stuart Russell, 何恺明</div>
+      <div class="radar-container"><canvas id="radar-p1"></canvas></div>
+      <div class="key-insight"><strong>关键洞察</strong>：D1=4.82 是核心；D3+D6 强协同（学派+长期）；极少直接创业。图灵奖三巨头都在此原型。</div>
+    </div>
+
+    <!-- P2 工业研究院领袖 -->
+    <div class="prototype">
+      <span class="badge-zh">中美各半</span>
+      <div class="name">P2 工业研究院领袖</div>
+      <div class="name-en">Industrial Research Lab Leader</div>
+      <div class="desc">"在大厂核心做工程 + 长期主义"</div>
+      <span class="count">13 人 · 22%</span>
+      <div class="people"><strong>代表人物</strong>：Jeff Dean, 黄学东, 王海峰, 田奇, 沈向洋, 李航, 张正友, 高文, 张亚勤, 黄铁军, 孙茂松, 周靖人, 颜水成</div>
+      <div class="radar-container"><canvas id="radar-p2"></canvas></div>
+      <div class="key-insight"><strong>关键洞察</strong>：D6=4.62（60 人最高，长期主义）、D2=3.92（系统工程）。黄学东 30 年微软、Jeff Dean 25 年 Google、张钹 71 年清华。</div>
+    </div>
+
+    <!-- P3 学术+AI 创业派 -->
+    <div class="prototype">
+      <span class="badge-zh">中国独有</span>
+      <div class="name">P3 学术+AI 创业派</div>
+      <div class="name-en">Academic + AI Startup Founder</div>
+      <div class="desc">"学者身份 + 大模型/AI for Science 创业"</div>
+      <span class="count">15 人 · 25%</span>
+      <div class="people"><strong>代表人物</strong>：汤晓鸥, 唐杰, 刘知远, 朱军, 张鹏, 闫俊杰, 杨植麟, 梁文锋, 张林峰, 姜大昕, 印奇, 林达华, 贾佳亚, 张祥雨, 谢赛宁</div>
+      <div class="radar-container"><canvas id="radar-p3"></canvas></div>
+      <div class="key-insight"><strong>关键洞察</strong>：D4=5.00（创业顶配）。"学者+创始人"双栖是中国大模型时代特色。2023 是"大模型创业元年"。</div>
+    </div>
+
+    <!-- P4 跨界整合多栖 -->
+    <div class="prototype">
+      <span class="badge-en">西方为主</span>
+      <div class="name">P4 跨界整合多栖型</div>
+      <div class="name-en">Cross-domain Integrator</div>
+      <div class="desc">"学界+工业+创业+治理+教育全栖"</div>
+      <span class="count">9 人 · 15%</span>
+      <div class="people"><strong>代表人物</strong>：Sam Altman, Ilya Sutskever, Dario Amodei, Demis Hassabis, Aidan Gomez, Karpathy, Andrew Ng, 李开复, 李飞飞</div>
+      <div class="radar-container"><canvas id="radar-p4"></canvas></div>
+      <div class="key-insight"><strong>关键洞察</strong>：D7=4.67 / D8=4.78 / D4=4.56 三高。"全栖型"是 AI 行业最稀缺的物种（60 人仅 9 人）。</div>
+    </div>
+
+    <!-- P5 AI 治理/安全 -->
+    <div class="prototype">
+      <span class="badge-en">西方独有</span>
+      <div class="name">P5 AI 治理/安全旗手</div>
+      <div class="name-en">AI Governance & Safety Champion</div>
+      <div class="desc">"思想/制度/工程 3 大路线"</div>
+      <span class="count">4 人 · 7%</span>
+      <div class="people"><strong>代表人物</strong>：Nick Bostrom, Paul Christiano, Chris Olah, Stuart Russell</div>
+      <div class="radar-container"><canvas id="radar-p5"></canvas></div>
+      <div class="key-insight"><strong>关键洞察</strong>：D5=5.00（治理顶配）、D8=4.50。3 大路线：思想派/工程派/制度派。中国在追赶（朱军、张钹的"可信 AI"）。</div>
+    </div>
+
+    <!-- P6 商业/硬件创业 -->
+    <div class="prototype">
+      <span class="badge-zh">中国独有</span>
+      <div class="name">P6 商业/硬件创业型</div>
+      <div class="name-en">Commercial/Hardware Founder</div>
+      <div class="desc">"工程化 + 商业规模"</div>
+      <span class="count">8 人 · 13%</span>
+      <div class="people"><strong>代表人物</strong>：雷军, 张一鸣, 王慧文, 王小川, 余凯, 朱珑, 陈天石, 王兴兴</div>
+      <div class="radar-container"><canvas id="radar-p6"></canvas></div>
+      <div class="key-insight"><strong>关键洞察</strong>：D2=4.50 / D4=5.00。"软硬协同"是工程特色（地平线 BPU、思元 590 7nm、宇树自研电机+激光雷达）。</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 60 人 × 8 维矩阵 -->
+<section>
+  <h2>60 人 × 8 维打分矩阵</h2>
+  <p>每位 AI 领军在 8 个维度上的 0-5 分制打分。色块越深 = 分数越高。点击每个名字查看对应的事实卡。</p>
+
+  <div class="matrix-container">
+    <table class="matrix-table" id="matrix-table">
+      <thead>
+        <tr>
+          <th class="name-col">人物</th>
+          <th>D1</th><th>D2</th><th>D3</th><th>D4</th><th>D5</th><th>D6</th><th>D7</th><th>D8</th>
+          <th>总分</th><th>原型</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- TOP 20 -->
+        <tr><td class="name-col">Hinton</td><td class="heat-5">5</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-1">1</td><td class="heat-5">5</td><td class="heat-5">5</td><td class="heat-5">5</td><td class="heat-5">5</td><td><strong>33</strong></td><td>P1</td></tr>
+        <tr><td class="name-col">Ilya Sutskever</td><td class="heat-5">5</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-4">4</td><td><strong>33</strong></td><td>P4</td></tr>
+        <tr><td class="name-col">LeCun</td><td class="heat-5">5</td><td class="heat-4">4</td><td class="heat-5">5</td><td class="heat-2">2</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-5">5</td><td><strong>33</strong></td><td>P1</td></tr>
+        <tr><td class="name-col">Bengio</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-4">4</td><td><strong>32</strong></td><td>P1</td></tr>
+        <tr><td class="name-col">Demis Hassabis</td><td class="heat-5">5</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-5">5</td><td><strong>34</strong></td><td>P4</td></tr>
+        <tr><td class="name-col">汤晓鸥</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-4">4</td><td class="heat-4">4</td><td><strong>32</strong></td><td>P3</td></tr>
+        <tr><td class="name-col">张亚勤</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-5">5</td><td class="heat-4">4</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-4">4</td><td><strong>32</strong></td><td>P2</td></tr>
+        <tr><td class="name-col">高文</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-5">5</td><td class="heat-4">4</td><td class="heat-3">3</td><td><strong>32</strong></td><td>P2</td></tr>
+        <tr><td class="name-col">沈向洋</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-5">5</td><td class="heat-4">4</td><td class="heat-4">4</td><td><strong>31</strong></td><td>P2</td></tr>
+        <tr><td class="name-col">李飞飞</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-4">4</td><td class="heat-4">4</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-5">5</td><td><strong>30</strong></td><td>P4</td></tr>
+        <tr><td class="name-col">唐杰</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-3">3</td><td><strong>30</strong></td><td>P3</td></tr>
+        <tr><td class="name-col">张钹</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-2">2</td><td class="heat-4">4</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-5">5</td><td><strong>30</strong></td><td>P1</td></tr>
+        <tr><td class="name-col">黄铁军</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-5">5</td><td class="heat-4">4</td><td class="heat-3">3</td><td><strong>30</strong></td><td>P2</td></tr>
+        <tr><td class="name-col">林达华</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-5">5</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-3">3</td><td><strong>29</strong></td><td>P3</td></tr>
+        <tr><td class="name-col">周志华</td><td class="heat-5">5</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-2">2</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-5">5</td><td><strong>29</strong></td><td>P1</td></tr>
+        <tr><td class="name-col">鄂维南</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-3">3</td><td><strong>29</strong></td><td>P1</td></tr>
+        <tr><td class="name-col">Sam Altman</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-5">5</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-5">5</td><td><strong>31</strong></td><td>P4</td></tr>
+        <tr><td class="name-col">Dario Amodei</td><td class="heat-4">4</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-5">5</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-5">5</td><td><strong>32</strong></td><td>P4</td></tr>
+        <tr><td class="name-col">Jeff Dean</td><td class="heat-4">4</td><td class="heat-5">5</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-1">1</td><td class="heat-5">5</td><td class="heat-4">4</td><td class="heat-4">4</td><td><strong>29</strong></td><td>P2</td></tr>
+        <tr><td class="name-col">Stuart Russell</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-4">4</td><td class="heat-1">1</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-5">5</td><td><strong>27</strong></td><td>P1/P5</td></tr>
+        <tr><td class="name-col">Andrew Ng</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-5">5</td><td><strong>30</strong></td><td>P4</td></tr>
+        <tr><td class="name-col">Karpathy</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-1">1</td><td class="heat-5">5</td><td class="heat-5">5</td><td><strong>25</strong></td><td>P4</td></tr>
+        <tr><td class="name-col">Aidan Gomez</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-3">3</td><td><strong>27</strong></td><td>P4</td></tr>
+        <tr><td class="name-col">Nick Bostrom</td><td class="heat-3">3</td><td class="heat-1">1</td><td class="heat-3">3</td><td class="heat-1">1</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-5">5</td><td><strong>24</strong></td><td>P5</td></tr>
+        <tr><td class="name-col">Paul Christiano</td><td class="heat-3">3</td><td class="heat-1">1</td><td class="heat-2">2</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-4">4</td><td><strong>22</strong></td><td>P5</td></tr>
+        <tr><td class="name-col">Chris Olah</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-2">2</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-4">4</td><td><strong>25</strong></td><td>P5</td></tr>
+        <tr><td class="name-col">Richard Sutton</td><td class="heat-5">5</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-1">1</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>25</strong></td><td>P1</td></tr>
+        <tr><td class="name-col">Goodfellow</td><td class="heat-5">5</td><td class="heat-2">2</td><td class="heat-2">2</td><td class="heat-1">1</td><td class="heat-3">3</td><td class="heat-1">1</td><td class="heat-2">2</td><td class="heat-4">4</td><td><strong>20</strong></td><td>P1</td></tr>
+        <tr><td class="name-col">朱松纯</td><td class="heat-5">5</td><td class="heat-2">2</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-1">1</td><td class="heat-4">4</td><td class="heat-5">5</td><td class="heat-3">3</td><td><strong>26</strong></td><td>P1</td></tr>
+        <tr><td class="name-col">张祥雨</td><td class="heat-4">4</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-1">1</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>24</strong></td><td>P3</td></tr>
+        <tr><td class="name-col">何恺明</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-1">1</td><td class="heat-0">0</td><td class="heat-2">2</td><td class="heat-2">2</td><td class="heat-4">4</td><td><strong>19</strong></td><td>P1</td></tr>
+        <tr><td class="name-col">谢赛宁</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-1">1</td><td class="heat-0">0</td><td class="heat-2">2</td><td class="heat-2">2</td><td class="heat-3">3</td><td><strong>17</strong></td><td>P1</td></tr>
+        <tr><td class="name-col">颜水成</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-1">1</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-3">3</td><td><strong>26</strong></td><td>P2</td></tr>
+        <tr><td class="name-col">王海峰</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>26</strong></td><td>P2</td></tr>
+        <tr><td class="name-col">李航</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-1">1</td><td class="heat-1">1</td><td class="heat-4">4</td><td class="heat-4">4</td><td class="heat-4">4</td><td><strong>23</strong></td><td>P2</td></tr>
+        <tr><td class="name-col">张正友</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-1">1</td><td class="heat-1">1</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-4">4</td><td><strong>23</strong></td><td>P2</td></tr>
+        <tr><td class="name-col">田奇</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-1">1</td><td class="heat-1">1</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>22</strong></td><td>P2</td></tr>
+        <tr><td class="name-col">周靖人</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-2">2</td><td class="heat-2">2</td><td class="heat-1">1</td><td class="heat-2">2</td><td class="heat-4">4</td><td class="heat-2">2</td><td><strong>20</strong></td><td>P2</td></tr>
+        <tr><td class="name-col">黄学东</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-1">1</td><td class="heat-1">1</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>22</strong></td><td>P2</td></tr>
+        <tr><td class="name-col">刘铁岩</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-1">1</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-3">3</td><td><strong>23</strong></td><td>P2</td></tr>
+        <tr><td class="name-col">杨植麟</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-1">1</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>24</strong></td><td>P3</td></tr>
+        <tr><td class="name-col">梁文锋</td><td class="heat-4">4</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>28</strong></td><td>P3</td></tr>
+        <tr><td class="name-col">闫俊杰</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-2">2</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>23</strong></td><td>P3</td></tr>
+        <tr><td class="name-col">王小川</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>26</strong></td><td>P6</td></tr>
+        <tr><td class="name-col">王慧文</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-1">1</td><td class="heat-1">1</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>20</strong></td><td>P6</td></tr>
+        <tr><td class="name-col">李开复</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-5">5</td><td><strong>30</strong></td><td>P4</td></tr>
+        <tr><td class="name-col">张一鸣</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>27</strong></td><td>P6</td></tr>
+        <tr><td class="name-col">雷军</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-5">5</td><td class="heat-5">5</td><td class="heat-4">4</td><td class="heat-4">4</td><td><strong>31</strong></td><td>P6</td></tr>
+        <tr><td class="name-col">陈天石</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-4">4</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-2">2</td><td><strong>29</strong></td><td>P6</td></tr>
+        <tr><td class="name-col">王兴兴</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-1">1</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>23</strong></td><td>P6</td></tr>
+        <tr><td class="name-col">朱珑</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-3">3</td><td><heat-23</td><td>P6</td></tr>
+        <tr><td class="name-col">余凯</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-1">1</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>23</strong></td><td>P6</td></tr>
+        <tr><td class="name-col">印奇</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-1">1</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>23</strong></td><td>P3</td></tr>
+        <tr><td class="name-col">张鹏</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-1">1</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>22</strong></td><td>P3</td></tr>
+        <tr><td class="name-col">姜大昕</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-1">1</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>22</strong></td><td>P3</td></tr>
+        <tr><td class="name-col">林达华</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-5">5</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-3">3</td><td><strong>29</strong></td><td>P3</td></tr>
+        <tr><td class="name-col">张林峰</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-1">1</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>22</strong></td><td>P3</td></tr>
+        <tr><td class="name-col">贾佳亚</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-1">1</td><td class="heat-2">2</td><td class="heat-4">4</td><td class="heat-3">3</td><td><strong>24</strong></td><td>P3</td></tr>
+        <tr><td class="name-col">刘知远</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-5">5</td><td class="heat-1">1</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>25</strong></td><td>P3</td></tr>
+        <tr><td class="name-col">唐杰</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-5">5</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-3">3</td><td><strong>30</strong></td><td>P3</td></tr>
+        <tr><td class="name-col">朱军</td><td class="heat-4">4</td><td class="heat-3">3</td><td class="heat-4">4</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-3">3</td><td class="heat-3">3</td><td><strong>27</strong></td><td>P3</td></tr>
+        <tr><td class="name-col">孙茂松</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-2">2</td><td class="heat-5">5</td><td class="heat-3">3</td><td class="heat-4">4</td><td><strong>27</strong></td><td>P2</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 关键发现 -->
+<section>
+  <h2>关键发现</h2>
+  <div class="findings-grid">
+    <div class="finding">
+      <span class="tag">共性 1</span>
+      <h4>长期主义是"AI 黄金一代"的核心特征</h4>
+      <p>60 人中 D6≥4 的有 15 人。代表：Hinton（30+ 年神经网络寒冬坚守）、Jeff Dean（Google 25 年）、黄学东（微软 30 年）、张钹（清华 71 年）、周志华（南大 32 年）、Chris Olah（机制可解释性 9 年深耕）、陈天石（寒武纪 14 年磨剑）。<br><strong>关键洞察</strong>：AI 寒冬期坚守 10+ 年才能等到突破。</p>
+    </div>
+    <div class="finding">
+      <span class="tag">共性 2</span>
+      <h4>跨太平洋学术训练是 60 人的主流路径</h4>
+      <p>至少 35 人有跨太平洋（中美/中加/中欧/中英）学术训练。代表：Bengio、Hinton、Ilya、沈向洋、张亚勤、朱珑、张林峰。<br><strong>关键洞察</strong>：跨太平洋学者是"AI 黄金一代"的共同身份印记——既有中国数学/工程基础 + 又有北美/欧洲学术训练。</p>
+    </div>
+    <div class="finding">
+      <span class="tag">共性 3</span>
+      <h4>学派/师承网络是 AI 领军影响力的关键</h4>
+      <p>60 人中至少 30 人有清晰可追溯的师承链。<br>
+      · Hinton 学派（→ Ilya、Krizhevsky、Karpathy）<br>
+      · 清华张钹学派（→ 朱军、张祥雨、刘知远、唐杰、颜水成 — 5 位入选 60 人名单）<br>
+      · MMLab 港中文学派（→ 何恺明、林达华、王晓刚、徐立、贾佳亚、谢赛宁 — 6 位入选）<br>
+      · 清华 NLP 三阶（黄昌宁 → 孙茂松 → 李涓子/唐杰/刘知远）<br>
+      <strong>关键洞察</strong>：学派 = 时间 + 空间 + 价值观的传承。"学派不是设计出来的，是时间浇灌出来的"。</p>
+    </div>
+    <div class="finding">
+      <span class="tag">异质性 1</span>
+      <h4>中西方 AI 领军路径分化</h4>
+      <p><strong>西方擅长</strong>：思想+制度+公共叙事（Hinton TED 数千万次、LeCun 图灵奖演讲、Bengio LawZero、Bostrom Superintelligence、Russell Human Compatible）<br><strong>中国擅长</strong>：工程化+商业化+国家战略（DeepSeek 139 人对标 OpenAI 1200 人、宇树 70% 机器人、寒武纪 7nm 芯片、飞桨开源、王海峰 13 年百度）</p>
+    </div>
+    <div class="finding">
+      <span class="tag">异质性 2</span>
+      <h4>3 大"晚期反向运动"</h4>
+      <p><strong>Hinton</strong>（80+ 岁，2023 辞职 Google）→ 推动"AI 风险公共表达"<br>
+      <strong>LeCun</strong>（65 岁，2026 离职 Meta 创业 AMI）→ 推动"世界模型"路线<br>
+      <strong>Bengio</strong>（60+ 岁，2025 创办 LawZero）→ 推动"制度+技术"双轨 AI 安全<br>
+      <strong>共同模式</strong>：图灵奖得主在 70+ 岁时从"算法推动者"转为"治理/安全/创业"——少见的"晚期反向运动"。</p>
+    </div>
+    <div class="finding">
+      <span class="tag">异质性 3</span>
+      <h4>年龄代际差异</h4>
+      <p><strong>60+ 岁</strong>：Hinton/LeCun/Bengio/张钹 等 —— 学术+大厂，长期主义深耕<br>
+      <strong>40-60 岁</strong>：Jeff Dean/汤晓鸥/李开复/Andrew Ng/Demis/印奇/雷军 等 —— 创业+机构建设高峰<br>
+      <strong>40 岁以下</strong>：Karpathy/梁文锋/王慧文/闫俊杰/姜大昕/王兴兴/张鹏/谢赛宁 —— 大模型时代原生，创业密度最高</p>
+    </div>
+  </div>
+</section>
+
+<!-- 算法代际接力 -->
+<section>
+  <h2>算法创新的 35 年代际接力</h2>
+  <p>从 Hinton 1986 年反向传播到 Liang Wenfeng 2024 年 MLA，6 代领军人物 35 年内轮番接棒。</p>
+
+  <div class="timeline">
+    <div class="timeline-row">
+      <div class="year">1986</div>
+      <div class="event"><strong>Hinton</strong> · 反向传播算法（深度学习理论基石）</div>
+    </div>
+    <div class="timeline-row">
+      <div class="year">1989</div>
+      <div class="event"><strong>LeCun</strong> · LeNet / CNN（第一个工业级 CNN）</div>
+    </div>
+    <div class="timeline-row">
+      <div class="year">2012</div>
+      <div class="event"><strong>Hinton 团队</strong> · AlexNet（深度学习爆发，ImageNet 比赛）</div>
+    </div>
+    <div class="timeline-row">
+      <div class="year">2014</div>
+      <div class="event"><strong>Goodfellow</strong> · GAN / <strong>Sutskever</strong> · Seq2Seq（生成模型 + 序列学习）</div>
+    </div>
+    <div class="timeline-row">
+      <div class="year">2015</div>
+      <div class="event"><strong>何恺明</strong> · ResNet（21 世纪被引最多 AI 论文） / <strong>Sutton</strong> · Bitter Lesson</div>
+    </div>
+    <div class="timeline-row">
+      <div class="year">2017</div>
+      <div class="event"><strong>Vaswani / Aidan Gomez</strong> · Transformer（"Attention is All You Need"）</div>
+    </div>
+    <div class="timeline-row">
+      <div class="year">2019</div>
+      <div class="event"><strong>杨植麟</strong> · Transformer-XL / XLNet（长上下文预训练）</div>
+    </div>
+    <div class="timeline-row">
+      <div class="year">2024</div>
+      <div class="event"><strong>梁文锋</strong> · MLA（Multi-Latent Attention，DeepSeek-V3 核心创新） / <strong>Demis</strong> · AlphaFold 3 / 2024 诺贝尔化学奖 / <strong>Hinton</strong> · 2024 诺贝尔物理学奖</div>
+    </div>
+  </div>
+</section>
+
+<!-- 博士生培养建议 -->
+<section>
+  <h2>博士生培养建议 · 5 大方向</h2>
+  <p>基于 60 人画像，我们建议主推 3 个原型方向（P2 / P3 / P4），辅以 P5 + P1。</p>
+
+  <div class="reco-grid">
+    <div class="reco">
+      <div class="num">1</div>
+      <h4>方向 1：工业级 AI 系统工程师</h4>
+      <p>对应 P2 工业研究院领袖。毕业后能在大厂核心团队工作。</p>
+      <p><strong>8 维目标</strong>：D2=5 ★★★★★ / D6=4 ★★★★ / D3=3 ★★★</p>
+      <div class="target">必修：分布式系统、大模型训练/推理；CCF-A 系统会议 1-2 篇；大厂 6+ 月实习</div>
+    </div>
+    <div class="reco">
+      <div class="num">2</div>
+      <h4>方向 2：学术派 AI 创业预备者</h4>
+      <p>对应 P3 学术+AI 创业派（中国独有）。毕业后能创办/加入大模型公司。</p>
+      <p><strong>8 维目标</strong>：D1=4 ★★★★ / D4=3 ★★★ / D7=4 ★★★★</p>
+      <div class="target">必修：深度学习 + 垂直领域；CCF-A 2-3 篇 + 应用证据；Kaggle 比赛 + 孵化器</div>
+    </div>
+    <div class="reco">
+      <div class="num">3</div>
+      <h4>方向 3：跨界整合多栖预备者</h4>
+      <p>对应 P4 跨界整合多栖型。毕业后能在学界/工业/治理/教育间灵活切换。</p>
+      <p><strong>8 维目标</strong>：D7=5 ★★★★★ / D8=4 ★★★★ / D5=3 ★★★</p>
+      <div class="target">必修：技术深度 + 公共演讲 + 跨学科选修；2+ 领域实习</div>
+    </div>
+    <div class="reco">
+      <div class="num">4</div>
+      <h4>方向 4：AI 治理/安全研究者</h4>
+      <p>对应 P5 AI 治理/安全旗手。毕业后能在政府/智库从事 AI 安全研究。</p>
+      <p><strong>8 维目标</strong>：D5=5 ★★★★★ / D8=4 ★★★★ / D1=3 ★★★</p>
+      <div class="target">必修：AI 技术 + 伦理学 + 政策研究方法；跨学科论文；政府/智库合作</div>
+    </div>
+    <div class="reco">
+      <div class="num">5</div>
+      <h4>方向 5：基础研究深耕者（不主推）</h4>
+      <p>对应 P1 学术源流派。毕业后能在顶尖高校从事长期基础研究。</p>
+      <p><strong>8 维目标</strong>：D1=5 ★★★★★ / D3=4 ★★★★ / D6=5 ★★★★★</p>
+      <div class="target">60 人中仅 11 人，需要长期积累。CCF-A 3-5 篇含 oral/spotlight</div>
+    </div>
+    <div class="reco">
+      <div class="num">6</div>
+      <h4>建议：建立"画像评估"机制</h4>
+      <p>每名博士生入校时做 8 维画像测评（D1-D8），4-5 年期间每年 1 次更新，让博士生"看见自己的成长曲线"。</p>
+      <div class="target">工具：参考 matrix.md 的 60 人 × 8 维矩阵，做成 Excel 工具</div>
+    </div>
+  </div>
+</section>
+
+<!-- 关键公式 -->
+<section>
+  <h2>人才共性公式</h2>
+  <div class="highlight">
+    <div class="lead">顶级 AI 领军 = 8 维能力 × 长期主义 × 跨太平洋学术训练</div>
+    <div style="margin-top: 24px;">
+      <p><strong style="color:#64b5f6">影响力 = D1 × D6 × D7</strong></p>
+      <p style="font-size: 13px; color:#9aa5b8; margin-left: 20px;">D1（原创算法）—— 决定影响力起点<br>D6（长期主义）—— 决定影响力持续时间<br>D7（跨界整合）—— 决定影响力半径</p>
+    </div>
+    <div style="margin-top: 20px;">
+      <p><strong style="color:#ba68c8">可持续性 = (D2 + D3) × D6</strong></p>
+      <p style="font-size: 13px; color:#9aa5b8; margin-left: 20px;">D2（系统工程）—— 把理论变成产品<br>D3（学术机构）—— 把个人变成学派<br>D6（长期主义）—— 决定时间复利</p>
+    </div>
+    <div style="margin-top: 20px;">
+      <p><strong style="color:#f06292">中国式成功 = D4 × D2 × D6</strong></p>
+      <p style="font-size: 13px; color:#9aa5b8; margin-left: 20px;">D4（创业）—— 决定商业规模<br>D2（工程化）—— 决定落地能力<br>D6（长期主义）—— 决定可持续</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div style="margin-bottom: 16px;">
+    <strong style="color: #fff; font-size: 16px;">AI 领军人才画像研究 · 2026</strong><br>
+    北京中关村学院 · 博士生人才培养目标
+  </div>
+  <div class="links">
+    <a href="docs/portrait_final.md">终极报告（Markdown）</a> ·
+    <a href="docs/phd_recommendations.md">博士生建议（Markdown）</a> ·
+    <a href="data/clusters/portrait_summary.md">画像总览</a> ·
+    <a href="data/clusters/matrix.md">60人×8维矩阵</a> ·
+    <a href="data/clusters/dimensions.md">8个核心维度</a> ·
+    <a href="data/clusters/prototypes.md">6个原型</a> ·
+    <a href="data/fact_cards/">60张事实卡</a>
+  </div>
+  <div style="margin-top: 24px;">
+    研究方法：扎根理论（Grounded Theory）+ K-means 聚类<br>
+    完成时间：2026-06-03 · 作者：Mavis（AI 研究协调员）
+  </div>
+</div>
+
+</div>
+
+<!-- Radar Charts -->
+<script>
+const dimensions = ['D1 算法', 'D2 工程', 'D3 学术', 'D4 创业', 'D5 治理', 'D6 长期', 'D7 跨界', 'D8 公共'];
+
+const radarData = {
+  p1: { values: [4.82, 2.45, 4.27, 1.55, 2.91, 3.73, 3.73, 4.36], label: 'P1 学术源流派' },
+  p2: { values: [3.15, 3.92, 3.62, 2.31, 2.46, 4.62, 3.85, 3.38], label: 'P2 工业研究院' },
+  p3: { values: [3.80, 3.60, 3.27, 5.00, 1.67, 2.87, 3.47, 3.20], label: 'P3 学术+创业' },
+  p4: { values: [3.67, 3.78, 2.67, 4.56, 3.78, 2.44, 4.67, 4.78], label: 'P4 跨界多栖' },
+  p5: { values: [3.50, 1.50, 2.50, 1.50, 5.00, 2.75, 3.00, 4.50], label: 'P5 AI 治理' },
+  p6: { values: [3.13, 4.50, 2.50, 5.00, 2.50, 3.88, 3.13, 3.00], label: 'P6 商业/硬件' },
+};
+
+const colors = {
+  p1: { border: 'rgba(100,181,246,1)', bg: 'rgba(100,181,246,0.2)' },
+  p2: { border: 'rgba(34,197,94,1)', bg: 'rgba(34,197,94,0.2)' },
+  p3: { border: 'rgba(186,104,200,1)', bg: 'rgba(186,104,200,0.2)' },
+  p4: { border: 'rgba(251,191,36,1)', bg: 'rgba(251,191,36,0.2)' },
+  p5: { border: 'rgba(240,98,146,1)', bg: 'rgba(240,98,146,0.2)' },
+  p6: { border: 'rgba(244,114,182,1)', bg: 'rgba(244,114,182,0.2)' },
+};
+
+Object.keys(radarData).forEach(key => {
+  const ctx = document.getElementById('radar-' + key);
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: dimensions,
+      datasets: [{
+        label: radarData[key].label,
+        data: radarData[key].values,
+        backgroundColor: colors[key].bg,
+        borderColor: colors[key].border,
+        borderWidth: 2,
+        pointBackgroundColor: colors[key].border,
+        pointBorderColor: '#fff',
+        pointRadius: 3,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        r: {
+          min: 0, max: 5,
+          ticks: { stepSize: 1, color: '#6b7280', backdropColor: 'transparent', font: { size: 9 } },
+          grid: { color: 'rgba(255,255,255,0.08)' },
+          angleLines: { color: 'rgba(255,255,255,0.08)' },
+          pointLabels: { color: '#c0c8d4', font: { size: 10 } }
+        }
+      }
+    }
+  });
+});
+</script>
+
+</body>
+</html>

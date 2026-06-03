@@ -1,0 +1,6 @@
+.mavis/
+.opencode/
+data/list_files.ps1
+*.log
+.DS_Store
+Thumbs.db

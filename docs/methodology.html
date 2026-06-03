@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>方法论全景 · 600原子 → 20二级簇 → 8核心维度 | AI 领军人才画像</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0d1025 100%);
+    color: #e0e6ed;
+    line-height: 1.7;
+  }
+  .container { max-width: 1280px; margin: 0 auto; padding: 40px 32px 80px; }
+  .hero {
+    text-align: center;
+    padding: 60px 32px 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 50px;
+  }
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #64b5f6 0%, #ba68c8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+  }
+  .hero .sub { font-size: 18px; color: #9aa5b8; margin-bottom: 12px; }
+  .hero .meta { font-size: 13px; color: #6b7280; }
+  h2 {
+    font-size: 30px;
+    color: #64b5f6;
+    margin: 60px 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(100,181,246,0.2);
+  }
+  h2 .num {
+    display: inline-block;
+    background: rgba(100,181,246,0.2);
+    color: #64b5f6;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 16px;
+    margin-right: 12px;
+    vertical-align: middle;
+  }
+  h3 { font-size: 22px; color: #fff; margin: 32px 0 12px; }
+  h4 { font-size: 16px; color: #c0c8d4; margin: 16px 0 8px; font-weight: 600; }
+  p { margin-bottom: 14px; color: #c0c8d4; }
+  code { background: rgba(255,255,255,0.08); padding: 2px 8px; border-radius: 4px; font-family: 'Consolas', monospace; color: #f0c674; font-size: 13px; }
+  .flow {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 16px;
+    align-items: stretch;
+    margin: 32px 0;
+  }
+  .flow-stage {
+    background: linear-gradient(135deg, rgba(100,181,246,0.1), rgba(186,104,200,0.05));
+    border: 1px solid rgba(100,181,246,0.3);
+    border-radius: 14px;
+    padding: 24px 16px;
+    text-align: center;
+  }
+  .flow-stage .stage-num {
+    display: inline-block;
+    background: rgba(100,181,246,0.2);
+    color: #64b5f6;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .flow-stage h4 { color: #fff; font-size: 16px; margin-bottom: 6px; }
+  .flow-stage p { font-size: 12px; color: #9aa5b8; margin-bottom: 0; }
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: #64b5f6;
+  }
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .metric {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .metric .value {
+    font-size: 36px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #64b5f6, #ba68c8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .metric .label { font-size: 12px; color: #9aa5b8; margin-top: 6px; }
+  .cluster-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+  }
+  .cluster-card .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .cluster-card .name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .cluster-card .count {
+    font-size: 12px;
+    color: #9aa5b8;
+    background: rgba(100,181,246,0.15);
+    padding: 2px 10px;
+    border-radius: 10px;
+  }
+  .cluster-card .def {
+    font-size: 13px;
+    color: #c0c8d4;
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+  .cluster-card .example {
+    background: rgba(0,0,0,0.2);
+    border-left: 3px solid #64b5f6;
+    padding: 8px 14px;
+    margin: 6px 0;
+    font-size: 13px;
+    color: #c0c8d4;
+  }
+  .cluster-card .example strong { color: #64b5f6; }
+  .cluster-card .example em { color: #9aa5b8; font-style: normal; font-size: 12px; }
+  .cluster-card .people { font-size: 12px; color: #9aa5b8; margin-top: 8px; }
+  .cluster-card .people strong { color: #e0e6ed; }
+  .atom-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+    margin: 16px 0;
+  }
+  .atom-card {
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 14px 18px;
+  }
+  .atom-card .who {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .atom-card .what {
+    font-size: 13px;
+    color: #64b5f6;
+    margin-bottom: 4px;
+  }
+  .atom-card .evidence {
+    font-size: 12px;
+    color: #9aa5b8;
+  }
+  .dim-path {
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 16px 0;
+  }
+  .dim-path h4 { color: #64b5f6; font-size: 18px; margin-bottom: 12px; }
+  .path-chain {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin: 12px 0;
+  }
+  .path-step {
+    background: rgba(100,181,246,0.1);
+    border: 1px solid rgba(100,181,246,0.3);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: #c0c8d4;
+  }
+  .path-step.key { background: rgba(186,104,200,0.2); border-color: rgba(186,104,200,0.5); color: #fff; }
+  .path-arrow { color: #64b5f6; font-size: 18px; }
+  .case-box {
+    background: linear-gradient(135deg, rgba(100,181,246,0.08), rgba(186,104,200,0.05));
+    border: 1px solid rgba(100,181,246,0.3);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin: 24px 0;
+  }
+  .case-box h4 { color: #fff; font-size: 20px; margin-bottom: 12px; }
+  .atom-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 12px 0; }
+  .atom-table th { background: rgba(100,181,246,0.15); color: #64b5f6; padding: 8px; text-align: left; border: 1px solid rgba(100,181,246,0.2); }
+  .atom-table td { padding: 8px; border: 1px solid rgba(255,255,255,0.06); color: #c0c8d4; }
+  .atom-table tbody tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+  .score-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    margin: 0 2px;
+  }
+  .sp-5 { background: rgba(16,185,129,0.4); color: #fff; }
+  .sp-4 { background: rgba(34,197,94,0.3); color: #fff; }
+  .sp-3 { background: rgba(132,204,22,0.3); color: #fff; }
+  .sp-2 { background: rgba(234,179,8,0.3); color: #fff; }
+  .sp-1 { background: rgba(249,115,22,0.3); color: #fff; }
+  .sp-0 { background: rgba(239,68,68,0.3); color: #fff; }
+  .footer {
+    text-align: center;
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    color: #6b7280;
+    font-size: 13px;
+  }
+  .footer a { color: #64b5f6; text-decoration: none; margin: 0 8px; }
+  .insight-box {
+    background: rgba(255,255,255,0.05);
+    border-left: 4px solid #ba68c8;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  .insight-box strong { color: #ba68c8; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hero">
+  <h1>方法论全景</h1>
+  <div class="sub">600+ 原子能力 → 20 个二级能力簇 → 8 个核心维度的完整研究路径</div>
+  <div class="meta">扎根理论（Grounded Theory）三阶段编码 | K-means 聚类 | 60 张事实卡 + 60 张原子能力文件</div>
+</div>
+
+<!-- 第一段：方法论概览 -->
+<section>
+  <h2><span class="num">1</span>研究方法：三阶段编码</h2>
+  <p>本研究采用扎根理论（Grounded Theory）三阶段编码方法，从 60 张事实卡归纳出可操作的人才画像。</p>
+
+  <div class="flow">
+    <div class="flow-stage">
+      <div class="stage-num">1</div>
+      <h4>开放编码</h4>
+      <p>从事实卡抽取<br>原子能力</p>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-stage">
+      <div class="stage-num">2</div>
+      <h4>关联编码</h4>
+      <p>把 600+ 原子<br>聚成二级能力簇</p>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-stage">
+      <div class="stage-num">3</div>
+      <h4>选择性编码</h4>
+      <p>二级簇抽象为<br>核心维度 + 原型</p>
+    </div>
+  </div>
+
+  <div class="metric-grid">
+    <div class="metric"><div class="value">60</div><div class="label">事实卡</div></div>
+    <div class="metric"><div class="value">600+</div><div class="label">原子能力</div></div>
+    <div class="metric"><div class="value">20</div><div class="label">二级能力簇</div></div>
+    <div class="metric"><div class="value">8</div><div class="label">核心维度</div></div>
+    <div class="metric"><div class="value">6</div><div class="label">领军原型</div></div>
+    <div class="metric"><div class="value">3</div><div class="label">三大共性</div></div>
+  </div>
+</section>
+
+<!-- 第二段：什么是"原子能力" -->
+<section>
+  <h2><span class="num">2</span>什么是"原子能力"？</h2>
+  <div class="insight-box">
+    <strong>定义</strong>：一个原子能力是"该人物在某一具体行为/事件中展现出的、可独立识别的特质/能力/状态"。
+  </div>
+
+  <p>它有 4 个标准要素：</p>
+  <ul style="margin-left: 24px; color: #c0c8d4;">
+    <li><strong>能力名</strong>：一句话概括（如"反向传播算法的共同发明者"）</li>
+    <li><strong>证据</strong>：可被独立查证的具体行为/事件/引述</li>
+    <li><strong>强度</strong>：高/中/低（基于证据的份量）</li>
+    <li><strong>维度标签</strong>：归属类别（如"核心技术贡献""师承""韧性"）</li>
+  </ul>
+
+  <h3>实例：Hinton 的 12 个原子能力（节选）</h3>
+  <div class="case-box">
+    <h4>杰弗里·辛顿（Geoffrey Hinton）</h4>
+    <p>类别：学术（深度学习奠基人 / 诺奖得主）· 12 个原子能力</p>
+    <table class="atom-table">
+      <thead>
+        <tr><th>能力</th><th>证据</th><th>强度</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>深度学习三巨头之一</td><td>与 LeCun、Bengio 共获 2018 年图灵奖，2024 年与 Hopfield 共获诺贝尔物理学奖</td><td><span class="score-pill sp-5">高</span></td></tr>
+        <tr><td>反向传播算法的共同发明者</td><td>1986 年与 Rumelhart、Williams 在 Nature 发表《Learning representations by back-propagating errors》</td><td><span class="score-pill sp-5">高</span></td></tr>
+        <tr><td>深度学习寒冬期坚守者（30 年孤独长跑）</td><td>1990s–2000s 神经网络被学界边缘化，论文被拒、经费被砍，但他坚持研究 30 年；2006 年深度信念网络终结寒冬</td><td><span class="score-pill sp-5">高</span></td></tr>
+        <tr><td>AlexNet 的导师角色</td><td>与学生 Alex Krizhevsky、Ilya Sutskever 合作 AlexNet（2012），ImageNet 错误率从 26% 降到 15%</td><td><span class="score-pill sp-5">高</span></td></tr>
+        <tr><td>AI 风险公共表达（辞职 Google 事件）</td><td>2023 年 5 月 1 日辞去 Google 副总裁职位，公开理由"想自由地谈论 AI 风险"；2024 诺奖电话会公开表示"对自己研究感到遗憾"</td><td><span class="score-pill sp-5">高</span></td></tr>
+        <tr><td>学术直觉驱动研究风格</td><td>把统计物理能量函数/玻尔兹曼分布引入神经网络，跨学科类比思维贯穿整个生涯</td><td><span class="score-pill sp-5">高</span></td></tr>
+        <tr><td>培养顶级学生的能力</td><td>学生包括 Ilya Sutskever（OpenAI 前首席科学家）、Alex Krizhevsky、Yann LeCun（博士后）</td><td><span class="score-pill sp-5">高</span></td></tr>
+        <tr><td>跨学科桥梁：神经科学 → 物理 → CS</td><td>本科实验心理学 + 博士 AI + 玻尔兹曼机（统计物理） + 2024 诺奖为物理学奖</td><td><span class="score-pill sp-5">高</span></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size: 13px; color: #9aa5b8; margin-top: 12px;">完整 12 个原子能力位于 <code>data/atomic_abilities/group1/hinton.md</code>，本文档只展示核心 8 个。</p>
+  </div>
+</section>
+
+<!-- 第三段：20 个二级簇 -->
+<section>
+  <h2><span class="num">3</span>20 个二级能力簇（关联编码结果）</h2>
+  <p>600+ 原子能力被聚成 20 个二级能力簇，每簇包含若干共享"维度"的相关原子能力。</p>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 1：原创算法 / 理论奠基</div>
+      <div class="count">约 80 原子 · 占比最高</div>
+    </div>
+    <div class="def">提出被领域广泛承认、改变方向的核心算法或理论（"可被引用的工作"）。</div>
+    <div class="example"><strong>代表原子</strong>：Hinton 的反向传播 / LeCun 的 CNN-LeNet / Bengio 的神经概率语言模型 / Goodfellow 的 GAN / Sutton 的 TD-Learning / 何恺明的 ResNet / 谢赛宁的 ConvNeXt / 杨植麟的 XLNet / 张正友的张氏标定法 / 陈天石的 DianNao / 周志华的深度森林 / 鄂维南的 Neural ODE</div>
+    <div class="people"><strong>代表人物</strong>：Hinton, LeCun, Bengio, Sutton, Goodfellow, Ilya Sutskever, Aidan Gomez, 何恺明, 谢赛宁, 杨植麟, 周志华, 张正友, 陈天石, 朱军, 鄂维南</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 2：AI 系统与分布式工程</div>
+      <div class="count">约 50 原子</div>
+    </div>
+    <div class="def">把算法工程化为可大规模运行的系统（万卡训练/亿级用户/工业级框架）。</div>
+    <div class="example"><strong>代表原子</strong>：Jeff Dean 的 MapReduce / BigTable / Spanner / TensorFlow / TPU · 周靖人的字节豆包大模型 · 王海峰的飞桨 + ERNIE · 印奇的 Brain++ · Aidan Gomez 的 AYA 数据集</div>
+    <div class="people"><strong>代表人物</strong>：Jeff Dean, 周靖人, 黄学东, 朱珑, 余凯, 陈天石, 王海峰, 印奇, Aidan Gomez, 汤晓鸥</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 3：顶级学术机构 / 实验室创建</div>
+      <div class="count">约 45 原子</div>
+    </div>
+    <div class="def">从 0 到 1 创建学院、研究所、实验室并持续运营 10+ 年。</div>
+    <div class="example"><strong>代表原子</strong>：汤晓鸥的 MMLab（25 年）/ 上海 AI Lab · 周志华的 LAMDA / 南大人工智能学院 · 张钹的清华大学人工智能研究院 · 朱松纯的北大 AI 研究院 / 北京通用人工智能研究院 · 高文的鹏城实验室 · 沈向洋的 IDEA 研究院 · Bengio 的 Mila · 林达华的 OpenMMLab</div>
+    <div class="people"><strong>代表人物</strong>：汤晓鸥, 周志华, 张钹, 朱松纯, 林达华, 沈向洋, 高文, Bengio, Hinton, 黄铁军, 李开复, 张亚勤, 田奇, 王海峰</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 4：学派 / 师承网络传承</div>
+      <div class="count">约 60 原子</div>
+    </div>
+    <div class="def">自身处于强大师承网络核心或传承位置（学生→学生/老师→学生链条可追溯）。</div>
+    <div class="example"><strong>代表原子</strong>：Hinton 学派（→ Ilya / Krizhevsky / Karpathy / Goodfellow 间接）· MMLab 港中文学派（→ 何恺明 / 林达华 / 王晓刚 / 徐立 / 贾佳亚 / 谢赛宁）· 张钹学派（→ 朱军 / 张祥雨 / 刘知远 / 唐杰 / 颜水成 — 5 位入选 60 人名单）· 朱松纯学派（→ 张祥雨 / 谢赛宁 / 朱军 / 颜水成）· Bengio 学派（Mila 100+ 学者）· 孙茂松学派（黄昌宁→孙茂松→李涓子/唐杰/刘知远）</div>
+    <div class="people"><strong>代表人物</strong>：Hinton, LeCun, Bengio, Andrew Ng, 张钹, 汤晓鸥, 周志华, 朱松纯, 孙茂松, 林达华, Russell, 张亚勤, 唐杰, 高文, 黄铁军, 沈向洋</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 5：跨学科 / 跨界整合</div>
+      <div class="count">约 55 原子</div>
+    </div>
+    <div class="def">在物理/数学/神经科学/认知/政策/商业等多个领域跨界，并整合形成新方向。</div>
+    <div class="example"><strong>代表原子</strong>：Hinton 跨学科桥梁（神经+物理+CS）· Demis Hassabis（国际象棋+游戏+CS+神经科学）· Dario Amodei（物理+神经科学+AI）· Aidan Gomez（CS+工程）· Sam Altman（商业+CS+能源+政府）· 张林峰（数学+物理+CS）· 李开复（CS+语音+VC）· 鄂维南（数学+CS）</div>
+    <div class="people"><strong>代表人物</strong>：Hinton, Demis Hassabis, Dario Amodei, Aidan Gomez, Sam Altman, 张林峰, 李开复, 鄂维南, 高文, 贾佳亚, 印奇, 雷军, 沈向洋</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 6：政府 / 政策对话与制度参与</div>
+      <div class="count">约 40 原子</div>
+    </div>
+    <div class="def">直接进入国家级政策对话、政协、人大、监管制度设计、国际治理机构。</div>
+    <div class="example"><strong>代表原子</strong>：雷军（全国工商联副主席、人大代表）· 陈天石（第十四届全国政协委员）· 王小川（2018-2023 全国政协委员）· 张亚勤（中国工程院外籍院士）· 梁文锋（2025-01 国务院李强座谈会 AI 大模型领域唯一 85 后）· 印奇（2017 国务院李克强）· 闫俊杰（2026 国务院总理座谈会）· 高文（中央政治局第九次集体学习讲解人）· Bengio（联合国 AI 顾问）· Paul Christiano（US AISI 主任）· Nick Bostrom（FHI / EU AI Act 思想影响）· Demis Hassabis（英国 AI Safety Summit）</div>
+    <div class="people"><strong>代表人物</strong>：雷军, 陈天石, 王小川, 张亚勤, 梁文锋, 印奇, 闫俊杰, 高文, Bengio, Paul Christiano, Nick Bostrom, Demis Hassabis, Sam Altman, Andrew Ng, LeCun</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 7：AI 安全 / 治理 / 对齐研究</div>
+      <div class="count">约 50 原子</div>
+    </div>
+    <div class="def">把 AI 安全/治理/对齐作为主业（研究、机构、产品哲学）。</div>
+    <div class="example"><strong>代表原子</strong>：Stuart Russell 的 CHAI/Human Compatible · Nick Bostrom 的 Superintelligence/FHI · Paul Christiano 的 ELK/ARC Evals/US AISI · Ilya Sutskever 的 SSI/Superalignment · Dario Amodei 的 Constitutional AI · Chris Olah 的机制可解释性（Scaling Monosemanticity）· Demis Hassabis 的 AlphaFold 衍生 + 安全研究 · Hinton 2023 辞职 Google · Bengio 2025 LawZero · LeCun 2026 离职 Meta 创业 AMI · 张钹的"可信 AI"理念</div>
+    <div class="people"><strong>代表人物</strong>：Russell, Nick Bostrom, Paul Christiano, Ilya Sutskever, Dario Amodei, Chris Olah, Demis Hassabis, Hinton, Bengio, LeCun, 张钹, 朱军</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 8：长期主义 / 单平台深耕</div>
+      <div class="count">约 45 原子</div>
+    </div>
+    <div class="def">在单一组织/单一方向上坚持 10+ 年（甚至 30+ 年），拒绝频繁跳槽。</div>
+    <div class="example"><strong>代表原子</strong>：Jeff Dean Google 25 年 · 黄学东微软 30 年（1993-2023）· 张钹清华 71 年 · 周志华南大 32 年 · Hinton 多伦多 30+ 年 · 黄铁军北大 20+ 年 · 张正友 MSR+MSRA+腾讯 25 年 · 沈向洋微软 23 年 · 朱松纯 UCLA 20+ 年 · 孙茂松清华 25+ 年 · 田奇 UTSA 17+华为 7 年 · 王海峰百度 13+ 年 · Chris Olah 机制可解释性 9 年深耕 · 陈天石寒武纪 14 年</div>
+    <div class="people"><strong>代表人物</strong>：Jeff Dean, 黄学东, 张钹, 周志华, Hinton, 黄铁军, 张正友, 沈向洋, 朱松纯, 孙茂松, 田奇, 王海峰, Chris Olah, 雷军, Sutton</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 9：多平台切换 / 跨界流动</div>
+      <div class="count">约 30 原子</div>
+    </div>
+    <div class="def">在 2-4 个不同平台/角色间切换（学界→工业→创业→学界）。</div>
+    <div class="example"><strong>代表原子</strong>：李航 4 平台（NEC+MSRA+华为+字节）· 颜水成 4 平台（NUS+360+依图+Shopee+思谋）· 周靖人 3 平台（阿里+达摩院+字节）· 贾佳亚 4 平台（港中文+MSRA+腾讯+思谋）· 张亚勤 4 平台（中科大+UW+MSRA+百度+清华）· 李开复 5 平台（CMU+Apple+MSRA+Google+创新工场+零一万物）· Karpathy 4 平台（Stanford+Tesla+OpenAI+Eureka）· Sam Altman 3 平台（YC+OpenAI+多线）</div>
+    <div class="people"><strong>代表人物</strong>：李航, 颜水成, 周靖人, 贾佳亚, 张亚勤, 李开复, 黄学东, Karpathy, Sam Altman, 沈向洋, Andrew Ng, 张一鸣</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 10：创业（0→1 / 商业化）</div>
+      <div class="count">约 80 原子</div>
+    </div>
+    <div class="def">在 60 人名单中明确创立过公司 / 担任 CEO 推动产品商业化。</div>
+    <div class="example"><strong>代表原子</strong>：Sam Altman（OpenAI/YC/Worldcoin/Helion）· Ilya Sutskever（SSI）· Dario Amodei（Anthropic）· Demis Hassabis（DeepMind）· Aidan Gomez（Cohere）· 汤晓鸥（商汤）· 印奇（旷视+阶跃星辰董事长）· 雷军（金山+小米+小米汽车）· 张一鸣（字节跳动）· 梁文锋（DeepSeek）· 杨植麟（月之暗面）· 唐杰+张鹏（智谱）· 刘知远（面壁智能）· 朱军（生数科技）· 闫俊杰（MiniMax）· 姜大昕（阶跃星辰）· 王小川（百川智能）· 王慧文（光年之外）· 张林峰（深势科技）· 贾佳亚+颜水成（思谋科技）· 陈天石（寒武纪）· 余凯（地平线）· 朱珑（依图+求索）· 王兴兴（宇树科技）· Karpathy（Eureka Labs）· Andrew Ng（Coursera/Landing.ai）</div>
+    <div class="people"><strong>代表人物</strong>：22 人（Sam Altman, Ilya, Dario, Demis, Aidan, 汤晓鸥, 印奇, 雷军, 张一鸣, 张鹏, 闫俊杰, 梁文锋, 杨植麟, 王小川, 王慧文, 贾佳亚, 张祥雨, 朱军, 刘知远, 唐杰, 张林峰, 姜大昕, 颜水成, Karpathy, Chris Olah, Paul Christiano, Andrew Ng）</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 11：商业 / 二次 / 连续创业</div>
+      <div class="count">约 25 原子</div>
+    </div>
+    <div class="def">创办或深度参与 2+ 家公司 / 多次角色转换。</div>
+    <div class="example"><strong>代表原子</strong>：王慧文（光年之外→美团 GN06）· 杨植麟（循环智能→月之暗面）· 王小川（搜狗→百川）· 姜大昕（MSRA→阶跃星辰）· 梁文锋（幻方量化→DeepSeek）· 余凯（百度 IDL→地平线）· 张一鸣（字节→私募）· 印奇（旷视→阶跃星辰董事长）· 雷军（金山→卓越→小米→小米汽车）· 黄学东（微软→Zoom）· Karpathy（Tesla→OpenAI→Eureka Labs）· Aidan Gomez（Google→Cohere）· Sam Altman（YC→OpenAI→多线）· Paul Christiano（OpenAI→ARC→US AISI）</div>
+    <div class="people"><strong>代表人物</strong>：王慧文, 杨植麟, 王小川, 姜大昕, 梁文锋, 余凯, 张一鸣, 印奇, 雷军, 黄学东, Karpathy, Aidan Gomez, Sam Altman, Paul Christiano</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 12：国际化 / 出海能力</div>
+      <div class="count">约 25 原子</div>
+    </div>
+    <div class="def">海外收入 / 海外用户 / 国际合作 / 国际同行影响力显著。</div>
+    <div class="example"><strong>代表原子</strong>：闫俊杰 70% 收入来自海外、服务 200+ 国家 · 张一鸣 TikTok 7 亿 DAU 反超抖音 · 杨植麟 K2.5 OpenRouter 排名第二 · 雷军印度市场 · Aidan Gomez 国际团队 + Aleph Alpha 合并 · 印奇旷视+阶跃星辰国际化 · Ilya Sutskever 俄→以→加→美 4 国 · Bengio 加拿大+法国双国家 · 沈向洋中美 · Dario Amodei 国际客户网络 · Demis Hassabis CERN-style 国际机构倡议</div>
+    <div class="people"><strong>代表人物</strong>：闫俊杰, 张一鸣, 杨植麟, 雷军, Aidan Gomez, 印奇, Ilya Sutskever, Bengio, 沈向洋, Dario Amodei, Demis Hassabis</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 13：顶级学术奖项 / Fellow / 院士</div>
+      <div class="count">约 50 原子</div>
+    </div>
+    <div class="def">获得图灵奖、诺贝尔奖、国家级最高奖、IEEE/ACM/AAAI/NAE Fellow 等。</div>
+    <div class="example"><strong>代表原子</strong>：Hinton/LeCun/Bengio（图灵奖 2018）· Hinton 诺奖 2024 物理 · Demis Hassabis 诺奖 2024 化学 · 高文（国家技术发明一等奖 2020）· 鄂维南（ICIAM 双奖、ICM 全体报告、中科院院士 2019）· 张钹（中科院院士 1995）· 李飞飞（伊丽莎白女王工程奖 2025）· 30+ 位 IEEE/ACM/AAAI Fellow</div>
+    <div class="people"><strong>代表人物</strong>：Hinton, LeCun, Bengio, Demis Hassabis, 高文, 鄂维南, 张钹, 李飞飞, Jeff Dean, 周志华, Stuart Russell, 朱松纯, 张正友, 田奇, 王海峰, 李航, 沈向洋, 黄学东, Karpathy, Dario Amodei</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 14：教育 / 教材 / 公共叙事</div>
+      <div class="count">约 45 原子</div>
+    </div>
+    <div class="def">编写教材、创建 MOOC / Coursera、公开演讲 / 公共博客 / 公共写作影响百万级受众。</div>
+    <div class="example"><strong>代表原子</strong>：李航《统计学习方法》30+ 万册 · Goodfellow《Deep Learning》花书 · Sutton RL 圣经 500+ 大学 · Russell/Norvig AIMA 1500+ 大学 · 周志华《机器学习》西瓜书 100+ 万册 · 汤晓鸥 AI 高中教材 · Andrew Ng Coursera 1 亿+ 学习者 · Karpathy CS231n YouTube 1 亿+ 观看 / Eureka Labs LLM101n · Hinton TED《Godfather of AI》数千万次 · Sam Altman 持续输出 blog · Dario Amodei《Machines of Loving Grace》</div>
+    <div class="people"><strong>代表人物</strong>：Andrew Ng, Karpathy, Hinton, LeCun, Stuart Russell, Nick Bostrom, Sam Altman, 李开复, Sutton, Russell, 周志华, Goodfellow, 李航, 李飞飞, Bengio, 汤晓鸥</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 15：基础理论 / 第一性原理</div>
+      <div class="count">约 30 原子</div>
+    </div>
+    <div class="def">以数学/物理/认知科学为基础提出理论框架，强调"通用方法"而非"领域特化"。</div>
+    <div class="example"><strong>代表原子</strong>：Hinton 的玻尔兹曼机/反向传播 · Bengio 的梯度消失/GFlowNet · Sutton 的 TD-Learning/Options/Bitter Lesson · Stuart Russell 的 CIRL/POMDP/bounded optimality · 周志华的深度森林/学件 · 鄂维南的 Neural ODE/高维函数逼近/Barron 空间 · 朱松纯的 MRF/统计视觉 · Hassabis 的 DeepMind 通用认知子能力路线 · 张钹的"第三代 AI"理论框架 · 朱松纯的"小数据、大任务"AGI 范式 · Hinton 祖母细胞信念 · Dario Amodei 短/长期风险分类法</div>
+    <div class="people"><strong>代表人物</strong>：Hinton, Bengio, Sutton, Stuart Russell, 周志华, 鄂维南, 朱松纯, Hassabis, 张钹, Dario Amodei, 杨植麟</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 16：方法论输出（个人哲学 / 做事底层逻辑）</div>
+      <div class="count">约 50 原子</div>
+    </div>
+    <div class="def">在公开演讲、写作或内部决策中展现"成体系的做事哲学"。</div>
+    <div class="example"><strong>代表原子</strong>：张钹"AI 是哲学问题" · Stuart Russell"AI 必须知道自己不知道" · Hinton 祖母细胞 30 年孤独长跑 · Sutton "70 年苦涩教训" · LeCun"工程派安全" · Bengio"制度+技术" · 周志华"机器学习≠AI" · 朱松纯"AI 是科学+哲学+工程三重交集" · 朱军"AGI 是 20-30 年问题" · Demis Hassabis"CERN-style AI 机构" · Sam Altman"Moore's Law for Everything" · 张一鸣"坐标+矩阵思维" · 王小川"为生命建模型" · Aidan Gomez"持续学习是 AI 下一个突破" · Dario Amodei"安全是 feature 不是 brake" · Jeff Dean"Hardware-software one design" · Andrew Ng"data-centric AI" · Karpathy"网络是培育的，不是编写的" · 王慧文"杂事交给我"</div>
+    <div class="people"><strong>代表人物</strong>：张钹, Russell, Hinton, Sutton, LeCun, Bengio, 周志华, 朱松纯, 朱军, Hassabis, Sam Altman, 张一鸣, 王小川, Aidan Gomez, Dario Amodei, Jeff Dean, Andrew Ng, Karpathy, 王慧文</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 17：硬件 / 芯片 / 软硬协同</div>
+      <div class="count">约 15 原子</div>
+    </div>
+    <div class="def">AI 芯片设计、定制加速器、软硬一体化基础设施。</div>
+    <div class="example"><strong>代表原子</strong>：陈天石 寒武纪+思元 590+中科院计算所血统 · 余凯 地平线+征程 7 代 · 朱珑 求索 SoC · Jeff Dean TPU 一体化设计 · 王兴兴 宇树自研电机+激光雷达</div>
+    <div class="people"><strong>代表人物</strong>：陈天石, 余凯, 朱珑, Jeff Dean, 王兴兴</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 18：AI for Science / 行业落地</div>
+      <div class="count">约 20 原子</div>
+    </div>
+    <div class="def">把 AI 应用于科学研究或传统行业（医疗/制造/材料/能源/制药/科学计算）。</div>
+    <div class="example"><strong>代表原子</strong>：Demis Hassabis AlphaFold 2 + Isomorphic Labs · 张林峰 深势科技+AlphaFold 复现开源 · 鄂维南 DeePMD+AISI · 王小川 百川医疗 AI · Andrew Ng Landing.ai 制造业 · 颜水成 思谋工业 AI · 贾佳亚 思谋工业 AI · 沈向洋 IDEA 研究院 AI for Science · 田奇 华为云盘古</div>
+    <div class="people"><strong>代表人物</strong>：Demis Hassabis, 张林峰, 鄂维南, 王小川, Andrew Ng, 颜水成, 贾佳亚, 沈向洋, 田奇</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 19：失败 / 挫折 / 危机响应</div>
+      <div class="count">约 25 原子</div>
+    </div>
+    <div class="def">经历重大失败、争议、危机事件后公开处理的方式。</div>
+    <div class="example"><strong>代表原子</strong>：朱珑 科创板 IPO 折戟（2020-11 递交 → 2021 终止，亏 72 亿）· 印奇 港股 IPO 屡次受挫 2019-2022 · 王慧文 健康危机 + 光年之外被美团收购 · Sam Altman 2023-11 董事会政变 + 5 日内复职 · Aidan Gomez B 轮 SBF 投资归零 · Ilya Sutskever 参与 Altman 离职 + 5 日内改口 · Demis Hassabis Gemini 文生图 2023-12 事件 · Hinton 2023 辞职 Google 公开表态"对自己研究感到遗憾" · Nick Bostrom FHI 2024-04 关闭 · 王小川 百川战略收缩押注医疗 AI · Hinton 1990s-2000s 神经网络寒冬 30 年孤独长跑 · 余凯 1998-2012 神经网络"边缘人"坚持 14 年</div>
+    <div class="people"><strong>代表人物</strong>：朱珑, 印奇, 王慧文, Sam Altman, Aidan Gomez, Ilya Sutskever, Demis Hassabis, Hinton, Nick Bostrom, 王小川, Sutton, 余凯, 雷军</div>
+  </div>
+
+  <div class="cluster-card">
+    <div class="head">
+      <div class="name">簇 20：开源 / 生态建设 / 平台构建</div>
+      <div class="count">约 30 原子</div>
+    </div>
+    <div class="def">创建或主导开源框架、平台、社区，影响成千上万开发者。</div>
+    <div class="example"><strong>代表原子</strong>：Jeff Dean 的 TensorFlow · 王海峰的飞桨 PaddlePaddle · 周靖人的字节豆包（与达摩院 M6 关系）· 印奇的 Brain++ · LeCun 的 PyTorch+Llama（PyTorch 8 亿+ 下载）· 林达华的 OpenMMLab（GitHub 数万 stars）· 刘知远的 OpenBMB（GitHub 50k+ stars）· 张鹏的 CodeGeeX 开源 · 张林峰的 AlphaFold 复现开源 Uni-SMART+Hermes · Aidan Gomez 的 Command A+（Apache 2.0）· 李飞飞的 ImageNet · Aidan Gomez 的 AYA 100+ 语言数据集 · 唐杰的 AMiner+OpenKG · 汤晓鸥 MMLab 开源体系</div>
+    <div class="people"><strong>代表人物</strong>：Jeff Dean, 王海峰, 周靖人, 印奇, LeCun, 林达华, 刘知远, 张鹏, 张林峰, Aidan Gomez, 李飞飞, 唐杰, 汤晓鸥, 杨植麟, Sam Altman</div>
+  </div>
+</section>
+
+<!-- 第四段：8 维度聚类路径 -->
+<section>
+  <h2><span class="num">4</span>20 二级簇 → 8 核心维度（选择性编码）</h2>
+  <p>把 20 个二级能力簇按"主题"再次聚类，得到 8 个核心维度。每维包含 2-4 个相关二级簇。</p>
+
+  <div class="dim-path">
+    <h4>D1 原创理论/算法</h4>
+    <div class="path-chain">
+      <span class="path-step key">簇 1</span> 原创算法
+      <span class="path-arrow">+</span>
+      <span class="path-step key">簇 15</span> 基础理论
+    </div>
+    <p>评分标尺：5=范式级（反向传播、TD-Learning）/ 4=重大方向（Transformer、ResNet）/ 3=显著方向（XLNet、ERNIE、GAN）/ 2=单一方向 / 1=改良</p>
+  </div>
+
+  <div class="dim-path">
+    <h4>D2 系统工程与规模化</h4>
+    <div class="path-chain">
+      <span class="path-step key">簇 2</span> AI 系统与分布式工程
+      <span class="path-arrow">+</span>
+      <span class="path-step key">簇 17</span> 硬件/芯片/软硬协同
+      <span class="path-arrow">+</span>
+      <span class="path-step">簇 20（部分）</span> 开源生态
+    </div>
+    <p>评分标尺：5=行业标准/万卡级基础设施 / 4=大规模生产系统 / 3=工业级部署 / 2=开源工具库 / 1=论文级代码</p>
+  </div>
+
+  <div class="dim-path">
+    <h4>D3 学术机构/师承网络</h4>
+    <div class="path-chain">
+      <span class="path-step key">簇 3</span> 顶级学术机构创建
+      <span class="path-arrow">+</span>
+      <span class="path-step key">簇 4</span> 学派/师承网络传承
+    </div>
+    <p>评分标尺：5=跨代际学派（学生→学生链条）/ 4=旗舰机构 100+ 学生 / 3=持续机构 20+ 学生 / 2=小型实验室 / 1=个别学生</p>
+  </div>
+
+  <div class="dim-path">
+    <h4>D4 创业/商业化</h4>
+    <div class="path-chain">
+      <span class="path-step key">簇 10</span> 创业
+      <span class="path-arrow">+</span>
+      <span class="path-step key">簇 11</span> 商业/二次/连续创业
+      <span class="path-arrow">+</span>
+      <span class="path-step">簇 12</span> 国际化/出海
+    </div>
+    <p>评分标尺：5=顶级商业规模（千亿/行业第一/全球）/ 4=2+ 创业或单一公司规模化 / 3=1-2 次独角兽 / 2=1 次未达规模 / 1=内部创业</p>
+  </div>
+
+  <div class="dim-path">
+    <h4>D5 政策/治理/AI 安全</h4>
+    <div class="path-chain">
+      <span class="path-step key">簇 6</span> 政府/政策对话
+      <span class="path-arrow">+</span>
+      <span class="path-step key">簇 7</span> AI 安全/治理/对齐
+    </div>
+    <p>评分标尺：5=制度设计/AI 安全研究主业 / 4=参与政策制定/核心治理机构 / 3=国家/国际机构任职 / 2=学会/智库 / 1=个别发言</p>
+  </div>
+
+  <div class="dim-path">
+    <h4>D6 长期主义/单平台</h4>
+    <div class="path-chain">
+      <span class="path-step key">簇 8</span> 长期主义/单平台深耕
+      <span class="path-arrow">+</span>
+      <span class="path-step">簇 9</span> 多平台切换（反向）
+    </div>
+    <p>评分标尺：5=40+ 年 / 4=25-30 年 / 3=15-20 年 / 2=10+ 年 / 1=5+ 年 / 0=频繁跳槽</p>
+  </div>
+
+  <div class="dim-path">
+    <h4>D7 跨界整合</h4>
+    <div class="path-chain">
+      <span class="path-step key">簇 5</span> 跨学科/跨界整合
+      <span class="path-arrow">+</span>
+      <span class="path-step">簇 9</span> 多平台切换
+      <span class="path-arrow">+</span>
+      <span class="path-step">簇 16</span> 方法论输出
+    </div>
+    <p>评分标尺：5=全栖（学界+工业+创业+治理+教育）/ 4=4 个角色 / 3=3 个角色 / 2=2 个角色 / 1=单一角色跨学科背景 / 0=单一</p>
+  </div>
+
+  <div class="dim-path">
+    <h4>D8 教育/公共影响</h4>
+    <div class="path-chain">
+      <span class="path-step key">簇 14</span> 教育/教材/公共叙事
+      <span class="path-arrow">+</span>
+      <span class="path-step">簇 20</span> 开源生态
+      <span class="path-arrow">+</span>
+      <span class="path-step">簇 13</span> 顶级学术奖项
+    </div>
+    <p>评分标尺：5=千万级受众（"明星级"）/ 4=大型 MOOC/全球数十万学生 / 3=教材/系统课程 / 2=课程/小范围 / 1=内部技术分享</p>
+  </div>
+</section>
+
+<!-- 第五段：方法论局限 -->
+<section>
+  <h2><span class="num">5</span>方法论局限与误差</h2>
+  <div class="insight-box">
+    <strong>优势</strong>：扎根理论 + K means 聚类方法论成熟、60 人样本跨 5 大类、每张事实卡 1500-3000 字 + 10 维度、一手来源（维基百科/学校官网/采访/学术数据库/公开演讲）
+  </div>
+  <div class="insight-box">
+    <strong>局限 1（样本偏差）</strong>：60 人名单由用户预设，可能遗漏"工程化非学术派"和"治理独立派"。
+  </div>
+  <div class="insight-box">
+    <strong>局限 2（编码者偏差）</strong>：6 个并行 worker 的开放编码标准虽统一，但聚类判断仍受 worker 主观影响。已在 group1/group2/group3 summary 中加入"二级簇候选"作为对照。
+  </div>
+  <div class="insight-box">
+    <strong>局限 3（数据时效）</strong>：研究截止 2026-06-03，未来 5 年的进展（Hinton 80+ 之后的转型、LeCun AMI 创业成败、闫俊杰 MiniMax IPO、新一代 LLM 路线）将持续改变画像。
+  </div>
+  <div class="insight-box">
+    <strong>局限 4（"晚期反向运动"特殊性）</strong>：Hinton/LeCun/Bengio 在 70+ 岁的转型是 60 人名单中少见的——这种"画像随年龄变化"的特征需更长时间序列研究。
+  </div>
+  <div class="insight-box">
+    <strong>发现的事实错误（被实地查证）</strong>：研究过程中实地核查发现 Gomez 卡里 Cohere Command A+ 发布日期写错（2025-05-20 → 实际 2026-05-20），已修正。
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div style="margin-bottom: 16px;">
+    <strong style="color: #fff; font-size: 16px;">方法论全景 · 2026</strong><br>
+    AI 领军人才画像研究 · 北京中关村学院
+  </div>
+  <div class="links">
+    <a href="docs/portrait.html">总览（HTML）</a> ·
+    <a href="docs/scoring_process.html">6 人打分过程</a> ·
+    <a href="docs/portrait_final.md">终极报告</a> ·
+    <a href="docs/phd_recommendations.md">博士生建议</a> ·
+    <a href="data/clusters/">聚类结果</a> ·
+    <a href="data/atomic_abilities/">原子能力（60 张）</a> ·
+    <a href="data/fact_cards/">事实卡（60 张）</a>
+  </div>
+  <div style="margin-top: 24px;">
+    研究方法：扎根理论（Grounded Theory）+ K means 聚类<br>
+    完成时间：2026-06-03 · 作者：Mavis（AI 研究协调员）
+  </div>
+</div>
+
+</div>
+</body>
+</html>

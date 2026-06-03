@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>6 个具体人物的打分明细 | AI 领军人才画像研究</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0d1025 100%);
+    color: #e0e6ed;
+    line-height: 1.7;
+  }
+  .container { max-width: 1280px; margin: 0 auto; padding: 40px 32px 80px; }
+  .hero {
+    text-align: center;
+    padding: 60px 32px 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 50px;
+  }
+  .hero h1 {
+    font-size: 44px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #64b5f6 0%, #ba68c8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+  }
+  .hero .sub { font-size: 17px; color: #9aa5b8; margin-bottom: 12px; }
+  .hero .meta { font-size: 13px; color: #6b7280; }
+  h2 {
+    font-size: 28px;
+    color: #64b5f6;
+    margin: 60px 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(100,181,246,0.2);
+  }
+  h3 { font-size: 20px; color: #fff; margin: 24px 0 12px; }
+  h4 { font-size: 16px; color: #c0c8d4; margin: 16px 0 8px; font-weight: 600; }
+  p { margin-bottom: 12px; color: #c0c8d4; }
+  .person-card {
+    background: linear-gradient(135deg, rgba(100,181,246,0.08), rgba(186,104,200,0.05));
+    border: 1px solid rgba(100,181,246,0.3);
+    border-radius: 16px;
+    padding: 32px;
+    margin: 32px 0;
+  }
+  .person-header {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 32px;
+    align-items: start;
+    margin-bottom: 24px;
+  }
+  .person-name-cn {
+    font-size: 32px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .person-name-en {
+    font-size: 14px;
+    color: #9aa5b8;
+    margin-bottom: 12px;
+  }
+  .person-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tag {
+    background: rgba(100,181,246,0.15);
+    color: #64b5f6;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+  }
+  .tag.prototype { background: rgba(186,104,200,0.2); color: #ba68c8; }
+  .person-meta {
+    font-size: 13px;
+    color: #9aa5b8;
+    line-height: 1.8;
+  }
+  .person-meta strong { color: #e0e6ed; }
+  .radar-box {
+    background: rgba(0,0,0,0.2);
+    border-radius: 12px;
+    padding: 16px;
+    height: 280px;
+  }
+  .score-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 16px 0;
+  }
+  .score-cell {
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+  .score-cell .label {
+    font-size: 11px;
+    color: #9aa5b8;
+    margin-bottom: 4px;
+  }
+  .score-cell .value {
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .sp-5 { color: #10b981; }
+  .sp-4 { color: #22c55e; }
+  .sp-3 { color: #84cc16; }
+  .sp-2 { color: #eab308; }
+  .sp-1 { color: #f97316; }
+  .sp-0 { color: #ef4444; }
+  .atom-list { margin: 16px 0; }
+  .atom-row {
+    background: rgba(0,0,0,0.2);
+    border-left: 3px solid #64b5f6;
+    padding: 10px 16px;
+    margin: 8px 0;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+  }
+  .atom-row .what {
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .atom-row .evidence { color: #9aa5b8; font-size: 12px; }
+  .atom-row .cluster-tag {
+    display: inline-block;
+    background: rgba(100,181,246,0.2);
+    color: #64b5f6;
+    padding: 1px 8px;
+    border-radius: 8px;
+    font-size: 11px;
+    margin-left: 6px;
+  }
+  .score-evidence {
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 12px 0;
+  }
+  .score-evidence h4 { color: #64b5f6; margin-bottom: 8px; font-size: 14px; }
+  .score-evidence ul { margin-left: 20px; color: #c0c8d4; font-size: 13px; }
+  .score-evidence li { margin-bottom: 4px; }
+  .score-evidence li strong { color: #fff; }
+  .flow-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+    padding: 16px 24px;
+    margin: 16px 0;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .flow-step {
+    background: rgba(100,181,246,0.15);
+    border: 1px solid rgba(100,181,246,0.3);
+    border-radius: 8px;
+    padding: 8px 14px;
+    text-align: center;
+    min-width: 100px;
+  }
+  .flow-step .num { font-size: 11px; color: #9aa5b8; }
+  .flow-step .desc { font-size: 13px; color: #fff; font-weight: 600; }
+  .flow-step.final { background: rgba(186,104,200,0.2); border-color: rgba(186,104,200,0.5); }
+  .flow-step.final .desc { color: #ba68c8; }
+  .arrow { color: #64b5f6; font-size: 20px; }
+  .footer {
+    text-align: center;
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    color: #6b7280;
+    font-size: 13px;
+  }
+  .footer a { color: #64b5f6; text-decoration: none; margin: 0 8px; }
+  .insight-box {
+    background: rgba(255,255,255,0.05);
+    border-left: 4px solid #ba68c8;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  .insight-box strong { color: #ba68c8; }
+  .nav-bar {
+    position: sticky;
+    top: 0;
+    background: rgba(10,14,39,0.95);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav-bar .container { padding: 0 32px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .nav-bar a { color: #9aa5b8; text-decoration: none; font-size: 13px; padding: 4px 8px; border-radius: 6px; }
+  .nav-bar a:hover { background: rgba(100,181,246,0.2); color: #fff; }
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <div class="container">
+    <a href="#hinton">1. Hinton（学术源流）</a>
+    <a href="#jeffdean">2. Jeff Dean（工业研究院）</a>
+    <a href="#liutieyan">3. 刘铁岩（工业多平台）</a>
+    <a href="#zhanglinfeng">4. 张林峰（学术+创业/AI4Science）</a>
+    <a href="#samaltman">5. Sam Altman（跨界多栖）</a>
+    <a href="#demis">6. Demis Hassabis（跨界多栖+安全）</a>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="hero">
+  <h1>6 个具体人物的打分明细</h1>
+  <div class="sub">从"12 个原子能力"到"8 维 0-5 分"——画像打分全过程</div>
+  <div class="meta">每个案例包含：画像标签 / 12 个原子能力 / 8 维评分 / 评分证据 / 所属原型</div>
+</div>
+
+<div class="insight-box">
+  <strong>阅读方法</strong>：每个案例先用 <strong>原子的"步骤"流</strong>，从 12-15 个原子能力中归纳出 8 维分数（评分证据 + 推理过程），最后落到"所属原型"。可对照 <a href="docs/portrait.html">总览</a> 中的矩阵热图。
+</div>
+
+<!-- ============================== 案例 1: Hinton ============================== -->
+<div class="person-card" id="hinton">
+  <div class="person-header">
+    <div>
+      <div class="person-name-cn">杰弗里·辛顿</div>
+      <div class="person-name-en">Geoffrey Everest Hinton · 1947- · 学术（深度学习奠基人）</div>
+      <div class="person-tags">
+        <span class="tag">深度学习三巨头</span>
+        <span class="tag">2024 诺奖物理</span>
+        <span class="tag">2018 图灵奖</span>
+        <span class="tag">Hinton 学派</span>
+        <span class="tag prototype">原型 P1 学术源流派</span>
+      </div>
+      <div class="person-meta">
+        <strong>现任</strong>：多伦多大学 Emeritus · Vector Institute 首席科学顾问<br>
+        <strong>30+ 年神经网络寒冬坚守 · 培养 Ilya / Krizhevsky / Karpathy / Goodfellow 间接 · 2023 辞职 Google 公开谈论 AI 风险</strong>
+      </div>
+    </div>
+    <div class="radar-box">
+      <canvas id="radar-hinton"></canvas>
+    </div>
+  </div>
+
+  <div class="score-grid">
+    <div class="score-cell"><div class="label">D1 算法</div><div class="value sp-5">5</div></div>
+    <div class="score-cell"><div class="label">D2 工程</div><div class="value sp-2">2</div></div>
+    <div class="score-cell"><div class="label">D3 学术</div><div class="value sp-5">5</div></div>
+    <div class="score-cell"><div class="label">D4 创业</div><div class="value sp-1">1</div></div>
+    <div class="score-cell"><div class="label">D5 治理</div><div class="value sp-5">5</div></div>
+    <div class="score-cell"><div class="label">D6 长期</div><div class="value sp-5">5</div></div>
+    <div class="score-cell"><div class="label">D7 跨界</div><div class="value sp-5">5</div></div>
+    <div class="score-cell"><div class="label">D8 公共</div><div class="value sp-5">5</div></div>
+  </div>
+  <p style="text-align: center; color: #9aa5b8; font-size: 12px; margin-top: -8px;">总分 <strong style="color: #fff;">33</strong> / 40 · 8 维中有 5 个满分 5 ★★★★★</p>
+
+  <h3>步骤 1：12 个原子能力（输入）</h3>
+  <div class="atom-list">
+    <div class="atom-row">
+      <div class="what">深度学习三巨头之一 <span class="cluster-tag">簇 13 顶级学术奖项</span></div>
+      <div class="evidence">与 LeCun、Bengio 共获 2018 年图灵奖，2024 年与 Hopfield 共获诺贝尔物理学奖</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">反向传播算法的共同发明者 <span class="cluster-tag">簇 1 原创算法</span></div>
+      <div class="evidence">1986 年与 Rumelhart、Williams 在 Nature 发表《Learning representations by back-propagating errors》</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">深度学习寒冬期坚守者（30 年孤独长跑）<span class="cluster-tag">簇 8 长期主义</span></div>
+      <div class="evidence">1990s–2000s 神经网络被学界边缘化，论文被拒、经费被砍，但他坚持研究 30 年</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">AlexNet 的导师角色 <span class="cluster-tag">簇 1 + 簇 4</span></div>
+      <div class="evidence">与学生 Krizhevsky、Ilya Sutskever 合作 AlexNet（2012），ImageNet 错误率从 26% 降到 15%</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">AI 风险公共表达（辞职 Google 事件）<span class="cluster-tag">簇 7 AI 安全</span></div>
+      <div class="evidence">2023 年 5 月 1 日辞去 Google 副总裁职位，公开理由"想自由地谈论 AI 风险"</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">学术直觉驱动研究风格 <span class="cluster-tag">簇 15 基础理论</span></div>
+      <div class="evidence">把统计物理能量函数/玻尔兹曼分布引入神经网络，跨学科类比思维</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">培养顶级学生的能力 <span class="cluster-tag">簇 4 学派</span></div>
+      <div class="evidence">Ilya Sutskever（OpenAI 前首席）、Alex Krizhevsky、Yann LeCun（博士后）</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">跨学科桥梁：神经+物理+CS <span class="cluster-tag">簇 5 跨学科</span></div>
+      <div class="evidence">本科实验心理学 + 博士 AI + 玻尔兹曼机（统计物理）+ 2024 诺奖为物理学奖</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">加拿大 AI 生态建设者 <span class="cluster-tag">簇 3 学术机构</span></div>
+      <div class="evidence">2017 年与 Ed Clark、Raquel Urtasun 等共同创立 Vector Institute</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">道德感强的政治立场 <span class="cluster-tag">簇 16 方法论</span></div>
+      <div class="evidence">1987 年因反对 Reagan 政府通过 DARPA 资助 CMU 从事军事 AI 而辞职赴加</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">谦逊 / 自嘲型演讲风格 <span class="cluster-tag">簇 14 公共叙事</span></div>
+      <div class="evidence">TED 演讲《Godfather of AI》播放数千万次</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">AI 思想史的"第一性"问题意识 <span class="cluster-tag">簇 15</span></div>
+      <div class="evidence">坚信"大脑工作原理可以被工程化"（祖母细胞信念）</div>
+    </div>
+  </div>
+
+  <h3>步骤 2：从原子到 8 维评分（推理）</h3>
+  <div class="score-evidence">
+    <h4>D1 原创理论/算法 = 5 ★★★★★</h4>
+    <ul>
+      <li>反向传播算法（1986）—— 当代深度学习的算法基础</li>
+      <li>玻尔兹曼机/深度信念网络（2006）—— 终结神经网络寒冬</li>
+      <li>AlexNet 导师角色（2012）—— 深度学习爆发时刻</li>
+      <li><strong>评分证据</strong>：3 个范式级贡献（5 分标准 = 范式级）</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D2 系统工程 = 2 ★★</h4>
+    <ul>
+      <li>未参与大规模系统建设（Google Brain 时期除外，但 TensorFlow 是 Jeff Dean 主导）</li>
+      <li>学术研究为主，未有万卡级系统或亿级用户产品的工程贡献</li>
+      <li><strong>评分证据</strong>：2 分标准 = 开源工具库（有开源代码但非大规模系统）</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D3 学术机构/师承 = 5 ★★★★★</h4>
+    <ul>
+      <li>Hinton 学派（→ Ilya / Krizhevsky / Karpathy / LeCun 博士后 / Goodfellow 间接）</li>
+      <li>Vector Institute 联合创始人（2017）</li>
+      <li>学生网络直接推动 AlexNet 爆发</li>
+      <li><strong>评分证据</strong>：5 分标准 = 跨代际学派（学生→学生链条）</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D4 创业 = 1 ★</h4>
+    <ul>
+      <li>无公司创立经历</li>
+      <li>学术研究为主</li>
+      <li><strong>评分证据</strong>：1 分标准 = 内部技术分享（DNN 教学、coursera）</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D5 政策/治理/AI 安全 = 5 ★★★★★</h4>
+    <ul>
+      <li>2023 辞职 Google 公开谈论 AI 风险</li>
+      <li>2024 诺奖电话会公开表示"对自己研究感到遗憾"</li>
+      <li>持续反对 AI 失控的"赢者通吃"竞赛</li>
+      <li><strong>评分证据</strong>：5 分标准 = 制度设计/AI 安全研究主业（晚期反向）</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D6 长期主义 = 5 ★★★★★</h4>
+    <ul>
+      <li>30+ 年神经网络寒冬坚守（1990-2012 是核心）</li>
+      <li>30+ 年多伦多大学（1987 至今）</li>
+      <li><strong>评分证据</strong>：5 分标准 = 40+ 年（但 30+ 也算顶配）</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D7 跨界整合 = 5 ★★★★★</h4>
+    <ul>
+      <li>心理学 → 物理 → CS 三栖（5 分标准 = 全栖）</li>
+      <li>学界 + 公共发声 + 培养 + 治理（学界+公共+教育+治理）</li>
+      <li><strong>评分证据</strong>：5 分标准 = 学界+工业+创业+治理+教育全栖（但 Hinton 是"学界+教育+治理"，3 个角色近 5）</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D8 教育/公共影响 = 5 ★★★★★</h4>
+    <ul>
+      <li>TED《Godfather of AI》数千万次</li>
+      <li>Coursera 神经网络课程（深度学习入门）</li>
+      <li>Hinton 学派辐射全球 AI 学界</li>
+      <li><strong>评分证据</strong>：5 分标准 = 千万级受众</li>
+    </ul>
+  </div>
+
+  <h3>步骤 3：聚类到原型</h3>
+  <div class="flow-diagram">
+    <div class="flow-step">
+      <div class="num">D1=5 / D3=5</div>
+      <div class="desc">学术顶配</div>
+    </div>
+    <span class="arrow">→</span>
+    <div class="flow-step">
+      <div class="num">D5=5 / D6=5</div>
+      <div class="desc">治理 + 长期</div>
+    </div>
+    <span class="arrow">→</span>
+    <div class="flow-step">
+      <div class="num">D7=5 / D8=5</div>
+      <div class="desc">跨界 + 公共</div>
+    </div>
+    <span class="arrow">→</span>
+    <div class="flow-step">
+      <div class="num">D4=1</div>
+      <div class="desc">低创业</div>
+    </div>
+    <span class="arrow">→</span>
+    <div class="flow-step final">
+      <div class="num">→ P1</div>
+      <div class="desc">学术源流派</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== 案例 2: Jeff Dean ============================== -->
+<div class="person-card" id="jeffdean">
+  <div class="person-header">
+    <div>
+      <div class="person-name-cn">杰夫·迪恩</div>
+      <div class="person-name-en">Jeff Dean · 1968- · 工业（Google 首席科学家）</div>
+      <div class="person-tags">
+        <span class="tag">Google 25 年</span>
+        <span class="tag">MapReduce</span>
+        <span class="tag">TPU</span>
+        <span class="tag">TensorFlow</span>
+        <span class="tag">IEEE/ACM 双 Fellow</span>
+        <span class="tag prototype">原型 P2 工业研究院领袖</span>
+      </div>
+      <div class="person-meta">
+        <strong>现任</strong>：Google Chief Scientist · 第 20 号员工 · Google Brain / Google AI 创始人<br>
+        <strong>MapReduce / BigTable / Spanner / TensorFlow / TPU 一手奠基 · 25 年 Google 长期主义</strong>
+      </div>
+    </div>
+    <div class="radar-box">
+      <canvas id="radar-jeffdean"></canvas>
+    </div>
+  </div>
+
+  <div class="score-grid">
+    <div class="score-cell"><div class="label">D1 算法</div><div class="value sp-4">4</div></div>
+    <div class="score-cell"><div class="label">D2 工程</div><div class="value sp-5">5</div></div>
+    <div class="score-cell"><div class="label">D3 学术</div><div class="value sp-4">4</div></div>
+    <div class="score-cell"><div class="label">D4 创业</div><div class="value sp-2">2</div></div>
+    <div class="score-cell"><div class="label">D5 治理</div><div class="value sp-1">1</div></div>
+    <div class="score-cell"><div class="label">D6 长期</div><div class="value sp-5">5</div></div>
+    <div class="score-cell"><div class="label">D7 跨界</div><div class="value sp-4">4</div></div>
+    <div class="score-cell"><div class="label">D8 公共</div><div class="value sp-4">4</div></div>
+  </div>
+  <p style="text-align: center; color: #9aa5b8; font-size: 12px; margin-top: -8px;">总分 <strong style="color: #fff;">29</strong> / 40 · D2/D6 双满分</p>
+
+  <h3>步骤 1：10 个原子能力（节选）</h3>
+  <div class="atom-list">
+    <div class="atom-row">
+      <div class="what">MapReduce / BigTable / Spanner / TensorFlow 共同作者 <span class="cluster-tag">簇 1 + 2</span></div>
+      <div class="evidence">OSDI 2004 引用 23000+；与 Sanjay Ghemawat 合作，是分布式系统领域"奠基四件套"</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">TPU 项目的工程总师 <span class="cluster-tag">簇 17 软硬协同</span></div>
+      <div class="evidence">推动 Google 自研 TPU 一体化设计；2016 起 TPU v1 到 v5；Hacker News 2017 演讲系统阐述 TPU 设计哲学</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">Google 第 20 号员工 · 25 年长期主义 <span class="cluster-tag">簇 8</span></div>
+      <div class="evidence">1999 年加入 Google（公司创立后约 1 年）；从早期爬虫系统到 MapReduce 到深度学习全栈 25 年</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">Google Brain 联合创始（与吴恩达 2011）<span class="cluster-tag">簇 3 学术机构</span></div>
+      <div class="evidence">推动 Google 内部深度学习从无到有；TensorFlow 开源（2015）影响整个 AI 工业</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">IEEE Fellow + ACM Fellow + NAE 院士 <span class="cluster-tag">簇 13</span></div>
+      <div class="evidence">三大顶级 Fellow + 院士；与李开复（创新工场）同期 IEEE Fellow</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">推动 Gemini 系列大模型（2023-）<span class="cluster-tag">簇 2 + 7</span></div>
+      <div class="evidence">Demis Hassabis 团队 + Google Research 协作；Gemini 1.0 (2023) → Gemini 2.0 (2024) → Gemini 2.5 (2025)</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">"Hardware-software one design" 工程哲学 <span class="cluster-tag">簇 16 方法论</span></div>
+      <div class="evidence">反对"算法独立于硬件"——TPU 一体化设计、TensorFlow 与 TPU 协同演进</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">"AI 普惠化"工程级推动 <span class="cluster-tag">簇 20 开源</span></div>
+      <div class="evidence">TensorFlow + TPU + Vertex AI 推动整个行业 AI 民主化</div>
+    </div>
+  </div>
+
+  <h3>步骤 2：从原子到 8 维评分（推理）</h3>
+  <div class="score-evidence">
+    <h4>D1 原创理论/算法 = 4 ★★★★</h4>
+    <ul>
+      <li>MapReduce / BigTable / Spanner / TensorFlow 共同作者</li>
+      <li>无范式级"5 分"工作（5 分需反向传播/Transformer 这种）</li>
+      <li><strong>评分证据</strong>：4 分标准 = 重大方向贡献（MapReduce 是大数据方向）</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D2 系统工程 = 5 ★★★★★</h4>
+    <ul>
+      <li>TPU 一体化设计（万卡级基础设施）</li>
+      <li>TensorFlow（行业标准深度学习框架）</li>
+      <li>Google 搜索引擎、广告、地图的底层系统（早期）</li>
+      <li><strong>评分证据</strong>：5 分标准 = 行业标准/万卡级基础设施</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D6 长期主义 = 5 ★★★★★</h4>
+    <ul>
+      <li>Google 25 年（第 20 号员工）</li>
+      <li>从分布式系统到深度学习再到 Gemini，方向随公司进化</li>
+      <li><strong>评分证据</strong>：5 分标准 = 25-30 年</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D4 创业 = 2 ★★</h4>
+    <ul>
+      <li>无独立创业</li>
+      <li>在大厂内部推动大项目（接近 2 分标准的"内部创业/孵化"）</li>
+      <li><strong>评分证据</strong>：2 分标准 = 内部创业/孵化</li>
+    </ul>
+  </div>
+
+  <h3>步骤 3：聚类到原型</h3>
+  <div class="flow-diagram">
+    <div class="flow-step"><div class="num">D2=5 / D6=5</div><div class="desc">工程 + 长期</div></div>
+    <span class="arrow">→</span>
+    <div class="flow-step"><div class="num">D1=4 / D3=4</div><div class="desc">学术 + 学派</div></div>
+    <span class="arrow">→</span>
+    <div class="flow-step"><div class="num">D7=4 / D8=4</div><div class="desc">跨界 + 公共</div></div>
+    <span class="arrow">→</span>
+    <div class="flow-step final"><div class="num">→ P2</div><div class="desc">工业研究院领袖</div></div>
+  </div>
+</div>
+
+<!-- ============================== 案例 3: 刘铁岩 ============================== -->
+<div class="person-card" id="liutieyan">
+  <div class="person-header">
+    <div>
+      <div class="person-name-cn">刘铁岩</div>
+      <div class="person-name-en">Tie-Yan Liu · 1973- · 工业（MSRA / 华为 / 字节）</div>
+      <div class="person-tags">
+        <span class="tag">博弈论机器学习</span>
+        <span class="tag">MSRA 副院长</span>
+        <span class="tag">华为诺亚方舟主任</span>
+        <span class="tag">字节 AI Lab</span>
+        <span class="tag">IEEE/ACM 双 Fellow</span>
+        <span class="tag prototype">原型 P2 工业研究院领袖</span>
+      </div>
+      <div class="person-meta">
+        <strong>现任</strong>：字节跳动杰出科学家 / AI Lab 基础研究负责人（2019 至今）<br>
+        <strong>清华博士 + MSRA 副院长（最年轻之一）· 华为诺亚方舟主任 · 字节 AI Lab · IEEE/ACM Fellow · KDD 2018 大会主席（首位华人）</strong>
+      </div>
+    </div>
+    <div class="radar-box">
+      <canvas id="radar-liutieyan"></canvas>
+    </div>
+  </div>
+
+  <div class="score-grid">
+    <div class="score-cell"><div class="label">D1 算法</div><div class="value sp-3">3</div></div>
+    <div class="score-cell"><div class="label">D2 工程</div><div class="value sp-4">4</div></div>
+    <div class="score-cell"><div class="label">D3 学术</div><div class="value sp-3">3</div></div>
+    <div class="score-cell"><div class="label">D4 创业</div><div class="value sp-2">2</div></div>
+    <div class="score-cell"><div class="label">D5 治理</div><div class="value sp-1">1</div></div>
+    <div class="score-cell"><div class="label">D6 长期</div><div class="value sp-2">2</div></div>
+    <div class="score-cell"><div class="label">D7 跨界</div><div class="value sp-5">5</div></div>
+    <div class="score-cell"><div class="label">D8 公共</div><div class="value sp-3">3</div></div>
+  </div>
+  <p style="text-align: center; color: #9aa5b8; font-size: 12px; margin-top: -8px;">总分 <strong style="color: #fff;">23</strong> / 40 · D7 跨界顶配 · D6 偏低（多平台切换型）</p>
+
+  <h3>步骤 1：12 个原子能力</h3>
+  <div class="atom-list">
+    <div class="atom-row">
+      <div class="what">"博弈论机器学习"理论体系创立者 <span class="cluster-tag">簇 1 原创算法</span></div>
+      <div class="evidence">把"非合作博弈"理论引入排序学习；Multi-agent Reinforcement Learning；Adversarial Learning</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">MSRA 副院长（2014-2017，最年轻之一）<span class="cluster-tag">簇 3 学术机构</span></div>
+      <div class="evidence">MSRA 历史上最年轻的副院长之一；直接参与 MSRA 战略规划</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">华为诺亚方舟实验室主任（2017-2019）<span class="cluster-tag">簇 3</span></div>
+      <div class="evidence">华为在 AI 基础研究上"押重注"的标志性事件；主导 MindSpore 框架"全自动并行"特性</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">字节跳动杰出科学家（2019 至今）<span class="cluster-tag">簇 2 工程</span></div>
+      <div class="evidence">专注于推荐系统、搜索排序、广告系统的算法创新；PS-Lite 等开源项目</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">分布式机器学习工程化 <span class="cluster-tag">簇 2</span></div>
+      <div class="evidence">PS-Lite 等开源项目被工业界广泛使用；参数服务器概念工程化</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">KDD 2018 大会主席 <span class="cluster-tag">簇 13</span></div>
+      <div class="evidence">首位华人主席</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">IEEE Fellow（2014）+ ACM Fellow（2021）<span class="cluster-tag">簇 13</span></div>
+      <div class="evidence">机器学习与数据挖掘方向 + 大规模机器学习与博弈论方向</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">跨太平洋学术训练（中国本土）<span class="cluster-tag">簇 5</span></div>
+      <div class="evidence">清华电子工程系本硕博（1990-2000，导师陆大䋮 + 管晓宏）</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">"两次工业界大跳跃"（MSRA→华为→字节）<span class="cluster-tag">簇 9 多平台</span></div>
+      <div class="evidence">2017 年离开 MSRA、2019 年底离开华为；"学界 + 工业界"双重身份</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">"基础研究的工业落地"哲学 <span class="cluster-tag">簇 16</span></div>
+      <div class="evidence">"基础研究不是'为了发论文而发论文'，而是'为了解决真实的工业问题而做的深度研究'"</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">"分布式 + 大规模是 AI 落地的核心"方法论 <span class="cluster-tag">簇 16</span></div>
+      <div class="evidence">反对"模型大就是好"，主张"系统 + 算法 + 算力"统一优化</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">强学生网络 <span class="cluster-tag">簇 4</span></div>
+      <div class="evidence">颜水成（360 首席科学家 / 思谋系生态）、林衍凯（与刘知远合作）等</div>
+    </div>
+  </div>
+
+  <h3>步骤 2：从原子到 8 维评分（推理）</h3>
+  <div class="score-evidence">
+    <h4>D1 原创理论/算法 = 3 ★★★</h4>
+    <ul>
+      <li>"博弈论机器学习"是单一方向贡献</li>
+      <li>非"范式级"5 分工作（反向传播、Transformer）</li>
+      <li><strong>评分证据</strong>：3 分标准 = 显著方向贡献</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D2 系统工程 = 4 ★★★★</h4>
+    <ul>
+      <li>PS-Lite 参数服务器工程化（开源工具库）</li>
+      <li>MindSpore 框架"全自动并行"特性（华为全栈布局）</li>
+      <li>字节推荐系统大规模算法创新</li>
+      <li><strong>评分证据</strong>：4 分标准 = 大规模生产系统（虽然"全自动并行"未达"行业标准"，但接近）</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D6 长期主义 = 2 ★★</h4>
+    <ul>
+      <li>2017-2019 MSRA 副院长（3 年）</li>
+      <li>2017-2019 华为诺亚方舟主任（2 年）</li>
+      <li>2019 至今 字节 AI Lab（5+ 年）</li>
+      <li>3 平台 5-10 年（与"单平台坚守"模式相反）</li>
+      <li><strong>评分证据</strong>：2 分标准 = 10+ 年（但 3 平台累计 10+ 年）</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D7 跨界整合 = 5 ★★★★★</h4>
+    <ul>
+      <li>3 平台切换：MSRA（学界）→ 华为（学界+工业）→ 字节（纯工业）</li>
+      <li>3 个角色：学界 + 工业 + 国家战略（华为）</li>
+      <li>5 分标准 = 3 个角色（接近 4 分） + 哲学方法论输出（接近 5 分）</li>
+      <li><strong>评分证据</strong>：5 分标准 = 3 个角色（学界+工业+哲学方法论输出）</li>
+    </ul>
+  </div>
+
+  <h3>步骤 3：聚类到原型</h3>
+  <div class="flow-diagram">
+    <div class="flow-step"><div class="num">D2=4 / D6=2</div><div class="desc">工程 + 切换</div></div>
+    <span class="arrow">→</span>
+    <div class="flow-step"><div class="num">D7=5</div><div class="desc">多平台</div></div>
+    <span class="arrow">→</span>
+    <div class="flow-step"><div class="num">D3=3</div><div class="desc">机构</div></div>
+    <span class="arrow">→</span>
+    <div class="flow-step final"><div class="num">→ P2</div><div class="desc">工业研究院（多平台切换型）</div></div>
+  </div>
+</div>
+
+<!-- ============================== 案例 4: 张林峰 ============================== -->
+<div class="person-card" id="zhanglinfeng">
+  <div class="person-header">
+    <div>
+      <div class="person-name-cn">张林峰</div>
+      <div class="person-name-en">Linfeng Zhang · 深势科技创始人</div>
+      <div class="person-tags">
+        <span class="tag">普林斯顿博士</span>
+        <span class="tag">2020 戈登·贝尔奖</span>
+        <span class="tag">深势科技创始人</span>
+        <span class="tag">AI for Science</span>
+        <span class="tag">AlphaFold 复现</span>
+        <span class="tag prototype">原型 P3 学术+AI 创业派</span>
+      </div>
+      <div class="person-meta">
+        <strong>现任</strong>：深势科技（DP Technology）创始人<br>
+        <strong>与鄂维南院士共同创立 · DPMD 2020 戈登·贝尔奖 · 2024 复现 AlphaFold 并开源 · "宇知"大模型</strong>
+      </div>
+    </div>
+    <div class="radar-box">
+      <canvas id="radar-zhanglinfeng"></canvas>
+    </div>
+  </div>
+
+  <div class="score-grid">
+    <div class="score-cell"><div class="label">D1 算法</div><div class="value sp-3">3</div></div>
+    <div class="score-cell"><div class="label">D2 工程</div><div class="value sp-3">3</div></div>
+    <div class="score-cell"><div class="label">D3 学术</div><div class="value sp-2">2</div></div>
+    <div class="score-cell"><div class="label">D4 创业</div><div class="value sp-5">5</div></div>
+    <div class="score-cell"><div class="label">D5 治理</div><div class="value sp-1">1</div></div>
+    <div class="score-cell"><div class="label">D6 长期</div><div class="value sp-2">2</div></div>
+    <div class="score-cell"><div class="label">D7 跨界</div><div class="value sp-3">3</div></div>
+    <div class="score-cell"><div class="label">D8 公共</div><div class="value sp-3">3</div></div>
+  </div>
+  <p style="text-align: center; color: #9aa5b8; font-size: 12px; margin-top: -8px;">总分 <strong style="color: #fff;">22</strong> / 40 · D4 创业顶配 · D5/D3 偏弱</p>
+
+  <h3>步骤 1：9 个原子能力</h3>
+  <div class="atom-list">
+    <div class="atom-row">
+      <div class="what">普林斯顿应用数学博士（数学+物理+计算机三栖）<span class="cluster-tag">簇 5 跨学科</span></div>
+      <div class="evidence">本科同时主修数学、物理、计算机；博士论文方向为分子模拟的高维函数建模</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">2020 戈登·贝尔奖（AI + 分子模拟方向首次）<span class="cluster-tag">簇 13 顶级学术奖项</span></div>
+      <div class="evidence">DPMD 团队获超算界诺贝尔奖 Gordon Bell Prize 2020 中国十大科技进展</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">深势科技（2018-）创始人 <span class="cluster-tag">簇 10 创业</span></div>
+      <div class="evidence">与鄂维南院士共同创立深势科技（DP Technology），国内最大 AI for Science 创业公司</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">AI for Science 概念的中国推动者 <span class="cluster-tag">簇 6 政策 / 簇 18</span></div>
+      <div class="evidence">与鄂维南院士共同推动 2023 年科技部 + 国家自然科学基金委"AI for Science"专项部署</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">"四梁 N 柱"基础设施方法论 <span class="cluster-tag">簇 16</span></div>
+      <div class="evidence">基本原理与数据驱动算法模型与软件 / 高精度高效率的实验表征方法 / 数据库与知识库 / 算力平台系统</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">"深势·宇知"科学大模型体系 <span class="cluster-tag">簇 18</span></div>
+      <div class="evidence">2024-04 发布"宇知"大模型；Uni-SMART（科学文献处理）；Hermes（教学/科研/工业一体化）</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">领导复现并开源 AlphaFold 全部工作 <span class="cluster-tag">簇 1 + 簇 20</span></div>
+      <div class="evidence">2024 年首家复现并开源训练代码的中国公司</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">北京科学智能研究院（AISI）院长 <span class="cluster-tag">簇 3</span></div>
+      <div class="evidence">北京市科委等联合支持</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">好奇心 + 责任心双轮驱动 <span class="cluster-tag">簇 16</span></div>
+      <div class="evidence">自述"把正在做的事情和好奇心、责任心驱动下的追求结合在一起是非常幸运的事"</div>
+    </div>
+  </div>
+
+  <h3>步骤 2：从原子到 8 维评分（推理）</h3>
+  <div class="score-evidence">
+    <h4>D1 原创理论/算法 = 3 ★★★</h4>
+    <ul>
+      <li>DPMD（深势分子动力学）是 AI+科学计算的代表性算法</li>
+      <li>非"5 分"范式级（如 Transformer）</li>
+      <li><strong>评分证据</strong>：3 分标准 = 显著方向贡献（AI for Science 方向）</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D2 系统工程 = 3 ★★★</h4>
+    <ul>
+      <li>"宇知"大模型（科学大模型）</li>
+      <li>Hermes 一体化平台</li>
+      <li>但非大规模生产系统（学术工具为主）</li>
+      <li><strong>评分证据</strong>：3 分标准 = 工业级部署（虽然科学大模型是行业级）</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D4 创业/商业化 = 5 ★★★★★</h4>
+    <ul>
+      <li>深势科技 7 年（2018 至今）</li>
+      <li>与鄂维南院士共同创立（中国最大 AI for Science 公司）</li>
+      <li>顶级商业规模（B+ 轮融资，估值进入独角兽）</li>
+      <li><strong>评分证据</strong>：5 分标准 = 顶级商业规模</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D5 政策/治理 = 1 ★</h4>
+    <ul>
+      <li>未直接参与国家政策对话</li>
+      <li>仅作为"AI for Science"概念的推动者之一</li>
+      <li><strong>评分证据</strong>：1 分标准 = 个别发言</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D6 长期主义 = 2 ★★</h4>
+    <ul>
+      <li>深势科技 7 年（2018 至今）</li>
+      <li>10+ 年累计（含普林斯顿博士 + 深势创业）</li>
+      <li><strong>评分证据</strong>：2 分标准 = 10+ 年</li>
+    </ul>
+  </div>
+
+  <h3>步骤 3：聚类到原型</h3>
+  <div class="flow-diagram">
+    <div class="flow-step"><div class="num">D4=5</div><div class="desc">创业顶配</div></div>
+    <span class="arrow">+</span>
+    <div class="flow-step"><div class="num">D1=3 / D5=3</div><div class="desc">学术 + 跨学科</div></div>
+    <span class="arrow">→</span>
+    <div class="flow-step final"><div class="num">→ P3</div><div class="desc">学术+AI 创业派</div></div>
+  </div>
+</div>
+
+<!-- ============================== 案例 5: Sam Altman ============================== -->
+<div class="person-card" id="samaltman">
+  <div class="person-header">
+    <div>
+      <div class="person-name-cn">山姆·奥特曼</div>
+      <div class="person-name-en">Sam Altman · 1985- · 跨界多栖（YC/OpenAI/多线）</div>
+      <div class="person-tags">
+        <span class="tag">OpenAI CEO</span>
+        <span class="tag">YC 前 CEO</span>
+        <span class="tag">Worldcoin 联合创始人</span>
+        <span class="tag">Helion 投资人</span>
+        <span class="tag">2023 董事会政变</span>
+        <span class="tag prototype">原型 P4 跨界整合多栖型</span>
+      </div>
+      <div class="person-meta">
+        <strong>现任</strong>：OpenAI CEO · YC 前 CEO · Tools for Humanity 联合创始人 · Helion 投资人<br>
+        <strong>OpenAI 从非营利转向有限营利（2024-2025）· 2023-11 董事会政变 5 日内复职 · 推动 ChatGPT 时代</strong>
+      </div>
+    </div>
+    <div class="radar-box">
+      <canvas id="radar-samaltman"></canvas>
+    </div>
+  </div>
+
+  <div class="score-grid">
+    <div class="score-cell"><div class="label">D1 算法</div><div class="value sp-3">3</div></div>
+    <div class="score-cell"><div class="label">D2 工程</div><div class="value sp-4">4</div></div>
+    <div class="score-cell"><div class="label">D3 学术</div><div class="value sp-2">2</div></div>
+    <div class="score-cell"><div class="label">D4 创业</div><div class="value sp-5">5</div></div>
+    <div class="score-cell"><div class="label">D5 治理</div><div class="value sp-5">5</div></div>
+    <div class="score-cell"><div class="label">D6 长期</div><div class="value sp-2">2</div></div>
+    <div class="score-cell"><div class="label">D7 跨界</div><div class="value sp-5">5</div></div>
+    <div class="score-cell"><div class="label">D8 公共</div><div class="value sp-5">5</div></div>
+  </div>
+  <p style="text-align: center; color: #9aa5b8; font-size: 12px; margin-top: -8px;">总分 <strong style="color: #fff;">31</strong> / 40 · D4/D5/D7/D8 四满分</p>
+
+  <h3>步骤 1：核心原子能力（节选）</h3>
+  <div class="atom-list">
+    <div class="atom-row">
+      <div class="what">OpenAI CEO（2019-）<span class="cluster-tag">簇 10 创业</span></div>
+      <div class="evidence">从非营利转向有限营利（2024-2025）；GPT-4 / ChatGPT 推动 AI 时代</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">YC 前 CEO（2014-2019）<span class="cluster-tag">簇 3 机构</span></div>
+      <div class="evidence">把 YC 从创业孵化扩展到 AI/生物科技/航天/能源</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">Worldcoin 联合创始人（2019-）<span class="cluster-tag">簇 5 跨学科</span></div>
+      <div class="evidence">虹膜扫描+加密货币 UBI 概念；AgentKit 验证人类身份</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">Helion Energy 投资人（核聚变）<span class="cluster-tag">簇 5</span></div>
+      <div class="evidence">"Moore's Law for Everything"博客中预言"AI + 能源"将驱动全球繁荣</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">2023-11 董事会政变 5 日内复职 <span class="cluster-tag">簇 19 危机响应</span></div>
+      <div class="evidence">董事会突然解雇，5 日内 700+ 员工联署、Microsoft 介入，重新担任 CEO</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">美国国会山 AI 监管积极介入 <span class="cluster-tag">簇 6 政策</span></div>
+      <div class="evidence">多次国会作证、与拜登/特朗普政府合作推动 AI 政策</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">"Moore's Law for Everything" 公共写作 <span class="cluster-tag">簇 14 公共</span></div>
+      <div class="evidence">2021 博客文章预言 AI 革命推动的全球财富/能源重分配</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">Stargate 5000 亿美元 AI 基础设施 <span class="cluster-tag">簇 2 工程</span></div>
+      <div class="evidence">2025-01 联合 Oracle / SoftBank / MGX 投资美国 AI 基础设施</div>
+    </div>
+  </div>
+
+  <h3>步骤 2：从原子到 8 维评分（推理）</h3>
+  <div class="score-evidence">
+    <h4>D4 创业/商业化 = 5 ★★★★★</h4>
+    <ul>
+      <li>YC CEO 5 年（孵化 1000+ 创业公司）</li>
+      <li>OpenAI CEO 7 年（千亿估值）</li>
+      <li>Stargate 5000 亿美元 AI 基础设施</li>
+      <li><strong>评分证据</strong>：5 分标准 = 顶级商业规模（千亿+）</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D5 政策/治理 = 5 ★★★★★</h4>
+    <ul>
+      <li>多次国会山作证（与 Hinton 等并列）</li>
+      <li>推动 OpenAI 从非营利到有限营利的制度设计</li>
+      <li>与白宫、欧盟、英国 AI Safety Summit 合作</li>
+      <li><strong>评分证据</strong>：5 分标准 = 制度设计</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D7 跨界整合 = 5 ★★★★★</h4>
+    <ul>
+      <li>5 个角色：YC（创业孵化）+ OpenAI（AI 研究）+ Worldcoin（加密货币/身份）+ Helion（能源）+ 政府对话</li>
+      <li><strong>评分证据</strong>：5 分标准 = 全栖（学界+工业+创业+治理+教育）</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D8 教育/公共影响 = 5 ★★★★★</h4>
+    <ul>
+      <li>"Moore's Law for Everything" 博客（千万级阅读）</li>
+      <li>ChatGPT 全球 1 亿+ 用户</li>
+      <li>OpenAI 名字即开放叙事</li>
+      <li><strong>评分证据</strong>：5 分标准 = 千万级受众</li>
+    </ul>
+  </div>
+
+  <h3>步骤 3：聚类到原型</h3>
+  <div class="flow-diagram">
+    <div class="flow-step"><div class="num">D4=5 / D5=5</div><div class="desc">创业 + 治理</div></div>
+    <span class="arrow">+</span>
+    <div class="flow-step"><div class="num">D7=5 / D8=5</div><div class="desc">跨界 + 公共</div></div>
+    <span class="arrow">→</span>
+    <div class="flow-step final"><div class="num">→ P4</div><div class="desc">跨界整合多栖型</div></div>
+  </div>
+</div>
+
+<!-- ============================== 案例 6: Demis Hassabis ============================== -->
+<div class="person-card" id="demis">
+  <div class="person-header">
+    <div>
+      <div class="person-name-cn">德米斯·哈萨比斯</div>
+      <div class="person-name-en">Demis Hassabis · 1976- · 跨界多栖（DeepMind/Google）</div>
+      <div class="person-tags">
+        <span class="tag">DeepMind 创始人</span>
+        <span class="tag">AlphaFold 诺奖 2024</span>
+        <span class="tag">13 岁国际象棋大师</span>
+        <span class="tag">4 岁国际象棋</span>
+        <span class="tag">4 岁棋牌游戏设计师</span>
+        <span class="tag prototype">原型 P4 跨界整合多栖型</span>
+      </div>
+      <div class="person-meta">
+        <strong>现任</strong>：Google DeepMind CEO · Isomorphic Labs 创始人兼 CEO<br>
+        <strong>13 岁国际象棋大师 + 17 岁游戏开发 + 剑桥 CS + UCL 神经科学博士 · AlphaFold 2024 诺奖</strong>
+      </div>
+    </div>
+    <div class="radar-box">
+      <canvas id="radar-demis"></canvas>
+    </div>
+  </div>
+
+  <div class="score-grid">
+    <div class="score-cell"><div class="label">D1 算法</div><div class="value sp-5">5</div></div>
+    <div class="score-cell"><div class="label">D2 工程</div><div class="value sp-4">4</div></div>
+    <div class="score-cell"><div class="label">D3 学术</div><div class="value sp-3">3</div></div>
+    <div class="score-cell"><div class="label">D4 创业</div><div class="value sp-5">5</div></div>
+    <div class="score-cell"><div class="label">D5 治理</div><div class="value sp-4">4</div></div>
+    <div class="score-cell"><div class="label">D6 长期</div><div class="value sp-3">3</div></div>
+    <div class="score-cell"><div class="label">D7 跨界</div><div class="value sp-5">5</div></div>
+    <div class="score-cell"><div class="label">D8 公共</div><div class="value sp-5">5</div></div>
+  </div>
+  <p style="text-align: center; color: #9aa5b8; font-size: 12px; margin-top: -8px;">总分 <strong style="color: #fff;">34</strong> / 40 · 60 人中总分第一 · 5 维度 ≥4</p>
+
+  <h3>步骤 1：核心原子能力（节选）</h3>
+  <div class="atom-list">
+    <div class="atom-row">
+      <div class="what">AlphaFold 2（解决 50 年蛋白质折叠难题）<span class="cluster-tag">簇 18 AI for Science</span></div>
+      <div class="evidence">2020 Nature；2024 诺贝尔化学奖（与 John Jumper 共同获奖）</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">DeepMind 创始人（2010）<span class="cluster-tag">簇 10 创业</span></div>
+      <div class="evidence">从伦敦 4 人创业团队 → 2014 Google 收购 → 2023 与 Google Brain 合并</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">Isomorphic Labs 创始人（2021）<span class="cluster-tag">簇 10 创业</span></div>
+      <div class="evidence">AI 药物设计商业化；与诺华、礼来 30 亿美元合作</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">13 岁国际象棋大师 + 17 岁游戏开发 <span class="cluster-tag">簇 5 跨学科</span></div>
+      <div class="evidence">英国 8 岁国际象棋队长，13 岁大师；17 岁领衔设计 Theme Park 游戏</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">剑桥 CS + UCL 神经科学博士 <span class="cluster-tag">簇 15 基础理论</span></div>
+      <div class="evidence">神经科学博士是"人脑如何工作"基础研究</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">AlphaGo（2016）击败围棋世界冠军 <span class="cluster-tag">簇 1 原创算法</span></div>
+      <div class="evidence">全球性 AI 突破时刻；强化学习 + 蒙特卡洛树搜索</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">2024 诺奖电话会"AI 加速科学发现" <span class="cluster-tag">簇 16 方法论</span></div>
+      <div class="evidence">"CERN-style" AI 机构倡议</div>
+    </div>
+    <div class="atom-row">
+      <div class="what">英国 AI Safety Summit 核心参与（2023）<span class="cluster-tag">簇 6 政策</span></div>
+      <div class="evidence">Bletchley Park 峰会，与英国首相 Sunak 同台</div>
+    </div>
+  </div>
+
+  <h3>步骤 2：从原子到 8 维评分（推理）</h3>
+  <div class="score-evidence">
+    <h4>D1 原创理论/算法 = 5 ★★★★★</h4>
+    <ul>
+      <li>AlphaGo（2016）：强化学习 + 蒙特卡洛树搜索（范式级突破）</li>
+      <li>AlphaFold 2（2020 Nature）：解决 50 年科学难题（2024 诺奖）</li>
+      <li>AlphaZero（2017）：通用强化学习（无人类知识）</li>
+      <li><strong>评分证据</strong>：5 分标准 = 范式级贡献</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D4 创业/商业化 = 5 ★★★★★</h4>
+    <ul>
+      <li>DeepMind 14 年（2010 至今）</li>
+      <li>Isomorphic Labs 4 年（2021 至今）</li>
+      <li>顶级商业规模：诺华/礼来 30 亿美元合作</li>
+      <li><strong>评分证据</strong>：5 分标准 = 顶级商业规模</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D7 跨界整合 = 5 ★★★★★</h4>
+    <ul>
+      <li>5 个角色：学界（神经科学博士）+ 工业（DeepMind）+ 创业（Isomorphic）+ 治理（Bletchley Park）+ 教育（公开演讲）</li>
+      <li>跨学科：神经科学 + CS + 游戏 + 棋类 + AI</li>
+      <li><strong>评分证据</strong>：5 分标准 = 全栖</li>
+    </ul>
+  </div>
+  <div class="score-evidence">
+    <h4>D8 教育/公共影响 = 5 ★★★★★</h4>
+    <ul>
+      <li>2024 诺奖演讲（数千万次观看）</li>
+      <li>AlphaGo/AlphaFold 公众叙事</li>
+      <li>英国政府 AI 顾问</li>
+      <li><strong>评分证据</strong>：5 分标准 = 千万级受众</li>
+    </ul>
+  </div>
+
+  <h3>步骤 3：聚类到原型</h3>
+  <div class="flow-diagram">
+    <div class="flow-step"><div class="num">D1=5 / D4=5</div><div class="desc">算法 + 创业</div></div>
+    <span class="arrow">+</span>
+    <div class="flow-step"><div class="num">D7=5 / D8=5</div><div class="desc">跨界 + 公共</div></div>
+    <span class="arrow">→</span>
+    <div class="flow-step final"><div class="num">→ P4</div><div class="desc">跨界整合多栖型</div></div>
+  </div>
+</div>
+
+<!-- ============================== 总结对比 ============================== -->
+<section>
+  <h2>6 个案例的画像对比</h2>
+
+  <div class="insight-box">
+    <strong>共性观察 1：6 人 D7（跨界整合）均 ≥3</strong>。但深度差异大：
+    · Hinton（5 分）：30+ 年跨学科（心理学→物理→CS）<br>
+    · Jeff Dean（4 分）：Google 25 年内部跨系统（搜索→广告→AI）<br>
+    · 刘铁岩（5 分）：3 平台切换 + 哲学方法论输出<br>
+    · 张林峰（3 分）：跨学科（数学+物理+CS）但单一领域创业<br>
+    · Sam Altman（5 分）：5 个角色全栖（YC+OpenAI+Worldcoin+Helion+政府）<br>
+    · Demis Hassabis（5 分）：5 个角色全栖（神经科学+CS+DeepMind+Isomorphic+Bletchley）
+  </div>
+
+  <div class="insight-box">
+    <strong>共性观察 2：D6（长期主义）分布广</strong>。
+    · 高 D6（5 分）：Hinton 30+ 年、Jeff Dean 25 年（坚守单平台）<br>
+    · 低 D6（2 分）：刘铁岩、张林峰（多平台切换/创业 7-10 年）<br>
+    · 中 D6（3 分）：Demis Hassabis（DeepMind 14 年，但经历 Isomorphic 转型）<br>
+    · <strong>启示</strong>：长期主义 ≠ 单平台坚守。"单方向坚守"（Hinton 30 年神经网络 / Demis 14 年 DeepMind）与"多平台累计 10+ 年"（刘铁岩）都是 D6 高分路径。
+  </div>
+
+  <div class="insight-box">
+    <strong>共性观察 3：D4（创业）与 D1（算法）呈"互斥-互补"分布</strong>。
+    · 纯 D1：Hinton / Goodfellow / 何恺明（D4=1-2）<br>
+    · 纯 D4：朱珑 / 雷军 / 张林峰（D1=2-3）<br>
+    · 平衡型（P3 学术+AI 创业）：张林峰 / 刘知远 / 朱军 / 杨植麟 / 梁文锋（D1=3-4, D4=4-5）<br>
+    · <strong>启示</strong>：3 个中国独有原型（P3 / P5 / P6）的存在说明"创业型"和"学术型"在 AI 黄金一代中不矛盾。
+  </div>
+
+  <div class="insight-box">
+    <strong>原型的"区分点"示例</strong>：
+    · 同样是"学界+工业"双栖：刘铁岩（P2 工业研究院领袖）vs 李飞飞（P4 跨界多栖）—— 刘铁岩 D2/D3 高，李飞飞 D7/D8 高<br>
+    · 同样是"创业"：Sam Altman（P4 跨界多栖）vs 张林峰（P3 学术+AI 创业）—— Sam Altman D7/D5 高（政府关系强），张林峰 D1/D2 高（AI for Science 技术深）<br>
+    · 同样是"长期主义 + 工程化"：Jeff Dean（P2）vs Hinton（P1）—— Jeff Dean D2/D6 高（系统级贡献），Hinton D1/D3/D5 高（理论 + 治理 + 长期）
+  </div>
+</section>
+
+<div class="footer">
+  <div style="margin-bottom: 16px;">
+    <strong style="color: #fff; font-size: 16px;">6 个具体人物的打分明细 · 2026</strong><br>
+    AI 领军人才画像研究 · 北京中关村学院
+  </div>
+  <div class="links">
+    <a href="docs/portrait.html">总览（HTML）</a> ·
+    <a href="docs/methodology.html">方法论全景</a> ·
+    <a href="docs/portrait_final.md">终极报告</a> ·
+    <a href="docs/phd_recommendations.md">博士生建议</a> ·
+    <a href="data/atomic_abilities/group1/hinton.md">Hinton 原子能力</a> ·
+    <a href="data/atomic_abilities/group1/liu_tieyan.md">刘铁岩原子能力</a>
+  </div>
+  <div style="margin-top: 24px;">
+    研究方法：扎根理论（Grounded Theory）+ K means 聚类<br>
+    完成时间：2026-06-03 · 作者：Mavis（AI 研究协调员）
+  </div>
+</div>
+
+</div>
+
+<!-- Radar Charts -->
+<script>
+const dims = ['D1 算法', 'D2 工程', 'D3 学术', 'D4 创业', 'D5 治理', 'D6 长期', 'D7 跨界', 'D8 公共'];
+const data = {
+  hinton: [5,2,5,1,5,5,5,5],
+  jeffdean: [4,5,4,2,1,5,4,4],
+  liutieyan: [3,4,3,2,1,2,5,3],
+  zhanglinfeng: [3,3,2,5,1,2,3,3],
+  samaltman: [3,4,2,5,5,2,5,5],
+  demis: [5,4,3,5,4,3,5,5],
+};
+const colors = ['#64b5f6','#22c55e','#84cc16','#f59e0b','#ec4899','#06b6d4'];
+Object.keys(data).forEach((key, i) => {
+  const ctx = document.getElementById('radar-' + key);
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: dims,
+      datasets: [{
+        data: data[key],
+        backgroundColor: colors[i] + '40',
+        borderColor: colors[i],
+        borderWidth: 2,
+        pointBackgroundColor: colors[i],
+        pointBorderColor: '#fff',
+        pointRadius: 3,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        r: {
+          min: 0, max: 5,
+          ticks: { stepSize: 1, color: '#6b7280', backdropColor: 'transparent', font: { size: 9 } },
+          grid: { color: 'rgba(255,255,255,0.08)' },
+          angleLines: { color: 'rgba(255,255,255,0.08)' },
+          pointLabels: { color: '#c0c8d4', font: { size: 9 } }
+        }
+      }
+    }
+  });
+});
+</script>
+
+</body>
+</html>
