@@ -265,19 +265,19 @@
       <div class="prototype">
         <div class="name">P1 学术源流派</div>
         <div class="name-en">Academic Originator</div>
-        <div class="count">11 人 · 4 中 + 7 西</div>
+        <div class="count">12 人 · 5 中 + 7 西 <span class="badge-zh">v4 修订</span></div>
         <div class="radar-container"><canvas id="radar-p1"></canvas></div>
         <div class="people"><strong>核心特征</strong>: D1+D3+D6+D8 强 + D4 弱。原创算法+学术机构+长期主义。</div>
-        <div class="people"><strong>代表</strong>: Hinton, LeCun, Bengio, Sutton, He Kaiming, E Weinan, Zhu Songchun, Li Feifei, Stuart Russell, Zhang Bo, Zhou Zhihua</div>
-        <div class="key-insight">11/11 D1≥2 + D3≥2；2024 Hinton 诺奖+Demis Hassabis 诺奖+LeCun 2026 AMI Labs 30 亿欧元；中西方 P1 差异（中国偏理论体系，西方偏原始创新）</div>
+        <div class="people"><strong>代表</strong>: Hinton, LeCun, Bengio, Sutton, He Kaiming, E Weinan, Zhu Songchun, Li Feifei, Stuart Russell, Zhang Bo, Zhou Zhihua, <strong>Zhang Zhengyou</strong>（v4 从 P2 改 P1）</div>
+        <div class="key-insight">12/12 D1≥2 + D3≥2；2024 Hinton 诺奖+Demis Hassabis 诺奖+LeCun 2026 AMI Labs 30 亿欧元；中西方 P1 差异（中国偏理论体系，西方偏原始创新）</div>
       </div>
       <div class="prototype">
         <div class="name">P2 工业研究院</div>
         <div class="name-en">Industrial Research Lab Leader</div>
-        <div class="count">13 人 · 6 中 + 7 西</div>
+        <div class="count">12 人 · 5 中 + 7 西 <span class="badge-zh">v4 修订</span></div>
         <div class="radar-container"><canvas id="radar-p2"></canvas></div>
         <div class="people"><strong>核心特征</strong>: D2+D3+D6 强 + D4 弱。系统工程+学术机构+长期主义。</div>
-        <div class="people"><strong>代表</strong>: Jeff Dean, Xuedong Huang, Wang Haifeng, Tian Qi, Shen Xiangyang, Zhang Zhengyou, Zhou Jingren, Liu Tieyan, Ilya Sutskever, Karpathy, Aidan Gomez, Yang Zhilin, Lin Dahua</div>
+        <div class="people"><strong>代表</strong>: Jeff Dean, Xuedong Huang, Wang Haifeng, Tian Qi, Shen Xiangyang, Zhou Jingren, Liu Tieyan, Ilya Sutskever, Karpathy, Aidan Gomez, Yang Zhilin, Lin Dahua</div>
         <div class="key-insight">D6 长期主义密度最高（2.69）；中美各半；中美差异（美国偏基础架构，中国偏大模型基础设施）</div>
       </div>
       <div class="prototype">
@@ -381,67 +381,67 @@ const MATRIX = [
   {name:"Hinton",p:"P1",d:[3,1,3,1,3,3,3,3],sum:20},
   {name:"LeCun",p:"P1+P5",d:[3,2,3,2,2,2,3,3],sum:20},
   {name:"Bengio",p:"P1+P5",d:[3,1,3,2,3,2,2,3],sum:19},
-  {name:"He Kaiming",p:"P1",d:[3,1,3,1,1,2,2,2],sum:15},
-  {name:"Li Feifei",p:"P1",d:[2,1,3,2,2,1,3,3],sum:17},
+  {name:"He Kaiming",p:"P1",d:[3,1,3,0,1,2,2,2],sum:14},
+  {name:"Li Feifei",p:"P1",d:[2,1,3,3,2,2,3,3],sum:19},
   {name:"E Weinan",p:"P1",d:[3,1,3,2,1,2,3,2],sum:17},
   {name:"Zhu Songchun",p:"P1",d:[3,1,3,1,1,3,3,2],sum:17},
   {name:"Xie Saining",p:"P1",d:[3,1,2,2,1,1,2,2],sum:14},
   {name:"Yan Shuicheng",p:"P3",d:[2,2,2,2,0,1,3,2],sum:14},
-  {name:"Zhang Xiangyu",p:"P3",d:[3,1,1,1,0,1,2,2],sum:11},
+  {name:"Zhang Xiangyu",p:"P3",d:[3,1,1,0,0,1,2,2],sum:10},
   // domestic_cn
-  {name:"高文",p:"P2",d:[1,2,3,1,3,3,2,2],sum:17},
+  {name:"高文",p:"P2",d:[1,2,3,0,3,3,2,2],sum:16},
   {name:"黄铁军",p:"P2",d:[1,2,3,1,3,3,2,2],sum:17},
   {name:"贾佳亚",p:"P3",d:[1,1,2,2,0,1,2,2],sum:11},
-  {name:"林达华",p:"P2+P3",d:[1,2,3,2,1,2,2,2],sum:15},
+  {name:"林达华",p:"P2+P3",d:[1,2,2,2,1,2,2,2],sum:14},
   {name:"刘铁岩",p:"P2",d:[1,2,2,1,1,2,3,2],sum:14},
-  {name:"刘知远",p:"P3",d:[2,1,2,2,0,1,2,1],sum:11},
-  {name:"孙茂松",p:"P3",d:[1,1,3,1,2,3,2,3],sum:16},
-  {name:"唐杰",p:"P3",d:[2,1,3,3,2,1,2,2],sum:16},
-  {name:"张钹",p:"P1",d:[1,1,3,1,2,3,2,3],sum:16},
+  {name:"刘知远",p:"P3",d:[2,2,2,2,0,1,2,1],sum:12},
+  {name:"孙茂松",p:"P3",d:[1,1,3,0,2,3,2,3],sum:15},
+  {name:"唐杰",p:"P3",d:[2,2,3,3,2,1,2,2],sum:17},
+  {name:"张钹",p:"P1",d:[1,1,3,0,2,3,2,3],sum:15},
   {name:"朱军",p:"P3",d:[2,1,3,2,0,1,2,1],sum:12},
   {name:"汤晓鸥",p:"P3",d:[2,1,3,3,0,3,3,2],sum:17},
-  {name:"张亚勤",p:"P2",d:[1,2,3,2,2,2,3,3],sum:18},
-  {name:"周志华",p:"P1",d:[2,1,3,1,2,3,2,3],sum:17},
+  {name:"张亚勤",p:"P2",d:[2,2,3,1,2,1,3,3],sum:17},
+  {name:"周志华",p:"P1",d:[2,1,3,0,2,3,2,3],sum:16},
   // industry
-  {name:"Ian Goodfellow",p:"P1",d:[3,1,1,0,0,1,1,2],sum:9},
+  {name:"Ian Goodfellow",p:"P1",d:[3,1,1,0,1,0,1,2],sum:9},
   {name:"Ilya Sutskever",p:"P2+P4",d:[3,1,2,3,2,1,2,3],sum:17},
   {name:"Jeff Dean",p:"P2",d:[1,3,3,0,1,3,2,2],sum:15},
-  {name:"李航",p:"P2",d:[1,1,2,0,0,1,2,3],sum:10},
+  {name:"李航",p:"P2",d:[1,1,2,0,1,1,2,2],sum:10},
   {name:"沈向洋",p:"P2",d:[1,1,3,1,2,3,3,3],sum:17},
-  {name:"田奇",p:"P2",d:[1,2,3,0,0,2,1,1],sum:10},
-  {name:"王海峰",p:"P2",d:[1,3,2,1,1,3,2,2],sum:15},
-  {name:"Xuedong Huang",p:"P2",d:[1,3,2,1,0,3,2,2],sum:14},
-  {name:"张正友",p:"P2",d:[1,1,3,0,0,2,1,1],sum:9},
-  {name:"周靖人",p:"P2",d:[0,3,1,1,0,1,1,1],sum:8},
+  {name:"田奇",p:"P2",d:[1,2,3,0,0,3,1,1],sum:11},
+  {name:"王海峰",p:"P2",d:[1,3,2,0,1,2,2,2],sum:13},
+  {name:"Xuedong Huang",p:"P2",d:[1,3,2,0,0,3,2,2],sum:13},
+  {name:"张正友",p:"P1",d:[2,1,3,0,0,3,1,1],sum:11},
+  {name:"周靖人",p:"P2",d:[0,3,1,0,0,2,1,1],sum:8},
   // entrepreneur_cn
-  {name:"余凯",p:"P6",d:[1,2,2,3,0,2,2,1],sum:13},
-  {name:"印奇",p:"P6",d:[1,2,1,3,2,1,2,1],sum:13},
-  {name:"张一鸣",p:"P6",d:[0,2,1,3,0,1,1,3],sum:11},
-  {name:"张林峰",p:"P3",d:[2,1,2,2,0,1,3,1],sum:12},
-  {name:"朱珑",p:"P6",d:[0,1,1,2,0,1,2,1],sum:6},
+  {name:"余凯",p:"P6",d:[1,2,1,3,0,3,3,1],sum:14},
+  {name:"印奇",p:"P6",d:[1,2,0,3,2,2,3,2],sum:15},
+  {name:"张一鸣",p:"P6",d:[0,2,0,3,0,2,2,3],sum:12},
+  {name:"张林峰",p:"P3",d:[2,1,2,2,1,1,3,2],sum:14},
+  {name:"朱珑",p:"P6",d:[0,1,1,2,0,2,3,1],sum:10},
   {name:"李开复",p:"P3+P4",d:[1,1,1,3,2,2,3,3],sum:16},
-  {name:"杨植麟",p:"P2+P3",d:[3,1,2,3,0,1,2,2],sum:14},
-  {name:"梁文锋",p:"P3",d:[3,1,1,3,3,2,3,3],sum:19},
-  {name:"王小川",p:"P3",d:[1,1,1,3,2,1,2,2],sum:13},
+  {name:"杨植麟",p:"P2+P3",d:[2,1,1,3,0,1,2,2],sum:12},
+  {name:"梁文锋",p:"P3",d:[3,1,0,3,3,2,3,3],sum:18},
+  {name:"王小川",p:"P3",d:[1,2,0,3,2,2,3,2],sum:15},
   {name:"王慧文",p:"P6",d:[0,1,0,2,0,0,1,1],sum:5},
-  {name:"闫俊杰",p:"P3",d:[1,2,1,3,2,1,2,2],sum:14},
-  {name:"陈天石",p:"P6",d:[2,3,2,3,2,3,1,2],sum:18},
-  {name:"雷军",p:"P6",d:[0,1,1,3,3,3,3,3],sum:17},
-  {name:"姜大昕",p:"P3",d:[0,2,1,3,0,1,1,1],sum:9},
-  {name:"张鹏",p:"P3",d:[1,1,1,3,0,1,1,1],sum:9},
-  {name:"王兴兴",p:"P6",d:[0,2,1,3,0,2,1,1],sum:8},
+  {name:"闫俊杰",p:"P3",d:[1,2,0,3,2,2,3,3],sum:16},
+  {name:"陈天石",p:"P6",d:[2,3,2,3,2,2,2,2],sum:18},
+  {name:"雷军",p:"P6",d:[0,2,0,3,3,3,3,3],sum:17},
+  {name:"姜大昕",p:"P3",d:[1,2,1,3,0,2,2,2],sum:13},
+  {name:"张鹏",p:"P3",d:[1,1,0,3,0,1,1,2],sum:9},
+  {name:"王兴兴",p:"P6",d:[0,2,1,3,0,2,1,3],sum:12},
   // entrepreneur_mixed
   {name:"Aidan Gomez",p:"P2+P4",d:[3,1,1,3,0,0,2,2],sum:12},
   {name:"Karpathy",p:"P2+P4",d:[2,1,1,2,0,0,2,3],sum:11},
-  {name:"Andrew Ng",p:"P4",d:[2,1,3,3,1,1,3,3],sum:17},
-  {name:"Chris Olah",p:"P5",d:[1,1,1,1,0,2,1,1],sum:8},
-  {name:"Dario Amodei",p:"P4",d:[1,1,1,3,3,1,3,3],sum:16},
-  {name:"Demis Hassabis",p:"P4",d:[3,1,3,3,2,1,3,3],sum:19},
-  {name:"Nick Bostrom",p:"P4+P5",d:[0,0,2,0,3,0,3,3],sum:11},
+  {name:"Andrew Ng",p:"P4",d:[2,1,3,3,1,2,3,3],sum:18},
+  {name:"Chris Olah",p:"P5",d:[1,1,1,1,1,2,1,1],sum:9},
+  {name:"Dario Amodei",p:"P4",d:[2,1,1,3,3,1,3,3],sum:17},
+  {name:"Demis Hassabis",p:"P4",d:[3,1,3,3,2,2,3,3],sum:20},
+  {name:"Nick Bostrom",p:"P4+P5",d:[0,0,2,0,3,2,3,3],sum:13},
   {name:"Paul Christiano",p:"P5",d:[1,0,1,2,3,0,2,1],sum:10},
   {name:"Rich Sutton",p:"P1",d:[3,0,2,0,1,3,2,3],sum:14},
-  {name:"Sam Altman",p:"P4",d:[1,2,1,3,3,1,3,3],sum:18},
-  {name:"Stuart Russell",p:"P1+P5",d:[2,0,3,0,3,2,2,3],sum:15}
+  {name:"Sam Altman",p:"P4",d:[0,2,1,3,3,2,3,3],sum:17},
+  {name:"Stuart Russell",p:"P1+P5",d:[2,0,3,0,3,3,2,3],sum:16},
 ];
 
 // Render matrix body
@@ -459,8 +459,8 @@ MATRIX.forEach(r => {
 
 // Render 6 prototype radar charts
 const protoCores = {
-  P1: [2.91, 0.91, 3.00, 0.91, 1.82, 2.55, 2.45, 2.36],
-  P2: [1.46, 2.38, 2.69, 1.31, 0.92, 2.69, 2.00, 1.92],
+  P1: [2.50, 0.92, 2.92, 0.92, 1.75, 2.58, 2.33, 2.58],
+  P2: [1.50, 1.92, 2.00, 1.25, 0.67, 1.83, 2.00, 2.08],
   P3: [1.93, 1.20, 2.27, 2.73, 0.80, 1.13, 2.00, 1.27],
   P4: [1.78, 1.22, 1.78, 2.67, 1.78, 0.89, 3.00, 2.67],
   P5: [0.50, 0.00, 1.50, 0.50, 3.00, 0.50, 2.25, 2.25],

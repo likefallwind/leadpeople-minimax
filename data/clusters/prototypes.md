@@ -1,9 +1,12 @@
-# 60 人 6 个领军人才原型 v2（基于 8 维矩阵聚类）
+# 60 人 6 个领军人才原型 v4（基于 8 维矩阵聚类，审计修订版）
 
-> 基于 60 人 × 8 维 D1-D8 打分矩阵（matrix.md）做 K-means 风格聚类（手工按质心最近原则分配）。
+> 基于 60 人 × 8 维 D1-D8 打分矩阵 **v4**（matrix.md 70+ 处审计修订版）做 K-means 风格聚类。
 > 6 个原型 = P1 学术源流 + P2 工业研究院 + P3 学术+AI 创业 + P4 跨界整合多栖 + P5 AI 治理/安全旗手 + P6 商业/硬件创业
-> 总数：11+13+15+9+4+8 = 60 ✓
-> v2 相对 v1 旧版（同名 6 原型）的差异：评分依据从 0-5 分制改为 0-3 分制；质心向量更精确；少数人主型微调。
+> 总数：12+12+15+9+4+8 = 60 ✓
+> v4 相对 v2 的差异：
+> 1. **张正友从 P2 改 P1**（D1 1→2 + D6 2→3 后符合 P1 标准：原创算法 + 学术地位 + 长期主义三项 ≥ 2）
+> 2. **P1 11→12 人**（张正友）；**P2 13→12 人**（张正友移除）
+> 3. 多个原型内部 D 维分数依据 v4 矩阵更新（详见 matrix.md）
 
 ---
 
@@ -11,7 +14,7 @@
 
 - **原型定义**：D1 原创算法 + D3 学术机构地位 + D6 长期主义三项 ≥ 2 分，D4 创业 较低。在 1-2 个深度学习/AI 子领域有改变方向的工作 + 在学术机构长期坚守。
 - **质心向量**（平均 0-3 分制）：(2.91, 0.91, 3.00, 0.91, 1.82, 2.55, 2.45, 2.36)
-- **代表人物（11）**：Hinton, LeCun, Bengio, Sutton, He Kaiming, E Weinan, Zhu Songchun, Li Feifei, Stuart Russell, Zhang Bo, Zhou Zhihua
+- **代表人物（12，v4 加 Zhang Zhengyou）**：Hinton, LeCun, Bengio, Sutton, He Kaiming, E Weinan, Zhu Songchun, Li Feifei, Stuart Russell, Zhang Bo, Zhou Zhihua, **Zhang Zhengyou**（v4 从 P2 改 P1）
 - **次型**（在 P1 但同时跨界到其他原型）：LeCun（次型 P4 跨界 2026 AMI Labs）、Bengio（次型 P5 治理 LawZero 2025）、Li Feifei（次型 P4 跨界 World Labs CEO）、Zhu Songchun（次型 P4 跨界 北京通通用 AI 院 创院）
 
 ### 关键洞察
@@ -36,10 +39,11 @@
 | He Kaiming | 3 | 1 | 3 | 1 | 1 | 2 | 2 | 2 | 15 |
 | E Weinan | 3 | 1 | 3 | 2 | 1 | 2 | 3 | 2 | 17 |
 | Zhu Songchun | 3 | 1 | 3 | 1 | 1 | 3 | 3 | 2 | 17 |
-| Li Feifei | 2 | 1 | 3 | 2 | 2 | 1 | 3 | 3 | 17 |
-| Stuart Russell | 2 | 0 | 3 | 0 | 3 | 2 | 2 | 3 | 15 |
+| Li Feifei | 2 | 1 | 3 | 3 | 2 | 2 | 3 | 3 | 19 |
+| Stuart Russell | 2 | 0 | 3 | 0 | 3 | 3 | 2 | 3 | 16 |
 | Zhang Bo | - | - | 3 | - | 2 | 3 | - | 3 | -（清华 71 年奠基） |
-| Zhou Zhihua | 2 | 1 | 3 | 1 | 2 | 3 | 2 | 3 | 17 |
+| Zhou Zhihua | 2 | 1 | 3 | 0 | 2 | 3 | 2 | 3 | 16 |
+| Zhang Zhengyou | 2 | 1 | 3 | 0 | 0 | 3 | 1 | 1 | 11（v4 从 P2 改 P1）|
 
 ---
 
@@ -47,7 +51,7 @@
 
 - **原型定义**：D2 系统工程 + D3 学术机构地位 + D6 长期主义三项 ≥ 2 分。在大公司/国家战略级机构长期担任核心研究领导（实验室主任/首席科学家/技术 Fellow）。
 - **质心向量**（平均 0-3 分制）：(1.46, 2.38, 2.69, 1.31, 0.92, 2.69, 2.00, 1.92)
-- **代表人物（13）**：Jeff Dean, Xuedong Huang, Wang Haifeng, Tian Qi, Shen Xiangyang, Zhang Zhengyou, Zhou Jingren, Liu Tieyan, Ilya Sutskever, Karpathy, Aidan Gomez, Yang Zhilin, Lin Dahua
+- **代表人物（12，v4 减 Zhang Zhengyou）**：Jeff Dean, Xuedong Huang, Wang Haifeng, Tian Qi, Shen Xiangyang, Zhou Jingren, Liu Tieyan, Ilya Sutskever, Karpathy, Aidan Gomez, Yang Zhilin, Lin Dahua
 - **次型**（在 P2 但同时跨界到其他原型）：Ilya Sutskever（次型 P4 OpenAI 联合创始+SSI 2024 创始人）、Karpathy（次型 P4 Tesla→OpenAI→Eureka）、Lin Dahua（次型 P3 商汤联合创始）、Yang Zhilin（次型 P3 月之暗面 CEO）、Aidan Gomez（次型 P4 Cohere CEO）
 
 ### 关键洞察
@@ -67,11 +71,11 @@
 |---|---|---|---|---|---|---|---|---|---|
 | Jeff Dean | 1 | 3 | 3 | 0 | 1 | 3 | 2 | 2 | 15 |
 | Xuedong Huang | 1 | 3 | 2 | 1 | 0 | 3 | 2 | 2 | 14 |
-| Wang Haifeng | 1 | 3 | 2 | 1 | 1 | 3 | 2 | 2 | 15 |
-| Tian Qi | 1 | 2 | 3 | 0 | 0 | 2 | 1 | 1 | 10 |
+| Wang Haifeng | 1 | 3 | 2 | 0 | 1 | 2 | 2 | 2 | 13 |
+| Tian Qi | 1 | 2 | 3 | 0 | 0 | 3 | 1 | 1 | 11 |
 | Shen Xiangyang | 1 | 1 | 3 | 1 | 2 | 3 | 3 | 3 | 17 |
-| Zhang Zhengyou | 1 | 1 | 3 | 0 | 0 | 2 | 1 | 1 | 9 |
-| Zhou Jingren | 0 | 3 | 1 | 1 | 0 | 1 | 1 | 1 | 8 |
+| Zhang Zhengyou | ~~1 1 3 0 0 2 1 1 9~~（v4 改 P1，参见 P1 详细表） |
+| Zhou Jingren | 0 | 3 | 1 | 0 | 0 | 2 | 1 | 1 | 8 |
 | Liu Tieyan | 1 | 2 | 2 | 1 | 1 | 2 | 3 | 2 | 14 |
 | Ilya Sutskever | 3 | 1 | 2 | 3 | 2 | 1 | 2 | 3 | 17 |
 | Karpathy | 2 | 1 | 1 | 2 | 0 | 0 | 2 | 3 | 11 |
@@ -223,13 +227,12 @@
 
 ---
 
-## 6 原型总体对比
+## 6 原型总体对比（v4）
 
 | 原型 | 人数 | 中国/西方 | 核心维度（≥2.5 平均） | 标志性人物 |
 |---|---|---|---|---|
-| P1 学术源流 | 11 | 4 中 + 7 西 | D1 (2.91) / D3 (3.00) / D6 (2.55) / D7 (2.45) / D8 (2.36) | Hinton, LeCun, Bengio, Sutton, He Kaiming, E Weinan, Zhu Songchun, Li Feifei, Russell, Zhang Bo, Zhou Zhihua |
-| P2 工业研究院 | 13 | 6 中 + 7 西 | D2 (2.38) / D3 (2.69) / D6 (2.69) | Jeff Dean, Xuedong Huang, Wang Haifeng, Tian Qi, Shen Xiangyang, Zhang Zhengyou, Zhou Jingren, Liu Tieyan, Ilya Sutskever, Karpathy, Aidan Gomez, Yang Zhilin, Lin Dahua |
-| P3 学术+AI 创业 | 15 | 14 中 + 1 西 | D1 (1.93) / D3 (2.27) / D4 (2.73) / D7 (2.00) | Tang Jie, Liu Zhiyuan, Zhu Jun, Yan Shuicheng, Jia Jiaya, Zhang Linfeng, Yan Junjie, Wang Xiaochuan, Wang Xingxing, Liang Wenfeng, Jiang Daxin, Lin Dahua (次型), Sun Maosong (边缘), 汤晓鸥 (已故), Zhang Peng |
+| P1 学术源流 | 12 | 5 中 + 7 西 | D1 (2.83) / D3 (3.00) / D6 (2.67) / D7 (2.42) / D8 (2.33) | Hinton, LeCun, Bengio, Sutton, He Kaiming, E Weinan, Zhu Songchun, Li Feifei, Russell, Zhang Bo, Zhou Zhihua, **Zhang Zhengyou**（v4 从 P2 改 P1）|
+| P2 工业研究院 | 12 | 5 中 + 7 西 | D2 (2.42) / D3 (2.75) / D6 (2.67) | Jeff Dean, Xuedong Huang, Wang Haifeng, Tian Qi, Shen Xiangyang, Zhou Jingren, Liu Tieyan, Ilya Sutskever, Karpathy, Aidan Gomez, Yang Zhilin, Lin Dahua |
 | P4 跨界整合多栖 | 9 | 1 中 + 8 西 | D4 (2.67) / D7 (3.00) / D8 (2.67) | Andrew Ng, Sam Altman, Dario Amodei, Aidan Gomez, Ilya Sutskever, Karpathy, Demis Hassabis, Li Kaifu, Nick Bostrom |
 | P5 AI 治理/安全旗手 | 4 | 0 中 + 4 西 | D5 (3.00) / D7 (2.25) / D8 (2.25) | Nick Bostrom, Paul Christiano, Chris Olah, LeCun (次型) |
 | P6 商业/硬件创业 | 8 | 8 中 + 0 西 | D2 (1.63) / D4 (2.75) / D5 (2.00) / D6 (2.00) | 陈天石, 余凯, 雷军, 张一鸣, 印奇, 王慧文, 朱珑, 王兴兴 |
