@@ -1,269 +1,819 @@
-# 60 人 20 个二级能力簇
+# 60 人 80+ 个二级能力簇（L2 v2 版）
 
-> 由 60 人 × 5-15 原子能力（共 600+ 条）做关联编码（Axial Coding）后聚合而成。
+> 由 60 人 × 8-15 原子能力（共 700+ 条 L1）做关联编码（Axial Coding）+ 选择性编码（Selective Coding）后聚合而成。
+> v2 版相比 v1 旧 20 簇细分到 80+ 簇，覆盖更细颗粒度。
 > 每簇内列出：簇定义、原子数估算、典型代表 3-5 人、典型证据。
 
+**统计**：80+ 簇 × 平均 8-10 个原子 ≈ 700+ 个原子编码位（60 人 × 12 平均 L1 ≈ 720 条）
+**层级**：每簇平均代表 2-4 人；高重叠簇（如 #4 师承 + #15 理论）共占主导。
+
 ---
 
-## 二级能力簇 1：原创算法 / 理论奠基
-- **簇定义**：提出被领域广泛承认、改变方向的核心算法或理论（单/多作皆可，要求有"可被引用的工作"）。
-- **包含原子数**：约 80 个（最高频簇）
-- **代表人物**：Hinton（反向传播/玻尔兹曼机）、LeCun（CNN/LeNet-5）、Bengio（神经语言模型/软注意力/梯度消失）、Goodfellow（GAN/FGSM）、Sutton（TD-Learning/Bitter Lesson）、Ilya Sutskever（AlexNet/Seq2Seq）、Aidan Gomez（Transformer 共同一作）、何恺明（ResNet/MAE/MoCo）、谢赛宁（ConvNeXt/ResNeXt/MoCo）、杨植麟（Transformer-XL/XLNet）、周志华（深度森林/集成学习）、张正友（张氏标定法）、陈天石（DianNao 系列）、朱军（扩散模型加速采样/Z\*）、Sutton（RL 教材）
+## A. 原创算法 / 理论奠基
+
+### 簇 1：深度学习核心算法贡献
+- **簇定义**：在深度学习基础（反向传播/网络架构/优化/正则化）上有可被引用、可改变方向的奠基性工作。
+- **包含原子数**：约 35 个
+- **代表人物**：Hinton（反向传播/玻尔兹曼机/DBN）、LeCun（CNN/LeNet-5/反向传播应用）、Bengio（神经语言模型/软注意力/梯度消失）、Bengio/Aaron Courville/Goodfellow（Deep Learning 花书）、He Kaiming（ResNet/MAE/MoCo）
 - **典型证据**：
-  - ResNet（2015）单篇 25 万+ 引用，被 Nature 列为"21 世纪被引最多论文"——何恺明
-  - TD-Learning（1988）→ AlphaGo → AlphaZero 的理论基石——Sutton
-  - DianNao ASPLOS'14 开启"深度学习处理器"方向——陈天石
-  - Transformer-XL 引用 1 万+、XLNet 引用 2.2 万+——杨植麟
+  - 1986 Hinton Nature 论文系统化反向传播至多层神经网络
+  - 1989 LeCun 论文首次 BP+卷积用于手写字符识别（现代 CNN 起点）
+  - 2015-12 He Kaiming 公开 ResNet 论文，残差连接解决深度网络退化
 
----
-
-## 二级能力簇 2：AI 系统与分布式工程
-- **簇定义**：把算法工程化为可大规模运行的系统（万卡训练/亿级用户/工业级框架）。
-- **包含原子数**：约 50 个
-- **代表人物**：Jeff Dean（MapReduce/BigTable/Spanner/TensorFlow/TPU）、周靖人（阿里妈妈/达摩院 M6/字节豆包）、黄学东（CNTK）、朱珑（求索 SoC 芯片）、余凯（BPU/征程系列）、陈天石（思元 590）、王海峰（飞桨）、印奇（Brain++）、Aidan Gomez（Tensor2Tensor）、汤晓鸥（MMLab 开源体系）
+### 簇 2：Transformer / LLM 核心贡献
+- **簇定义**：在 Transformer 架构、LLM 预训练/对齐/推理上有"被全行业复用"的核心工作。
+- **包含原子数**：约 30 个
+- **代表人物**：Aidan Gomez（Transformer 8 共同作者之一）、Ilya Sutskever（GPT-3 主导 / RLHF 共同发明 / Seq2Seq 论文引 27000+）、Paul Christiano（InstructGPT / RLHF 推广）、杨植麟（Transformer-XL/XLNet）、Ilya Sutskever（AlexNet 共同一作）
 - **典型证据**：
-  - MapReduce OSDI 2004 引用 23000+——Jeff Dean
-  - 字节豆包 1.5 Pro 进入大模型第一梯队——周靖人
-  - BPU J2→J3→J5→J6→J7 迭代 7 代——余凯
-  - 飞桨对标 TensorFlow/PyTorch，国产深度学习框架——王海峰
+  - 2017 Transformer 论文 8 共同作者，2 名在 60 人名单（Aidan Gomez）
+  - 2014 Seq2Seq 论文 NIPS 引用 27000+
+  - 2019 XLNet 第一作者，NeurIPS 口头报告，引用 2 万+
 
----
-
-## 二级能力簇 3：顶级学术机构 / 实验室创建
-- **簇定义**：从 0 到 1 创建学院、研究所、实验室并持续运营 10+ 年。
-- **包含原子数**：约 45 个
-- **代表人物**：汤晓鸥（MMLab/上海 AI Lab）、林达华（OpenMMLab）、周志华（LAMDA/南大人工智能学院）、张钹（清华大学人工智能研究院）、朱松纯（北大 AI 院/北京通用人工智能研究院）、高文（鹏城实验室）、沈向洋（IDEA 研究院）、Bengio（Mila）、Hinton（Vector Institute 顾问）、黄铁军（智源）、李开复（MSRA 首任院长）、张亚勤（清华 AIR）、田奇（华为诺亚方舟 CV）、王海峰（百度 AI 体系）
+### 簇 3：强化学习理论贡献
+- **簇定义**：在 RL 算法、理论、教育/教材上有奠基性工作。
+- **包含原子数**：约 25 个
+- **代表人物**：Sutton（TD-Learning / Dyna / Options / Bitter Lesson / RL 教材）、Stuart Russell（CIRL / POMDP / AIMA 第四版增加对齐章节）、Dario Amodei（RLHF 共同发明）
 - **典型证据**：
-  - 港中文 MMLab 25 年培养 100+ 学生——汤晓鸥
-  - LAMDA 25 年 100+ 博士/硕士——周志华
-  - 上海 AI Lab 主导"书生"系列大模型——林达华
-  - 鹏城实验室"鹏城云脑"+"中国算力网"——高文
+  - 1988 Sutton Machine Learning 期刊发表 TD-Learning 论文（现代 RL 理论基石）
+  - 2019-03-13 Sutton 发表《The Bitter Lesson》3 页短文
+  - 2024 Sutton 与 Barto 共获 ACM 图灵奖
 
----
-
-## 二级能力簇 4：学派 / 师承网络传承
-- **簇定义**：自身处于强大师承网络核心或传承位置（学生→学生/老师→学生链条可追溯）。
-- **包含原子数**：约 60 个
-- **代表人物**：
-  - **Hinton 学派**：Ilya Sutskever、Alex Krizhevsky、Karpathy、Goodfellow（间接）
-  - **MMLab 港中文学派**：汤晓鸥 → 何恺明/林达华/王晓刚/徐立/贾佳亚/谢赛宁
-  - **张钹学派**：朱军、张祥雨、刘知远、唐杰
-  - **朱松纯学派**：张祥雨、谢赛宁、朱军、颜水成
-  - **Andrew Ng 学派**：Karpathy、Goodfellow、Pieter Abbeel、Quoc Le
-  - **Bengio 学派**：Mila 100+ 学者
-  - **孙茂松学派（清华 NLP 三阶）**：黄昌宁 → 孙茂松 → 李涓子/唐杰/刘知远
-- **典型证据**：
-  - 张钹门生 5 人入选 60 人名单（朱军/张祥雨/刘知远/唐杰/颜水成）——张钹学派
-  - Hinton 学生直接推动 AlexNet 深度学习爆发——Hinton
-  - MMLab 学生网络覆盖商汤/旷视/上海 AI Lab——汤晓鸥
-
----
-
-## 二级能力簇 5：跨学科 / 跨界整合
-- **簇定义**：在物理/数学/神经科学/认知/政策/商业等多个领域跨界，并整合形成新方向。
-- **包含原子数**：约 55 个
-- **代表人物**：Hinton（心理学/物理/CS）、Demis Hassabis（国际象棋/CS/神经科学）、Dario Amodei（物理/神经科学/AI）、Aidan Gomez（CS/工程）、Sam Altman（商科/CS/能源/政府）、张林峰（数学/物理/CS）、李开复（CS/语音/VC）、鄂维南（数学/CS）、高文（多媒体/标准/政策）、贾佳亚（CV/工业）、印奇（CV/AIoT）、雷军（CS/商业/汽车）、沈向洋（CMU/MSRA/IDEA）
-- **典型证据**：
-  - 13 岁国际象棋大师 + 17 岁游戏开发者 + 剑桥 CS + UCL 神经科学博士——Demis Hassabis
-  - 斯坦福物理学本科 + 普林斯顿神经科学博士 + 百度/Google/OpenAI——Dario Amodei
-  - 瑞典 5 大学科本科学位（哲学/物理/数学/计算神经科学/AI）——Nick Bostrom
-
----
-
-## 二级能力簇 6：政府 / 政策对话与制度参与
-- **簇定义**：直接进入国家级政策对话、政协/人大、监管制度设计、国际治理机构。
+### 簇 4：计算机视觉核心算法
+- **簇定义**：在 CV 基础（分类/检测/分割/骨干网络/自监督）上有里程碑贡献。
 - **包含原子数**：约 40 个
+- **代表人物**：He Kaiming（ResNet/Mask R-CNN/MAE/MoCo）、Xie Saining（ResNeXt/ConvNeXt/MoCo/DiT）、Yan Shuicheng（NIN/1x1 卷积）、Ian Goodfellow（GAN/FGSM/对抗攻击起点）、张祥雨（ShuffleNet v1/v2）、Zhu Songchun（MRF/统计视觉/GRADE/UV 双系统）、Jia Jiaya（L0 梯度最小化/SIGGRAPH Asia Test-of-Time）
+- **典型证据**：
+  - ResNet 2015-12 单篇引用 25.4 万+，Nature 2025 列为 21 世纪被引最多
+  - ShuffleNet 2017 + v2 2018（ECCV 最佳学生论文 VALSE）
+  - ConvNeXt 2022-01 证明纯 ConvNet 借鉴 Transformer 设计匹敌 Swin
+  - NIN 1x1 卷积成为几乎所有 CV 深度学习模型的标准模块
+
+### 簇 5：大模型架构创新（MoE / Mamba / MLA 等）
+- **簇定义**：在通用大模型架构上有非 Transformer 路线或重大改进工作。
+- **包含原子数**：约 15 个
+- **代表人物**：梁文锋（DeepSeek MLA 架构 / MoE 路线）、闫俊杰（All in MoE / M 系列）、Xie Saining（DiT Diffusion Transformer）
+- **典型证据**：
+  - 2024-05 DeepSeek-V2 提出 MLA 架构（Multi-head Latent Attention）
+  - 2023 下半年闫俊杰把几乎全部研发和算力资源投到 MoE 模型
+  - DiT 2022-2023 论文直接启发 OpenAI Sora 架构
+
+### 簇 6：AI for Science 算法贡献
+- **簇定义**：将 AI 算法应用于科学计算（多尺度/分子/数学/PDE）上有开创性工作。
+- **包含原子数**：约 15 个
+- **代表人物**：鄂维南（Neural ODE/DeePMD/HMM/高维函数逼近）、张林峰（DPMD 深度势能分子动力学）、Yan Shuicheng（早期 PASCAL VOC/ILSVRC 7 冠 / Purine 多机多 GPU 系统）
+- **典型证据**：
+  - 2017 鄂维南 Neural ODE 开山之作
+  - 2018 鄂维南 DeePMD-kit 开源软件（1 亿原子第一性原理精度）
+  - 2020 ACM Gordon Bell 奖（DeePMD 1 亿原子模拟）
+
+### 簇 7：NLP/多模态核心算法
+- **簇定义**：在 NLP、语音、多模态大模型、对话系统上有里程碑工作。
+- **包含原子数**：约 25 个
+- **代表人物**：Bengio（神经概率语言模型，word2vec/GPT/BERT 源头）、王海峰（1999 博士论文开创神经网络机器翻译）、Xuedong Huang（Sphinx-II 语音识别 60000 词/DARPA 第一/SAPI/机器翻译）、Wang Haifeng（ERNIE 系列 / 文心一言）、Liu Zhiyuan（CPM-1 中文预训练 / MiniCPM-o 多模态）
+- **典型证据**：
+  - 2003 Bengio Neural Probabilistic Language Model（JMLR），引用 4 万+
+  - 2016-2017 Switchboard 任务 WER 5.1% 超专业速记员
+  - 2026-02 刘知远 MiniCPM-o 4.5 多模态端侧大模型
+
+---
+
+## B. AI 系统与分布式工程
+
+### 簇 8：分布式系统基础设施（MapReduce / BigTable / TPU）
+- **簇定义**：在大规模分布式系统、数据库、计算基础设施上有开创性工作。
+- **包含原子数**：约 20 个
+- **代表人物**：Jeff Dean（MapReduce/BigTable/Spanner/TensorFlow/TPU 设计）、周靖人（阿里云通义/达摩院/2018 双 11 实时日志 17 亿条/秒）
+- **典型证据**：
+  - 2004 MapReduce OSDI 论文引用 23000+
+  - 2012 Spanner OSDI 论文（全球分布式数据库）
+  - 2018 阿里双 11 实时日志处理 17 亿条/秒（1.7TB/秒）
+
+### 簇 9：深度学习框架构建
+- **簇定义**：构建或主导开源深度学习框架，影响行业生态。
+- **包含原子数**：约 25 个
+- **代表人物**：Jeff Dean（TensorFlow OSDI 2016 引 20000+）、王海峰（飞桨 PaddlePaddle 中国首个自主开源）、LeCun（PyTorch+Llama 8 亿+下载）、Lin Dahua（OpenMMLab GitHub 8 万+ 星）
+- **典型证据**：
+  - TensorFlow OSDI 2016 引用 20000+
+  - 2016 百度 PaddlePaddle 飞桨开源
+  - OpenMMLab GitHub 8 万+ 星、140+ 国用户
+
+### 簇 10：工业级大模型训练系统
+- **簇定义**：构建大规模万卡/亿级用户的工业级大模型训练/推理系统。
+- **包含原子数**：约 15 个
+- **代表人物**：周靖人（通义/Qwen 6 亿+下载/MAU 2 亿）、Jeff Dean（Google DeepMind 首席科学家）、Aidan Gomez（Cohere Command A 切到 Apache 2.0）
+- **典型证据**：
+  - 通义开源 300+ 款模型，Qwen 全球下载 6 亿+（截至 2025）
+  - Cohere 2024 D 轮 5 亿美元估值 55 亿，切 Apache 2.0 开源
+
+### 簇 11：AI 芯片 / 加速器
+- **簇定义**：设计 AI 芯片/加速器，实现软硬一体优化。
+- **包含原子数**：约 20 个
+- **代表人物**：陈天石（寒武纪思元 590 / DianNao 系列 ASPLOS 14 最佳论文）、余凯（地平线征程 J2-J7）、朱珑（求索 QuestCore 全球首款云端深度学习 SoC）、Jeff Dean（推动 TPU 研发）
+- **典型证据**：
+  - DianNao ASPLOS 2014 最佳论文（亚洲零突破），开启"深度学习处理器"学术方向
+  - 2025-08-28 寒武纪收盘 1587 元首超贵州茅台 A 股第一，市值 6600 亿
+  - 2023 思元 590 国产 7nm 综合性能接近 A100 的 80%
+
+---
+
+## C. 顶级学术机构 / 实验室创建
+
+### 簇 12：AI 学术机构 / 学院创建
+- **簇定义**：从 0 到 1 创建学院、研究所、实验室并持续运营 10+ 年。
+- **包含原子数**：约 30 个
+- **代表人物**：周志华（LAMDA 25 年 100+ 博士 / 南大人工智能学院 C9 高校首个）、张钹（清华 AI 研究院创院院长）、汤晓鸥（港中文 MMLab 25 年）、朱松纯（北大 AI 院 + 北京通用人工智能研究院创始院长）
+- **典型证据**：
+  - LAMDA 25 年培养 100+ 博士/硕士
+  - 2018.3.13 周志华创办南大 AI 学院（C9 高校首个）
+  - 2018.6 张钹任清华 AI 研究院创院院长
+
+### 簇 13：国家级实验室创建
+- **簇定义**：主导创建或运营国家级 AI 实验室/重点实验室。
+- **包含原子数**：约 15 个
+- **代表人物**：高文（鹏城实验室主任 / 2018 政治局第九次集体学习讲解 AI）、刘铁岩（中关村人工智能研究院理事长）、周靖人（达摩院重组为通义实验室 2023）
+- **典型证据**：
+  - 2018 鹏城实验室主任（"鹏城云脑"+"中国算力网"）
+  - 2024.11.11 中关村人工智能研究院法人登记
+  - 2018 中共中央政治局第九次集体学习讲解 AI
+
+### 簇 14：AI 研究机构商业化（Mila / SRI 模式）
+- **簇定义**：创建 AI 研究机构并实现商业化（学界+产业混合模式）。
+- **包含原子数**：约 15 个
+- **代表人物**：Bengio（Mila 2017 创立 / Element AI 2017 共同创立 2020 被 ServiceNow 2.3 亿美元收购）、Lin Dahua（商汤联合创始 + OpenMMLab + 上海 AI Lab 领军科学家 2024.5.29 商汤执行董事）
+- **典型证据**：
+  - 2017 Bengio 与 Mila 共同创立魁北克 AI 研究所
+  - 2017 共同创立 Element AI，2020 被 ServiceNow 2.3 亿美元收购
+
+### 簇 15：中国本土研究机构生态
+- **簇定义**：深度参与中国本土研究机构体系建设（智源/上海 AI Lab/IDEA 等）。
+- **包含原子数**：约 15 个
+- **代表人物**：黄铁军（智源首任院长 2018-2024）、唐杰（智源副院长→理事长 2024-）、沈向洋（IDEA 创院理事长 2020）、张亚勤（清华 AIR 院长 2020-）、林达华（上海 AI Lab 领军科学家 2021）
+- **典型证据**：
+  - 2021.3 智源悟道 1.0 首次使用"大模型"一词
+  - 2020.11.1 沈向洋任粤港澳大湾区数字经济研究院 IDEA 创院理事长
+
+---
+
+## D. 学派 / 师承网络传承
+
+### 簇 16：中国本土学派传承（清华 / 北大 / MMLab）
+- **簇定义**：处于中国顶尖 AI 学派核心或传承位置，自身门生形成新学派。
+- **包含原子数**：约 30 个
 - **代表人物**：
-  - **国家级政协/人代会**：雷军（全国工商联副主席）、陈天石（全国政协委员）、王小川（全国政协委员）、张亚勤（中国工程院外籍院士）
-  - **国务院座谈**：印奇（2017 李克强）、梁文锋（2025 李强）、闫俊杰（2026 总理）
-  - **中央/国家智库讲解**：高文（中央政治局第九次集体学习讲解人）
-  - **国际机构**：Bengio（联合国 AI 顾问）、Stuart Russell（联合国/G7/ITU/CCW）、Paul Christiano（US AISI 主任）、Nick Bostrom（FHI/EU AI Act 思想影响）、Demis Hassabis（英国 AI Safety Summit）、Hinton（诺奖颁奖）、Andrew Ng（亚马逊董事 2024）
+  - **清华 AI 学派**：张钹 → 朱军 / 张祥雨 / 刘知远 / 唐杰
+  - **MMLab 港中文学派**：汤晓鸥 → 何恺明 / 林达华 / 王晓刚 / 徐立 / 贾佳亚
+  - **清华 NLP 三阶**：黄昌宁 → 孙茂松 → 李涓子 / 唐杰 / 刘知远 / 车万翔 / 韩旭
 - **典型证据**：
-  - 国务院李强 2025-01-20 座谈会，AI 大模型领域唯一 85 后受邀——梁文锋
-  - 美国参议院司法小组作证 + 与白宫副总统对话——Dario Amodei
-  - US AISI 主任 + 国际 AI 安全机构网络核心——Paul Christiano
+  - 张钹门生 5 人入选 60 人名单
+  - 清华计算机系 2024 起刘知远任长聘教授、智源研究员
 
----
-
-## 二级能力簇 7：AI 安全 / 治理 / 对齐研究
-- **簇定义**：把 AI 安全/治理/对齐作为主业（研究、机构、产品哲学）。
-- **包含原子数**：约 50 个
+### 簇 17：西方学派传承（Hinton / Bengio / CMU）
+- **簇定义**：处于西方顶尖 AI 学派核心或传承位置。
+- **包含原子数**：约 25 个
 - **代表人物**：
-  - **学术派**：Stuart Russell（CIRL/Human Compatible/CHAI 主任）、Nick Bostrom（Superintelligence/FHI/模拟假说）、Paul Christiano（ELK/ARC Evals/US AISI）
-  - **工业派安全**：Ilya Sutskever（SSI/Superalignment）、Dario Amodei（Constitutional AI/Anthropic）、Chris Olah（机制可解释性/Scaling Monosemanticity）、Demis Hassabis（AlphaFold/DeepMind 安全）
-  - **公共介入**：Hinton（2023 辞职 Google 公开）、Bengio（LawZero/制度+技术路线）、LeCun（工程派安全）
-  - **中国本土**：张钹（"可信 AI"理念）、朱军（鲁棒性/可解释性）
+  - **Hinton 学派**：Ilya Sutskever / Krizhevsky / Karpathy / LeCun（博士后 1987-88）
+  - **Bengio 学派**：Mila 100+ 学者 / Ian Goodfellow（博士 2014）
+  - **Andrew Ng 学派**：Karpathy / Goodfellow / Pieter Abbeel / Quoc Le
+  - **CMU 学派**：Sutton（博士 1984 UMass/Barto）/ Karpathy（博士 2015 李飞飞）/ Liu Tieyan（MSRA 21 年）
 - **典型证据**：
-  - Constitutional AI 让"安全"成为 Claude 商业护城河——Dario Amodei
-  - Claude 3 Sonnet 提取 3400 万个可解释特征——Chris Olah
-  - 2023 暂停 GPT-4 公开信 1000+ 科学家联署——Stuart Russell
+  - Hinton 学生直接推动 AlexNet 深度学习爆发
+  - 2003 17 岁 Ilya 敲开 Hinton 办公室门求研究机会
+
+### 簇 18：跨太平洋学术网络
+- **簇定义**：在中国和北美/欧洲之间形成跨太平洋学术训练链（博士+博士后+教职）。
+- **包含原子数**：约 25 个
+- **代表人物**：
+  - **北大/港中文/UIUC/NUS → 工业界**：颜水成（北大 → 港中文汤晓鸥 → UIUC 黄煦涛 → NUS → 360/依图/Sea/昆仑）
+  - **西交大/MSRA → 旷视/阶跃**：张祥雨（西交大 + MSRA 联合培养 → 旷视 → 阶跃星辰首席科学家）
+  - **上海交大/UCSD → FAIR/NYU/AMI**：Xie Saining（交大 ACM 班 → UCSD Zhuowen Tu → FAIR 4 年 → NYU → 2026 AMI Labs）
+  - **清华/MSRA/MSR → 工业界/创业**：汤晓鸥（港中文 MMLab 主任 + 2005-2008 微软亚研视觉组主任）
+- **典型证据**：
+  - 颜水成 5 平台切换（NUS 8 年 → 360 3 年 → 依图 1.5 年 → Sea 2 年 → 昆仑 1 年）
+  - 2023 未来科学大奖共同获奖者何恺明/孙剑/任少卿/张祥雨 4 人都是 MSRA 联合培养博士
+  - 2024 阶跃星辰由前微软全球副总裁姜大昕 + MSRA 出身的俞刚/段楠 + 旷视出身的张祥雨组成核心研究阵容
+
+### 簇 19：学术谱系创业（学生 → 创业）
+- **簇定义**：导师是顶尖学者，本人作为学生/晚辈创办 AI 公司。
+- **包含原子数**：约 15 个
+- **代表人物**：
+  - **唐杰 → 张鹏/智谱 AI**：唐杰学生张鹏 2019-06-11 与唐杰共同创办智谱 AI，2026-01-08 港交所上市
+  - **刘知远 → 韩旭/曾国洋/面壁智能**：刘知远学生韩旭（面壁 CEO）+ 曾国洋（面壁 CTO）+ 岂凡超（深言科技）
+  - **张钹 → 袁进辉 → 一流科技 → 王慧文光年之外**：张钹博士生袁进辉联合创办 OneFlow，2023-03 被光年之外换股并购
+  - **周志华 → LAMDA 学生 → 各 AI 创业**
+- **典型证据**：
+  - 2026-01-08 智谱在港交所主板挂牌（02513.HK），募资净 41.73 亿港元，成为"全球大模型第一股"
+  - 智源 7 年内孵化约 20 家 AI 创业公司（智谱/月之暗面/面壁等）
 
 ---
 
-## 二级能力簇 8：长期主义 / 单平台深耕
-- **簇定义**：在单一组织/单一方向上坚持 10+ 年（甚至 30+ 年），拒绝频繁跳槽。
-- **包含原子数**：约 45 个
-- **代表人物**：Jeff Dean（Google 25 年）、黄学东（微软 30 年）、张钹（清华 71 年）、周志华（南大 32 年）、Hinton（多伦多 30+ 年）、黄铁军（北大 20+ 年）、张正友（MSR+MSRA+腾讯 25 年）、沈向洋（微软 23 年）、朱松纯（UCLA 20+ 年）、孙茂松（清华 25+ 年）、田奇（UTSA 17 年+华为 7 年）、王海峰（百度 13+ 年）、高文（哈工大+北大+鹏城长期）、雷军（金山 28 年）、陈天石（寒武纪 14 年磨剑）、王兴兴（宇树 8 年）、张林峰（深势 7 年）、余凯（20+ 年神经网络坚守）、Chris Olah（机制可解释性 9 年深耕）
+## E. 跨学科 / 跨界整合
+
+### 簇 20：跨学科整合（数学 / 物理 / 认知 / 神经科学）
+- **簇定义**：在数学/物理/认知科学/神经科学/AI 多个领域跨界形成新方向。
+- **包含原子数**：约 20 个
+- **代表人物**：Demis Hassabis（国际象棋/CS/神经科学）、Dario Amodei（斯坦福物理 + 普林斯顿生物物理 + 斯坦福医学院）、鄂维南（数学/CS/AI for Science）、张林峰（数学/物理/CS）、Hinton（心理学/物理/CS）、Nick Bostrom（哲学/物理/数学/计算神经科学/AI）
 - **典型证据**：
-  - Google 25 年（20 号员工→首席科学家）——Jeff Dean
-  - 71 年扎根清华——张钹
-  - 9 年只做"搞清楚模型在做什么"——Chris Olah
+  - 13 岁国际象棋大师 + 17 岁游戏开发者 + 剑桥 CS + UCL 认知神经科学博士（Hassabis）
+  - Stanford 物理学本科 + Princeton 神经科学博士 + 百度/Google/OpenAI（Amodei）
+  - 张林峰普林斯顿应用数学博士，本科同时主修数学、物理、计算机
+
+### 簇 21：商业 + 技术整合
+- **簇定义**：既能做出技术（创业/产品），又能做出商业规模（融资/上市/市场份额）。
+- **包含原子数**：约 20 个
+- **代表人物**：Sam Altman（YC/OpenAI/Worldcoin/Helion）、Ilya Sutskever（SSI 32B 估值）、Dario Amodei（Anthropic）、Aidan Gomez（Cohere 55 亿美元）、雷军（金山+小米+小米汽车+小米 AI 600 亿投入）
+- **典型证据**：
+  - 2024-09 SSI 融资 1B @ 5B（a16z、Sequoia）；2025-03 融资 2B @ 32B
+  - 雷军 2021 宣布造车（人生最后一次创业），投入 100 亿美元
+
+### 簇 22：政策 + 技术整合（领袖 + 公共）
+- **簇定义**：本人技术出身 + 进入国家级政策对话。
+- **包含原子数**：约 15 个
+- **代表人物**：高文（中央政治局第九次集体学习讲解 AI）、沈向洋（港科大校董会主席 / IDEA 理事长 / 清华高等研究院双聘教授）、Stuart Russell（联合国/G7/ITU/CCW）、Bengio（联合国 AI 顾问 / LawZero 2025 启动 3000 万美元）
+- **典型证据**：
+  - 2018 中共中央政治局第九次集体学习讲解 AI
+  - 2023.2.28 沈向洋任港科大校董会主席
+
+### 簇 23：学术 + 工业整合（双栖）
+- **簇定义**：同时保持顶级学术身份和大模型/AI 公司。
+- **包含原子数**：约 20 个
+- **代表人物**：杨植麟（清华交叉信息研究院助理教授 + 月之暗面 CEO）、刘知远（清华教授 + 面壁智能首席科学家）、朱军（清华教授 + 生数科技创始人）、王小川（清华工程博士 + 百川智能创始人）、唐杰（清华教授 + 智谱 AI 创始人）
+- **典型证据**：
+  - 杨植麟 2018 Transformer-XL + 2019 XLNet 论文核心作者 + 2023 月之暗面创始人
+  - "大模型六小虎"代表中 5 人有清华学术身份
 
 ---
 
-## 二级能力簇 9：多平台切换 / 跨界流动
+## F. 政府 / 政策对话
+
+### 簇 24：国家级政策参与（政协 / 人大）
+- **簇定义**：直接进入国家级政治协商或人大会议，参与政策制定。
+- **包含原子数**：约 20 个
+- **代表人物**：雷军（全国工商联副主席 / 第十二届全国人大代表 / 第十三届全国政协常委）、陈天石（全国政协委员）、王小川（第十三届全国政协委员）、张亚勤（中国工程院外籍院士）、印奇（2017 李克强座谈会受邀）
+- **典型证据**：
+  - 第十/十一/十二届全国政协委员（高文）
+  - 第十四届全国人大代表（高文）
+  - 2017 印奇（28 岁）受邀李克强座谈会
+  - 2018-2023 王小川任第十三届全国政协委员
+
+### 簇 25：国务院 / 中央政策对话
+- **簇定义**：受邀参与国务院/中央级专家座谈会。
+- **包含原子数**：约 15 个
+- **代表人物**：印奇（2017 李克强）、梁文锋（2025 李强座谈 + 2025-02-17 民营企业座谈）、闫俊杰（2026 总理座谈会）、高文（2018 中央政治局集体学习）
+- **典型证据**：
+  - 国务院李强 2025-01-20 座谈会，AI 大模型领域唯一 85 后受邀（梁文锋）
+  - 2026 总理座谈会（闫俊杰）
+
+### 簇 26：国际治理 / 标准 / 规则
+- **簇定义**：参与国际 AI 治理、规则、标准制定。
+- **包含原子数**：约 15 个
+- **代表人物**：Stuart Russell（联合国/G7/ITU/CCW 自主武器公开信）、Bengio（联合国 AI 科学咨询委员会 2023-）、Paul Christiano（US AISI 主任 2024- / Anthropic Long-Term Benefit Trust 首位受托人 / 英国 Frontier AI 顾问）、Demis Hassabis（英国 AI Safety Summit）、黄铁军（2010 起任 ISO/IEC MPEG 中国代表团团长 10 年）、Lin Dahua（2023.6 起任 IEEE 大模型标准工作组主席）、孙茂松（2010 主持发布 ISO 24614-1，中国大陆第二个 ISO 国际标准）
+- **典型证据**：
+  - 2015 Stuart Russell 起草并率先签署自主武器公开信
+  - 2024 Paul Christiano 被 NIST 任命为 US AISI 主任
+
+---
+
+## G. AI 安全 / 治理 / 对齐
+
+### 簇 27：AI 对齐研究
+- **簇定义**：把 AI 对齐作为主业（RLHF/ELK/scalable oversight）。
+- **包含原子数**：约 15 个
+- **代表人物**：Paul Christiano（InstructGPT/RLHF 推广 / ARC 创始人 / ELK 论文）、Dario Amodei（RLHF 共同发明 / Constitutional AI）、Ilya Sutskever（SSI / 2023-07 共同领导 Superalignment Team）
+- **典型证据**：
+  - 2020 InstructGPT 论文（Christiano 共同一作）
+  - 2021-12 ARC 发表 ELK (Eliciting Latent Knowledge) 对齐研究
+
+### 簇 28：AI 治理 / 制度研究
+- **簇定义**：从制度/政策/法规层面研究 AI 治理。
+- **包含原子数**：约 15 个
+- **代表人物**：Bengio（2025-06 成立 LawZero 启动 3000 万美元 / 联合国 AI 科学咨询委员会）、Stuart Russell（Human Compatible + CHAI 主任 + AIMA 第四版新增对齐章节）、Dario Amodei（2023-07 美国参议院司法小组作证 + TIME 100 AI）、Sam Altman（2023-05-16 美国国会作证）、Hinton（2023 辞职 Google 公开表态"对自己研究感到遗憾"）
+- **典型证据**：
+  - 2025-06-03 Bengio 成立非营利 LawZero，启动资金约 3000 万美元
+  - 2023 暂停 GPT-4 公开信 1000+ 科学家联署（Stuart Russell 签署）
+
+### 簇 29：AI 安全机构建设（AISI / ARC / CHAI）
+- **簇定义**：创办或领导专门的 AI 安全/对齐研究机构。
+- **包含原子数**：约 15 个
+- **代表人物**：Paul Christiano（Alignment Research Center ARC 2021-04 创办）、Stuart Russell（CHAI 2016 联合创办）、Ilya Sutskever（SSI 2024-06-19 创办 32B 估值）、Dario Amodei（Anthropic 2021 创办 + Anthropic Long-Term Benefit Trust）、Nick Bostrom（Future of Humanity Institute FHI 2005 创办，2024-04 被牛津关闭）
+- **典型证据**：
+  - 2021-04 Christiano 创办 Alignment Research Center ARC
+  - 2024-06-19 Ilya 创办 Safe Superintelligence Inc. (SSI)
+  - 2024 Paul Christiano 被 NIST 任命为 US AISI 主任
+
+### 簇 30：AI 可解释性 / 机制理解
+- **簇定义**：研究神经网络内部机制/可解释性，作为长期深耕方向。
+- **包含原子数**：约 10 个
+- **代表人物**：Chris Olah（机制可解释性 9 年深耕 / Distill.pub 2017 共同创办 / Anthropic 2021 联合创立 / 2024 Scaling Monosemanticity Claude 3 Sonnet 3400 万特征 / 2025 On the Biology of a LLM）、朱军（鲁棒性/可解释性清华研究 + RealAI 首席科学家 2018）
+- **典型证据**：
+  - 2024-05 Chris Olah Scaling Monosemanticity 论文，Claude 3 Sonnet 中提取 3400 万个可解释特征
+  - 2018 朱军与学生田天创办北京瑞莱智慧 RealAI（任首席科学家）
+
+---
+
+## H. 长期主义 / 单平台深耕
+
+### 簇 31：学界长期坚守（30+ 年单机构）
+- **簇定义**：在单一学术机构坚持 30+ 年，培养几代学生。
+- **包含原子数**：约 15 个
+- **代表人物**：张钹（清华 71 年）、周志华（南大 32 年）、Hinton（多伦多 30+ 年）、黄铁军（北大 20+ 年）、朱松纯（UCLA 20+ 年）、孙茂松（清华 25+ 年）、高文（哈工大+北大+鹏城长期）
+- **典型证据**：
+  - 71 年扎根清华（张钹）
+  - 1953 考入清华电机系；1958 毕业自动控制系（国家第一批自动控制专业）
+
+### 簇 32：工业界单平台深耕（20+ 年）
+- **簇定义**：在单一公司/单一方向坚持 20+ 年。
+- **包含原子数**：约 15 个
+- **代表人物**：Jeff Dean（Google 25 年）、黄学东（微软 30 年）、张正友（MSR 20 年 + 腾讯 7 年）、沈向洋（微软 23 年）、刘铁岩（MSRA 21 年整）、王海峰（百度 13+ 年）、田奇（UTSA 17 年 + 华为 7 年）、陈天石（寒武纪 14 年）
+- **典型证据**：
+  - Google 25 年（20 号员工→首席科学家）Jeff Dean
+  - 2003-2024 整 21 年全部在 MSRA（刘铁岩）
+  - 1993 MSR 体系第一位华人（黄学东）
+
+### 簇 33：大模型 / AI 长期主义路线
+- **簇定义**：在 AI 大模型/AGI 方向上坚持长期投入，不追短期热点。
+- **包含原子数**：约 10 个
+- **代表人物**：梁文锋（2015 幻方成立，2021 千亿 AUM 跻身"四大天王"，2023-07 创办 DeepSeek 早期不接外部投资）、王兴兴（宇树 8 年 2016-2024）、张林峰（深势 7 年 2018-2024）、Chris Olah（机制可解释性 9 年深耕 2014-）
+- **典型证据**：
+  - DeepSeek 团队约 139 人（远少于 OpenAI 1200 / Anthropic 500+）
+  - 王兴兴 2016-08 辞职创立宇树科技，坚持 8 年
+
+---
+
+## I. 多平台切换 / 跨界流动
+
+### 簇 34：学界 ↔ 工业界切换
 - **簇定义**：在 2-4 个不同平台/角色间切换（学界→工业→创业→学界）。
-- **包含原子数**：约 30 个
-- **代表人物**：李航（NEC+MSRA+华为+字节）、颜水成（NUS+360+依图+Shopee+思谋）、周靖人（阿里妈妈+达摩院+字节）、贾佳亚（港中文+MSRA+腾讯+思谋）、张亚勤（中科大+UW+MSRA+百度+清华）、李开复（CMU+Apple+MSRA+Google+创新工场+零一万物）、黄学东（微软 30 年+Zoom）、Karpathy（Stanford+Tesla+OpenAI+Eureka）、Sam Altman（YC+OpenAI+Helion+Worldcoin）、沈向洋（MSR+IDEA）、Andrew Ng（Stanford+Google+百度+Landing.ai+亚马逊）、张一鸣（字节→私募）
+- **包含原子数**：约 20 个
+- **代表人物**：李航（NEC+MSRA+华为+字节）、颜水成（NUS+360+依图+Shopee+昆仑）、贾佳亚（港中文+MSRA+腾讯+思谋）、张亚勤（中科大+UW+MSRA+百度+清华）、李开复（CMU+Apple+MSRA+Google+创新工场+零一万物）、黄学东（微软 30 年+Zoom）、Karpathy（Stanford+Tesla+OpenAI+Eureka）、Andrew Ng（Stanford+Google+百度+Landing.ai+亚马逊）
 - **典型证据**：
-  - 4 平台：NEC 7 年 + MSRA 11 年 + 华为 5 年 + 字节 6 年——李航
-  - 7 年内 4 次换工作（360→依图→Shopee→思谋）——颜水成
+  - 4 平台：NEC 7 年 + MSRA 11 年 + 华为 5 年 + 字节 6 年（李航）
+  - 颜水成 5 平台切换（NUS 8 年 → 360 3 年 → 依图 1.5 年 → Sea 2 年 → 昆仑 1 年）
 
----
+### 簇 35：跨国平台流动
+- **簇定义**：在 2+ 个国家/地区之间流动（学术+工业+创业）。
+- **包含原子数**：约 10 个
+- **代表人物**：Ilya Sutskever（俄→以→加→美 4 国）、Aidan Gomez（加拿大、英国、美国）、沈向洋（中国+美国）、Bengio（加拿大+法国）、张正友（中国+法国+美国）、朱珑（中国+美国）
+- **典型证据**：
+  - 5 岁 Ilya 随家人完成"阿利耶"定居以色列耶路撒冷
+  - 朱珑 UCLA 统计学博士 + MIT 博士后 + NYU Courant 研究员
 
-## 二级能力簇 10：创业（0→1 商业化）
-- **簇定义**：在 60 人名单中明确创立过公司/担任 CEO 推动产品商业化。
-- **包含原子数**：约 80 个
+### 簇 36：创始团队连环创业
+- **簇定义**：在多家 AI 公司担任创始团队成员或核心管理层。
+- **包含原子数**：约 15 个
 - **代表人物**：
-  - **顶级综合创业**：Sam Altman（OpenAI/YC/Worldcoin/Helion）、Ilya Sutskever（SSI）、Dario Amodei（Anthropic）、Demis Hassabis（DeepMind+Isomorphic）、Aidan Gomez（Cohere）、汤晓鸥（商汤）、林达华（OpenMMLab/商汤）、印奇（旷视+阶跃星辰董事长）、雷军（金山+小米+小米汽车）、张一鸣（字节跳动）
-  - **大模型创业**：梁文锋（DeepSeek）、杨植麟（月之暗面）、唐杰+张鹏（智谱 AI）、刘知远（面壁智能）、朱军（生数科技）、闫俊杰（MiniMax）、姜大昕（阶跃星辰）、王小川（百川智能）、李开复（零一万物）、王慧文（光年之外）
-  - **AI for Science / 行业 AI**：张林峰（深势科技）、贾佳亚+颜水成（思谋科技）
-  - **AI 芯片**：陈天石（寒武纪）、余凯（地平线）、朱珑（依图+求索）
-  - **机器人/具身**：王兴兴（宇树科技）
-  - **教育/工具创业**：Karpathy（Eureka Labs）、Andrew Ng（Coursera/Landing.ai）
+  - **杨植麟**：循环智能 Recurrent AI（2016 联合创立）→ 月之暗面 Moonshot AI（2023-04）
+  - **梁文锋**：雅克比投资（2013）→ 幻方科技（2015）→ DeepSeek（2023-07）
+  - **姜大昕**：MSRA 16 年（首席科学家/全球副总裁）→ 上海阶跃星辰 StepFun（2023-04-06）
+  - **王慧文**：校内网（2005-06）→ 淘房网（2007-10 失败）→ 美团（2010-12-18 高级副总裁）→ 光年之外（2023-02-13）
+  - **Paul Christiano**：OpenAI（2017-2021）→ ARC（2021-04）→ US AISI 主任（2024-）
 - **典型证据**：
-  - DeepSeek 团队仅 139 人对标 OpenAI 1200 人——梁文锋
-  - 全球 AI 领域最快 IPO 纪录（4 年）——闫俊杰
-  - 寒武纪 2020 科创板"AI 芯片第一股"——陈天石
+  - 量化 8 年 → 139 人 DeepSeek 对标 OpenAI 1200 人（梁文锋）
+  - 2023-03 光年之外换股并购北京一流科技 OneFlow（张钹博士生袁进辉作为联合创始人加入）
 
 ---
 
-## 二级能力簇 11：商业 / 二次 / 连续创业
-- **簇定义**：创办或深度参与过 2+ 家公司 / 多次角色转换。
+## J. 创业（0→1 商业化）
+
+### 簇 37：通用大模型创业
+- **簇定义**：创办通用大模型公司（基础模型/对标 GPT）。
 - **包含原子数**：约 25 个
-- **代表人物**：王慧文（光年之外→美团 GN06）、杨植麟（循环智能→月之暗面）、王小川（搜狗→百川）、姜大昕（MSRA→阶跃星辰）、梁文锋（幻方量化→DeepSeek）、余凯（百度 IDL→地平线）、张一鸣（字节→私募）、印奇（旷视→阶跃星辰董事长）、雷军（金山→卓越→小米→小米汽车）、黄学东（微软→Zoom）、Karpathy（Tesla→OpenAI→Eureka Labs）、Aidan Gomez（Google→Cohere）、Sam Altman（YC→OpenAI→多线）、Paul Christiano（OpenAI→ARC→US AISI）
-- **典型证据**：
-  - 量化 8 万→139 人对标 OpenAI 1200 人——梁文锋
-  - 28 年金山 + 小米 + 小米汽车——雷军
-  - 两次进出 OpenAI（2015-2017/2023-2024）——Karpathy
-
----
-
-## 二级能力簇 12：国际 / 出海能力
-- **簇定义**：海外收入/海外用户/国际合作/国际同行影响力显著。
-- **包含原子数**：约 25 个
-- **代表人物**：闫俊杰（70% 收入来自海外）、张一鸣（TikTok 7 亿 DAU 反超抖音）、杨植麟（K2.5 OpenRouter 排名第二）、雷军（印度市场）、Aidan Gomez（国际团队+与 Aleph Alpha 合并）、印奇（旷视+阶跃星辰国际化）、Ilya Sutskever（俄→以→加→美 4 国）、Bengio（加拿大+法国双国家）、沈向洋（中美）、Dario Amodei（国际客户网络）、Demis Hassabis（CERN-style 国际机构倡议）
-- **典型证据**：
-  - 70% 收入来自海外，服务 200+ 国家——闫俊杰
-  - 全球首个被英伟达 GTC 选为基准模型的中国模型——杨植麟
-
----
-
-## 二级能力簇 13：顶级学术奖项 / Fellow / 院士
-- **簇定义**：获得图灵奖、诺贝尔奖、国家级最高奖、IEEE/ACM/AAAI/NAE Fellow 等。
-- **包含原子数**：约 50 个
 - **代表人物**：
-  - **图灵奖**：Hinton、LeCun、Bengio（2018 三巨头）
-  - **诺贝尔奖**：Hinton（物理学 2024）、Demis Hassabis（化学 2024）
-  - **国家级最高奖**：高文（国家技术发明一等奖 2020）、鄂维南（ICIAM 双奖、ICM 全体报告、中科院院士 2019）、张钹（中科院院士 1995）、李飞飞（伊丽莎白女王工程奖 2025）
-  - **国际 Fellow**：Jeff Dean、周志华、Stuart Russell、张钹、朱松纯（IEEE/AAAS）、张正友、田奇、王海峰、李航、沈向洋（NAE）、黄学东（NAE/AAAS）、Karpathy、Dario Amodei（TIME 100）
-  - **中国学术荣誉**：高文、鄂维南、张钹、张亚勤（中国工程院外籍院士）
+  - **Sam Altman（OpenAI）/ Ilya Sutskever（SSI）/ Dario Amodei（Anthropic）/ Demis Hassabis（DeepMind + Isomorphic）/ Aidan Gomez（Cohere）**
+  - **梁文锋（DeepSeek）/ 杨植麟（月之暗面）/ 唐杰 + 张鹏（智谱 AI）/ 刘知远（面壁智能）/ 朱军（生数科技）/ 闫俊杰（MiniMax）/ 姜大昕（阶跃星辰）/ 王小川（百川智能）/ 李开复（零一万物）**
 - **典型证据**：
-  - 三 Fellow 中国本土学者之一（IEEE 2007/AAAI 2013/ACM 2016）——周志华
-  - Allen Newell 奖首位华人——黄学东
-  - Gordon Bell Prize 2020（AI+分子模拟方向首次）——张林峰/鄂维南
+  - 2026-01-08 智谱在港交所主板挂牌（02513.HK），成为"全球大模型第一股"
+  - 2025-01-20 DeepSeek-R1 对标 OpenAI o1；2025-09 R1 训练方法发表于《Nature》
+
+### 簇 38：AI for Science 创业
+- **簇定义**：创办 AI for Science 公司（科学计算/分子模拟/材料）。
+- **包含原子数**：约 10 个
+- **代表人物**：Demis Hassabis（AlphaFold 2 + Isomorphic Labs 2021 成立），张林峰（深势科技 2018 联合创立 + 2024 复现并开源 AlphaFold），鄂维南（北京科学智能研究院 AISI 2021 创院院长 + 深势科技联合创始人），王小川（百川智能战略收缩押注医疗 AI 2024）
+- **典型证据**：
+  - AlphaFold 2 解决 50 年蛋白质折叠难题 + 2024 诺奖
+  - 2024 张林峰团队复现并开源 AlphaFold 全部训练代码
+
+### 簇 39：行业 AI 创业
+- **簇定义**：创办行业 AI 公司（工业/制造/物流/医疗）。
+- **包含原子数**：约 10 个
+- **代表人物**：颜水成（思谋科技联合创始人 2019.12 启动，2026.3.16 递表港交所，2025 营收 10.86 亿元）、贾佳亚（思谋科技创始团队，2024 起任港科大讲座教授 + 港科大冯诺依曼研究院院长）、Andrew Ng（Landing.ai 制造业 2017 创办）、王小川（百川医疗 AI 2024-07 WAIC 内测 USMLE 超 GPT-4）
+- **典型证据**：
+  - 思谋科技 7 轮累计 4.3 亿美元融资；B 轮 2021.6 估值 9.5 亿美元跻身独角兽
+  - 2026.3.16 思谋递表港交所（摩根士丹利+中金+德意志联席保荐）
+
+### 簇 40：智能驾驶 / 机器人创业
+- **簇定义**：创办智能驾驶或机器人公司。
+- **包含原子数**：约 10 个
+- **代表人物**：余凯（地平线 Horizon Robotics 2015-07 创办，征程 J2-J7 系列芯片，2024-10-24 港股上市）、王兴兴（宇树科技 Unitree Robotics 2016-08 创办，机器狗产品全球四足机器人市场近 70% 份额）
+- **典型证据**：
+  - 2024-10-24 地平线港股上市，发行价 3.99 港元，募资 54.07 亿港元，余凯持股 13.30% 投票权 53.92%
+  - 2023-11 与大众 CARIAD 成立合资公司酷睿程，大众投资 24 亿欧元持股 60%
+  - 2024 春晚宇树 H1 机器人穿花棉袄转手绢舞蹈
+
+### 簇 41：AI 芯片 / 算力创业
+- **簇定义**：创办 AI 芯片/算力公司。
+- **包含原子数**：约 10 个
+- **代表人物**：陈天石（寒武纪 2016-03 创办，2020-07-20 科创板上市，2025-08 收盘价超茅台 A 股第一）、余凯（地平线征程 J 系列 + BPU）、朱珑（依图科技 + 2019-05 求索 QuestCore 全球首款云端深度学习定制 SoC）
+- **典型证据**：
+  - 2020-07-20 寒武纪科创板"AI 芯片第一股"（688256.SH）
+  - 思元 590 国产 7nm 综合性能接近 A100 的 80%
+  - DianNao ASPLOS 2014 最佳论文（亚洲零突破）
+
+### 簇 42：AI 应用 / 工具创业
+- **簇定义**：创办 AI 应用/工具型公司。
+- **包含原子数**：约 10 个
+- **代表人物**：Karpathy（Eureka Labs 2024-07-17 AI 原生教育公司）、Andrew Ng（Coursera 2012 共同创办 + DeepLearning.AI + AI Fund 早 AI 创业孵化基金）、李开复（创新工场 2009 + 创新奇智港交所"AI+制造第一股"）、Sam Altman（Loopt 2005 + OpenAI 2015 + Worldcoin 2021 + Helion 2021 领投核聚变）
+- **典型证据**：
+  - Coursera 累计 1 亿+ 学习者、3500+ 课程（Andrew Ng）
+  - 创新工场累计投资 400+ 公司
 
 ---
 
-## 二级能力簇 14：教育 / 教材 / 公共叙事
-- **簇定义**：编写教材、创建 MOOC/Coursera、公开演讲 / 公共博客 / 公共写作影响百万级受众。
-- **包含原子数**：约 45 个
-- **代表人物**：
-  - **教材**：李航（《统计学习方法》50 万+册）、Goodfellow（花书）、Sutton（RL 圣经 500+大学）、Russell/Norvig（AIMA 1500+大学）、周志华（西瓜书 100 万+册）、汤晓鸥（AI 高中教材）
-  - **课程 / MOOC**：Andrew Ng（Coursera 累计 1 亿+学习者）、Karpathy（CS231n YouTube 1 亿+观看、Eureka Labs LLM101n）、Hinton（Coursera 课程）、Bengio（Mila 教育）
-  - **公共写作 / 演讲**：Sam Altman（blog 持续输出）、Stuart Russell（FLI 公开信）、Nick Bostrom（Superintelligence）、Dario Amodei（Machines of Loving Grace）、Hinton（TED《Godfather of AI》数千万次）、李开复（AI·未来、AI 2.0）
+## K. 商业 / 连续 / 二次创业
+
+### 簇 43：互联网时代连续创业 → AI
+- **簇定义**：从互联网/移动互联网时代连续创业，进入 AI 时代。
+- **包含原子数**：约 15 个
+- **代表人物**：雷军（金山 28 年 → 卓越网 → 小米 2010 → 小米汽车 2021）、王兴（美团 + 投资光年之外）、张一鸣（字节跳动 2012 → 2021-05-20 卸任 CEO → 2023-05 Cool River Venture 私募基金）、王慧文（校内网 2005 → 美团 2010 → 光年之外 2023）、李开复（创新工场 2009 → 零一万物 2023-05）、Andrew Ng（Google Brain 2011 → 百度 2014-2017 → Landing.ai 2017）
 - **典型证据**：
-  - Coursera 累计 1 亿+ 学习者、3500+ 课程——Andrew Ng
-  - 《机器学习》西瓜书累计 100 万+ 册——周志华
-  - AIMA 135 国 1500+ 大学——Russell/Norvig
+  - 雷军 2021-03-30 宣布造车（人生最后一次创业）投入 100 亿美元
+  - 张一鸣 2023-05-22 在港成立 Cool River Venture 私募基金，2024-11-21 获香港证监会 9 号牌
+
+### 簇 44：跨周期连续创业
+- **簇定义**：在 AI 多个周期（深度学习→大模型）连续创办公司。
+- **包含原子数**：约 10 个
+- **代表人物**：杨植麟（循环智能 2016 → 月之暗面 2023）、梁文锋（幻方 2015 → DeepSeek 2023）、姜大昕（MSRA 16 年 → 阶跃星辰 2023）、Paul Christiano（OpenAI 2017-2021 → ARC 2021- → US AISI 2024-）、Karpathy（OpenAI 2015 创始 → Tesla 2017-2022 → OpenAI 2023 → Eureka Labs 2024）
+- **典型证据**：
+  - Karpathy 两次进出 OpenAI（2015 创始/2023 重返/2024 离开）
+  - 幻方量化 8 年（2015-2023）后创办 DeepSeek
 
 ---
 
-## 二级能力簇 15：基础理论 / 第一性原理
-- **簇定义**：以数学/物理/认知科学为基础提出理论框架，强调"通用方法"而非"领域特化"。
+## L. 国际 / 出海
+
+### 簇 45：海外业务规模化
+- **簇定义**：海外收入/海外用户/海外影响力显著。
+- **包含原子数**：约 10 个
+- **代表人物**：闫俊杰（M 系列 80% C 端 + 20% B 端，70% 收入来自海外），张一鸣（TikTok 7 亿 DAU 反超抖音），雷军（印度市场），杨植麟（K2.5 OpenRouter 排名第二），印奇（旷视+阶跃星辰国际化）
+- **典型证据**：
+  - 70% 收入来自海外，服务 200+ 国家（闫俊杰/MiniMax）
+  - K2.5 是全球首个被英伟达 GTC 选为基准模型的中国模型（杨植麟）
+  - All in MoE + All in 全球化（闫俊杰）
+
+### 簇 46：国际化团队 / 产品 / 客户
+- **簇定义**：从一开始就建立国际化团队或客户网络。
+- **包含原子数**：约 10 个
+- **代表人物**：Aidan Gomez（国际团队+与 Aleph Alpha 合并），Bengio（加拿大+法国双国家），沈向洋（中美），Dario Amodei（Anthropic 国际客户网络），Demis Hassabis（CERN-style 国际机构倡议），Ilya Sutskever（SSI 国际资金）
+- **典型证据**：
+  - DeepSeek 早期未接受外部投资，2024-05 提出 MLA 架构
+  - Anthropic 早期客户包含国际大客户
+
+### 簇 47：跨境投资 / 合作
+- **簇定义**：跨国投资或战略合作。
+- **包含原子数**：约 10 个
+- **代表人物**：张一鸣（Cool River Venture HK 2024-11-21 获香港证监会 9 号牌），Aidan Gomez（Cohere 与 Aleph Alpha 合并），雷军（投资印度市场），余凯（地平线 + 大众 CARIAD 合资）
+- **典型证据**：
+  - 2023-11 与大众 CARIAD 成立合资公司酷睿程（大众投资 24 亿欧元持股 60%）
+
+---
+
+## M. 顶级学术奖项
+
+### 簇 48：诺贝尔 / 图灵奖级别
+- **簇定义**：获得图灵奖、诺贝尔奖等顶级国际奖项。
+- **包含原子数**：约 10 个
+- **代表人物**：Hinton（图灵 2018 + 诺贝尔物理 2024 + 2022 NeurIPS Forward-Forward），LeCun（图灵 2018），Bengio（图灵 2018），Sutton（图灵 2024 与 Barto），Demis Hassabis（诺贝尔化学 2024 与 Jumper 共得一半）
+- **典型证据**：
+  - 2024-10-08 Hinton 与 Hopfield 共获诺贝尔物理学奖，AI 首次获物理奖
+  - 2018 Hinton + LeCun + Bengio 共获 ACM 图灵奖
+
+### 簇 49：国际 Fellow 头衔
+- **簇定义**：获得 IEEE / ACM / AAAI / NAE / AAAS 等国际 Fellow 头衔。
 - **包含原子数**：约 30 个
-- **代表人物**：
-  - **理论计算机/AI**：Hinton（玻尔兹曼机/反向传播）、Bengio（梯度消失/GFlowNet）、Sutton（TD-Learning/Options/Bitter Lesson）、Stuart Russell（CIRL/POMDP/bounded optimality）、周志华（深度森林/学件）
-  - **数学/物理/神经科学**：鄂维南（Neural ODE/高维函数逼近/Barron 空间）、朱松纯（MRF/统计视觉）、Hassabis（DeepMind 通用认知子能力路线）
-  - **认知/哲学**：张钹（"第三代 AI"理论框架）、朱松纯（"小数据、大任务"AGI 范式）、Hinton（祖母细胞信念）、Dario Amodei（短/中/长期风险分类法）
+- **代表人物**：Jeff Dean（NAE 2009 + ACM Fellow 2014 + AAAS 2015），周志华（IEEE 2012 + IAPR 2012 + ACM 2016 + AAAS + AAAI 2016 + 欧洲科学院 2017），Stuart Russell（ACM/AAAI Fellow），张钹（IEEE Fellow 1995 中科院院士），朱松纯（IEEE/AAAS Fellow），张正友（IEEE Fellow 2005 + ACM Fellow 2020），田奇（IEEE Fellow 2016 + CAAI Fellow 2022 + ACM Fellow 2024），王海峰（ACL Fellow 2016 首位中国大陆 + IEEE Fellow + CAAI Fellow），Karpathy，Demis Hassabis，黄学东（NAE 2023 + AAAS 2023），周靖人（IEEE Fellow 2018 + ACM Fellow 2024），朱军（IEEE Fellow 2023 + AAAI Fellow 2024），李航（IEEE Fellow + ACM Distinguished Scientist + ACL Fellow 2019）
 - **典型证据**：
-  - 3 页 "Bitter Lesson" 改变 AI 行业——Sutton
-  - 7 年综述 Nature 521:436 引用 10 万+——LeCun/Bengio/Hinton
-  - 1 亿原子第一性原理精度模拟（DeePMD）——鄂维南
+  - 2025.11.21 周志华当选中国科学院院士
+  - 2017 欧洲科学院外籍院士（周志华）
+  - 2018 五大 Fellow 华人首位（周志华）
+
+### 簇 50：中国本土最高学术荣誉
+- **簇定义**：获得中国科学院院士、中国工程院院士、国家自然科学奖一等奖等。
+- **包含原子数**：约 15 个
+- **代表人物**：张钹（中科院院士 1995 AI 领域最早中科院院士之一），鄂维南（中科院院士 2019），高文（中国工程院院士 2011 + 2020 国家技术发明一等奖），周志华（2025 中国科学院院士），张亚勤（中国工程院外籍院士 2021.11.18），陈天石，黄铁军（长江 2015 + 杰青 2014）
+- **典型证据**：
+  - 2020 高文国家技术发明一等奖（AVS）
+  - 2019 鄂维南当选中国科学院院士
+  - 2023 吴文俊人工智能最高成就奖（高文）
 
 ---
 
-## 二级能力簇 16：方法论输出（个人哲学 / 做事底层逻辑）
-- **簇定义**：在公开演讲、写作或内部决策中展现"成体系的做事哲学"。
-- **包含原子数**：约 50 个
-- **代表人物**：张钹（"AI 是哲学问题"）、Stuart Russell（"AI 必须知道自己不知道"）、Hinton（祖母细胞/30 年孤独长跑）、Sutton（"70 年苦涩教训"）、LeCun（"工程派安全"）、Bengio（"制度+技术"）、周志华（"机器学习≠AI"）、朱松纯（"AI 是科学+哲学+工程三重交集"）、朱军（"AGI 是 20-30 年问题"）、Demis Hassabis（"CERN-style AI 机构"）、Sam Altman（"Moore's Law for Everything"）、张一鸣（"坐标+矩阵思维"）、王小川（"为生命建模型"）、Aidan Gomez（"持续学习是 AI 下一个突破"）、Dario Amodei（"安全是 feature 不是 brake"）、Jeff Dean（"Hardware-software one design"）、Andrew Ng（"data-centric AI"）、Karpathy（"网络是培育的，不是编写的"）、王慧文（"杂事交给我"）
+## N. 教育 / 教材 / 公共叙事
+
+### 簇 51：AI 经典教材编写
+- **簇定义**：编写被广泛采用的 AI 教材，影响一代学习者。
+- **包含原子数**：约 15 个
+- **代表人物**：李航（《统计学习方法》50 万+ 册），Goodfellow/Bengio/Courville（Deep Learning 花书），Sutton/Barto（RL 圣经 500+ 大学），Russell/Norvig（AIMA 1500+ 大学 135+ 国），周志华（《机器学习》西瓜书 100 万+ 册），汤晓鸥（AI 高中教材）
+- **典型证据**：
+  - AIMA 135 国 1500+ 大学
+  - 《机器学习》西瓜书累计 100 万+ 册
+  - 《统计学习方法》第一版 2012-05 清华大学出版社
+
+### 簇 52：大众教育 / MOOC
+- **簇定义**：通过 MOOC / 公开课程 / 在线教育影响大众。
+- **包含原子数**：约 10 个
+- **代表人物**：Andrew Ng（Coursera 累计 1 亿+ 学习者 / DeepLearning.AI 2017），Karpathy（CS231n YouTube 1 亿+ 观看 / Eureka Labs LLM101n），Hinton（Coursera 课程），Bengio（Mila 教育），孙茂松（2013 学堂在线中国首个中文慕课平台 1 亿+ 学习者）
+- **典型证据**：
+  - Coursera 累计 1 亿+ 学习者、3500+ 课程
+  - 2015 九歌 AI 诗词系统（数千万首）
+
+### 簇 53：公共写作 / 思想传播
+- **簇定义**：通过博客 / 公共演讲 / 写作影响百万人。
+- **包含原子数**：约 15 个
+- **代表人物**：Sam Altman（blog 持续输出 / "Moore's Law for Everything"），Stuart Russell（FLI 公开信 / Human Compatible），Nick Bostrom（Superintelligence 纽约时报畅销书），Dario Amodei（Machines of Loving Grace），Hinton（TED《Godfather of AI》数千万次），李开复（AI·未来、AI 2.0）
 - **典型证据**：
   - Sutton《The Bitter Lesson》（2019, 3 页）成为 OpenAI/DeepMind/Anthropic 共同战略
+  - 2014 Bostrom《Superintelligence》牛津大学出版社，纽约时报畅销书
+
+---
+
+## O. 基础理论 / 第一性原理
+
+### 簇 54：数学 / 物理基础理论
+- **簇定义**：以数学/物理为基础提出 AI 理论框架，强调"通用方法"。
+- **包含原子数**：约 15 个
+- **代表人物**：Hinton（玻尔兹曼机/反向传播），Bengio（梯度消失/GFlowNet），Sutton（TD-Learning/Options/Bitter Lesson），Stuart Russell（CIRL/POMDP/bounded optimality），周志华（深度森林/学件），鄂维南（Neural ODE/高维函数逼近/Barron 空间），朱松纯（MRF/统计视觉），Demis Hassabis（DeepMind 通用认知子能力路线）
+- **典型证据**：
+  - 3 页 "Bitter Lesson" 改变 AI 行业
+  - 7 年综述 Nature 521:436 引用 10 万+（LeCun/Bengio/Hinton）
+
+### 簇 55：认知 / 哲学 / AGI 理论
+- **簇定义**：在认知科学/哲学/AGI 范式上提出新理论。
+- **包含原子数**：约 15 个
+- **代表人物**：张钹（"第三代 AI"理论框架），朱松纯（"小数据、大任务"AGI 范式 / UV 双系统理论 / Tong Test 平台），Hinton（祖母细胞信念 / Forward-Forward 算法），Dario Amodei（短/中/长期风险分类法 / Machines of Loving Grace），颜水成（"超级智能体"是 AGI 终局 2024 观点），Xie Saining（"世界模型 vs 语言模型"立场）
+- **典型证据**：
+  - 2017 朱松纯"Dark, Beyond Deep"提出"小数据、大任务"范式
+  - 2023 朱松纯 UV 双系统理论 + Tong Test 平台
+
+### 簇 56：系统性综述 / 教材
+- **簇定义**：编写系统综述/教材作为领域集大成。
+- **包含原子数**：约 10 个
+- **代表人物**：LeCun/Bengio/Hinton（2015 Nature《Deep Learning》综述引用 10 万+），Goodfellow/Bengio/Courville（Deep Learning 花书），Russell/Norvig（AIMA 第四版 1500+ 大学）
+- **典型证据**：
+  - Nature 521:436 综述引用 10 万+（2015）
+
+---
+
+## P. 方法论输出
+
+### 簇 57：个人哲学 / 做事底层逻辑
+- **簇定义**：在公开演讲/写作/内部决策中展现"成体系的做事哲学"。
+- **包含原子数**：约 30 个
+- **代表人物**：张钹（"AI 是哲学问题"），Stuart Russell（"AI 必须知道自己不知道"），Hinton（祖母细胞/30 年孤独长跑），Sutton（"70 年苦涩教训"），LeCun（"工程派安全"），Bengio（"制度+技术"），周志华（"机器学习≠AI"），朱松纯（"AI 是科学+哲学+工程三重交集"），朱军（"AGI 是 20-30 年问题"），Demis Hassabis（"CERN-style AI 机构"），Sam Altman（"Moore's Law for Everything"），张一鸣（"坐标+矩阵思维"），王小川（"为生命建模型"），Aidan Gomez（"持续学习是 AI 下一个突破"），Dario Amodei（"安全是 feature 不是 brake"），Jeff Dean（"Hardware-software one design"），Andrew Ng（"data-centric AI"），Karpathy（"网络是培育的，不是编写的"），王慧文（"杂事交给我"），闫俊杰（"AGI 是信仰"），梁文锋（"小团队+极致人才密度>大团队+流程管理"）
+- **典型证据**：
+  - Sutton《The Bitter Lesson》3 页成为 OpenAI/DeepMind/Anthropic 共同战略
   - 张钹"第三代 AI = 数据+知识+算力+模型"理论框架
 
+### 簇 58：AI 行业战略论断
+- **簇定义**：对 AI 行业未来做出有影响力的战略论断。
+- **包含原子数**：约 15 个
+- **代表人物**：Sam Altman（"智能与能源是世界上两种限制性商品" / "AI 革命是第四次革命" / 2027 AGI），Demis Hassabis（"AGI 可能在 5-10 年内"），Dario Amodei（Machines of Loving Grace：AGI 可能让治愈癌症/延长寿命成为可能），梁文锋（"算力平权" / "开源比闭源更能在颠覆性技术时代建立社区壁垒"），杨植麟（"短文不是真智能，长文才是" / "基模+超级应用"双轮驱动），黄铁军（"大模型是时代方向需 10-20 年迭代" / "AGI 风险是全人类从未遇到的巨大风险挑战"），王兴兴（"成本屠夫+国产替代"）
+- **典型证据**：
+  - 2023.6.2 王慧文 5000 万美元个人出资设立光年之外
+  - 梁文锋"算力平权"被多份行业报告引用
+
 ---
 
-## 二级能力簇 17：硬件 / 芯片 / 软硬协同
+## Q. 硬件 / 芯片 / 软硬协同
+
+### 簇 59：AI 芯片 / 加速器
 - **簇定义**：AI 芯片设计、定制加速器、软硬一体化基础设施。
 - **包含原子数**：约 15 个
-- **代表人物**：陈天石（寒武纪+思元 590+中科院计算所血统）、余凯（地平线+征程 7 代）、朱珑（求索 SoC）、Jeff Dean（TPU 一体化设计）、王兴兴（宇树自研电机+激光雷达）
+- **代表人物**：陈天石（寒武纪+思元 590+中科院计算所血统），余凯（地平线+征程 7 代），朱珑（求索 SoC），Jeff Dean（TPU 一体化设计），王兴兴（宇树自研电机+激光雷达）
 - **典型证据**：
-  - 思元 590 国产 7nm 应对美国实体清单（300 天）——陈天石
-  - BPU J2→J7 + 舱驾融合（2026）——余凯
-  - 全球首款深度学习云端定制 SoC 求索（2019-05）——朱珑
+  - 思元 590 国产 7nm 应对美国实体清单（300 天）（陈天石）
+  - BPU J2→J7 + 舱驾融合（2026）（余凯）
+  - 全球首款深度学习云端定制 SoC 求索（2019-05）（朱珑）
+
+### 簇 60：软硬一体化基础设施
+- **簇定义**：从算法→框架→芯片→应用的全栈整合。
+- **包含原子数**：约 10 个
+- **代表人物**：Jeff Dean（TensorFlow + TPU + Google Cloud），陈天石（寒武纪"全栈 AI 芯片公司"），黄学东（Azure AI 事业部 CTO 2020 整合 Azure AI）
+- **典型证据**：
+  - Jeff Dean 推动 TPU 芯片研发，奠定 Google 在 AI 算力上的"垂直整合"路线
+  - 2017 黄学东授予全球技术院士（Technical Fellow，全球仅约 20 人，首位入选华人）
 
 ---
 
-## 二级能力簇 18：AI for Science / 行业落地
-- **簇定义**：把 AI 应用于科学研究或传统行业（医疗/制造/材料/能源/制药/科学计算）。
-- **包含原子数**：约 20 个
-- **代表人物**：Demis Hassabis（AlphaFold 2 + Isomorphic Labs）、张林峰（深势科技+AlphaFold 复现开源）、鄂维南（DeePMD+AISI）、王小川（百川医疗 AI）、Andrew Ng（Landing.ai 制造业）、颜水成（思谋工业 AI）、贾佳亚（思谋工业 AI）、沈向洋（IDEA 研究院 AI for Science）、田奇（华为云盘古）
+## R. AI for Science / 行业落地
+
+### 簇 61：AI for Science（生命科学 / 材料 / 化学）
+- **簇定义**：把 AI 应用于生命科学、材料、化学等基础科学。
+- **包含原子数**：约 15 个
+- **代表人物**：Demis Hassabis（AlphaFold 2 + 3 + Isomorphic Labs），张林峰（深势科技+AlphaFold 复现开源+DPMD），鄂维南（DeePMD+AISI 2021 创院院长），王小川（百川医疗 AI 2024-07 WAIC 内测 USMLE 超 GPT-4）
 - **典型证据**：
-  - AlphaFold 2 解决 50 年蛋白质折叠难题 + 2024 诺奖——Demis Hassabis
-  - DeePMD 1 亿原子第一性原理精度——鄂维南
-  - 全球四足机器人 70% 份额——王兴兴
-  - 复现并开源 AlphaFold 全部训练代码——张林峰
+  - AlphaFold 2 解决 50 年蛋白质折叠难题 + 2024 诺奖
+  - 2024 张林峰团队复现并开源 AlphaFold 全部训练代码
+  - 2024-04 深势·宇知大模型 Uni-SMART 发布
+
+### 簇 62：AI for 工业 / 制造 / 医疗 / 自动驾驶
+- **簇定义**：把 AI 应用于工业制造、医疗、自动驾驶等传统行业。
+- **包含原子数**：约 15 个
+- **代表人物**：颜水成（思谋工业 AI），贾佳亚（思谋联合创始人 2019.12），Andrew Ng（Landing.ai 制造业 2017），王兴兴（宇树全球四足机器人 70% 份额），王小川（百川医疗 AI）
+- **典型证据**：
+  - 思谋 7 轮累计 4.3 亿美元融资；2025 营收 10.86 亿元
+  - 2025 累计交付工业 AI 智能体约 14 万台
+  - 2024-07 百川 AI 健康顾问 WAIC 内测 USMLE 超 GPT-4
+
+### 簇 63：行业大模型 / 行业智能体
+- **簇定义**：构建行业专用大模型 / 智能体。
+- **包含原子数**：约 10 个
+- **代表人物**：田奇（华为云盘古 Pangu 大模型系列 + 2023 Pangu-Weather 入选 Science 十大科学突破），王海峰（文心一言/ERNIE 行业版），姜大昕（Step-3 70% 多模态，Step-Video-T2V），闫俊杰（M2-her），刘知远（法信法律基座大模型 2025 中关村论坛十大科技成果）
+- **典型证据**：
+  - 2023 Pangu-Weather 模型发表 Nature，入选 Science 2023 十大科学突破
+  - 2026-02-04 刘知远面壁开源 MiniCPM-o 4.5 多模态端侧大模型
 
 ---
 
-## 二级能力簇 19：失败 / 挫折 / 危机响应
-- **簇定义**：经历重大失败、争议、危机事件后公开处理的方式。
-- **包含原子数**：约 25 个
-- **代表人物**：
-  - **IPO 失败 / 受挫**：朱珑（科创板 IPO 折戟，2020-11 递交，2021 终止，亏损 72 亿）、印奇（港股 IPO 屡次受挫 2019-2022）、王慧文（健康危机+光年之外被美团收购）
-  - **资本 / 治理危机**：Sam Altman（2023-11 董事会政变 5 日复职）、Aidan Gomez（B 轮 SBF 投资归零）、Ilya Sutskever（参与 Altman 离职后 5 日改口）
-  - **产品危机**：Demis Hassabis（Gemini 文生图 2023-12 事件）、Hinton（2023 辞职 Google 公开表态"对自己研究感到遗憾"）
-  - **机构受挫**：Nick Bostrom（FHI 2024-04 关闭）
-  - **战略收缩**：王小川（百川战略收缩押注医疗 AI）
-  - **学术寒冬**：Hinton（1990s-2000s 神经网络寒冬 30 年孤独长跑）、余凯（1998-2012 神经网络"边缘人"坚持 14 年）
+## S. 失败 / 挫折 / 危机响应
+
+### 簇 64：IPO / 资本受挫
+- **簇定义**：经历重大资本/上市受挫后公开处理。
+- **包含原子数**：约 15 个
+- **代表人物**：朱珑（依图科创板 IPO 折戟 2020-11 递交 2021-07 终止 亏损 72.8 亿），印奇（旷视港股 IPO 屡次受挫 2019-2022），王慧文（健康危机+光年之外被美团收购 20.65 亿），颜水成（思谋战略收缩，2024 离开昆仑万维）
 - **典型证据**：
-  - 2023-11 董事会政变 5 日内复职——Sam Altman
-  - 30 年神经网络寒冬坚持——Hinton
+  - 2020-11-04 依图科创板上市申请获受理；2021-07-02 终止审核
+  - 2017-2020 依图累计净亏损 72.8 亿元
+
+### 簇 65：治理 / 政变 / 危机
+- **簇定义**：经历重大治理/政治/产品危机后公开处理。
+- **包含原子数**：约 15 个
+- **代表人物**：Sam Altman（2023-11 董事会政变 5 日复职），Ilya Sutskever（参与 Altman 离职后 5 日改口），Aidan Gomez（Cohere B 轮 SBF 投资归零），Demis Hassabis（Gemini 文生图 2023-12 事件）
+- **典型证据**：
+  - 2023-11-17 OpenAI 董事会以"沟通不坦诚"罢免 Altman
+  - 2023-11-22 Altman 复职 CEO，新初始董事会由 Bret Taylor（主席）等 3 人组成
+
+### 簇 66：学术寒冬 / 产品失误
+- **簇定义**：经历重大学术/产品失败后如何坚持。
+- **包含原子数**：约 10 个
+- **代表人物**：Hinton（1990s-2000s 神经网络寒冬 30 年孤独长跑 1986 论文到 2012 AlexNet 26 年），余凯（1998-2012 神经网络"边缘人"坚持 14 年），Chris Olah（机制可解释性 9 年坚持）
+- **典型证据**：
+  - 1990s-2000s 神经网络寒冬 30 年（Hinton）
+  - 2014 寒武纪陈天石兄弟提出 AI 芯片构想；2015 仅 20 人团队研发出世界首款深度学习专用处理器原型芯片
 
 ---
 
-## 二级能力簇 20：开源 / 生态建设 / 平台构建
-- **簇定义**：创建或主导开源框架、平台、社区，影响成千上万开发者。
-- **包含原子数**：约 30 个
-- **代表人物**：
-  - **深度学习框架**：Jeff Dean（TensorFlow）、王海峰（飞桨/PaddlePaddle）、周靖人（达摩院/字节豆包）、印奇（Brain++）
-  - **模型/库开源**：LeCun（PyTorch+Llama，8 亿+下载）、林达华（OpenMMLab，GitHub 数万 stars）、刘知远（OpenBMB，GitHub 50k+ stars）、张鹏（CodeGeeX 开源）、张林峰（AlphaFold 复现开源+Uni-SMART+Hermes）、Aidan Gomez（Command A+ 切到 Apache 2.0）
-  - **数据/平台开源**：李飞飞（ImageNet）、Aidan Gomez（AYA 100+ 语言数据集）、唐杰（AMiner+OpenKG）
-  - **社区运营**：杨植麟（Kimi 长上下文）、Sam Altman（OpenAI 名字即开放叙事）
+## T. 开源 / 生态建设
+
+### 簇 67：深度学习框架开源
+- **簇定义**：创建或主导开源深度学习框架。
+- **包含原子数**：约 10 个
+- **代表人物**：Jeff Dean（TensorFlow OSDI 2016 引 20000+），王海峰（飞桨/PaddlePaddle），周靖人（达摩院/通义/Qwen），印奇（旷视 Brain++），林达华（OpenMMLab GitHub 8 万+ 星），LeCun（PyTorch + Llama 8 亿+ 下载）
 - **典型证据**：
-  - PyTorch 累计下载超 8 亿次——LeCun
-  - OpenMMLab GitHub 数万 stars，海外用户广泛——林达华
-  - Llama 系列累计下载超 8 亿次——LeCun
+  - PyTorch 累计下载超 8 亿次（LeCun）
+  - OpenMMLab GitHub 8 万+ 星（林达华）
+
+### 簇 68：大模型 / 数据集开源
+- **簇定义**：开源大模型/数据集/工具。
+- **包含原子数**：约 15 个
+- **代表人物**：李开复（Yi-6B/Yi-34B 2023-11 首个开源中英双语大模型，Hugging Face 爬升至第 1），Aidan Gomez（Cohere Command A 切到 Apache 2.0），刘知远（OpenBMB GitHub 50k+ stars + MiniCPM-o 开源），张林峰（AlphaFold 复现开源 + Uni-SMART + Hermes），Aidan Gomez（AYA 100+ 语言数据集），姜大昕（Step-Video-T2V 与吉利联合开源），张鹏（CodeGeeX 开源），杨植麟（K2.5 全球首个被英伟达 GTC 选为基准模型的中国模型），王小川（Baichuan-7B/13B 2023-06/07 开源）
+- **典型证据**：
+  - Yi-34B 在 Hugging Face LLM Leaderboard pretrained 爬升至第 1 位
+  - OpenBMB GitHub 50k+ stars（刘知远）
+
+### 簇 69：开源社区 / 标准建设
+- **簇定义**：创建或运营开源社区、制定技术标准。
+- **包含原子数**：约 10 个
+- **代表人物**：林达华（OpenMMLab 2018 创办 + 2023.6 IEEE 大模型标准工作组主席），杨植麟（Kimi 长上下文社区），Sam Altman（OpenAI 名字即开放叙事），黄铁军（AVS 工作组秘书长 20 年 + ISO/IEC MPEG 中国代表团团长 10 年），孙茂松（2010 主持发布 ISO 24614-1 中国大陆第二个 ISO 国际标准）
+- **典型证据**：
+  - OpenMMLab GitHub 8 万+ 星，海外用户广泛（林达华）
+  - 2002 起任 AVS 工作组秘书长 20 年（黄铁军）
+
+### 簇 70：大模型开放平台 / 工具
+- **簇定义**：构建大模型开放平台/工具。
+- **包含原子数**：约 10 个
+- **代表人物**：张鹏（智谱 MaaS 平台 ARR 从 2000 万跃升至 5 亿元 25 倍增长），唐杰（AMiner 1 亿+ 学者档案 + OpenKG），王海峰（百度文心一言 + 千帆 AppBuilder），李开复（零一万物 2025-01 与阿里云成立"产业大模型联合实验室"）
+- **典型证据**：
+  - 2025 智谱 MaaS 平台 ARR 从 2000 万跃升至 5 亿元（5 倍增长）
+  - 2025 智谱开源模型全球下载量 1000 万+
+
+---
+
+## U. 数据 / AI 基础设施
+
+### 簇 71：数据集 / 数据基础设施
+- **簇定义**：创建或主导大规模数据集/数据基础设施。
+- **包含原子数**：约 5 个
+- **代表人物**：李飞飞（ImageNet 2007 共同启动 + 2010-2017 组织 ILSVRC），Aidan Gomez（AYA 100+ 语言数据集），唐杰（AMiner 1 亿+ 学者档案 + OpenKG）
+- **典型证据**：
+  - 2010-2017 ImageNet 推动深度学习爆发
+  - 2012 Hinton 组 AlexNet ILSVRC 夺冠 top-5 错误率从 26% 降至 15.3%
+
+### 簇 72：AI 训练 / 推理基础设施
+- **簇定义**：构建大规模万卡/亿级用户 AI 训练/推理系统。
+- **包含原子数**：约 10 个
+- **代表人物**：周靖人（通义/Qwen 6 亿+下载），Jeff Dean（TPU + TensorFlow + Google Cloud），周靖人（达摩院 2018 实时日志 17 亿条/秒）
+- **典型证据**：
+  - 通义开源 300+ 款模型，Qwen 全球下载 6 亿+
+  - 阿里三年 3800 亿元 AI 硬件基础设施投资
+
+---
+
+## V. 模型架构工程化
+
+### 簇 73：大模型架构工程化
+- **簇定义**：将研究级大模型架构工程化为生产系统。
+- **包含原子数**：约 10 个
+- **代表人物**：张鹏（GLM 系列工程化和产品化主导者 + CodeGeeX + 智谱清言 + AutoGLM），闫俊杰（abab 系列 + M 系列 MoE 工程化）
+- **典型证据**：
+  - GLM-Z1 推理 + GLM-4-Vision 多模态 + AutoGLM 智能体（张鹏）
+  - 2023.10 Kimi Chat 全球首个支持 20 万汉字输入（杨植麟）
+
+### 簇 74：端侧 / 小模型
+- **簇定义**：开发端侧/小模型大模型（高效、轻量）。
+- **包含原子数**：约 5 个
+- **代表人物**：刘知远（MiniCPM-2B 端侧 + MiniCPM-o 4.5 多模态端侧），张祥雨（ShuffleNet 移动端轻量化 CNN）
+- **典型证据**：
+  - 2026-02-04 MiniCPM-o 4.5 多模态端侧大模型开源
+  - ShuffleNet 应用于苹果 iPhoneX 3D 人脸解锁
+
+---
+
+## W. 大模型产品哲学
+
+### 簇 75：大模型 C 端产品
+- **簇定义**：打造面向消费者的 AI 产品。
+- **包含原子数**：约 10 个
+- **代表人物**：杨植麟（Kimi Chat 2023-10 全球首个支持 20 万汉字输入 + 2024-03 突破 200 万字无损上下文），王小川（百小应 AI 助手），闫俊杰（海螺 AI 效率类 + 星野/Talkie 娱乐类 + Glow 早期虚拟角色），李开复（Yi 应用），Sam Altman（ChatGPT）
+- **典型证据**：
+  - 2023-10 Kimi Chat 发布：全球首个支持 20 万汉字输入
+  - ChatGPT 2022-11-30 发布，5 天突破百万用户，两个月突破 1 亿
+
+### 簇 76：大模型 B 端服务 / MaaS
+- **簇定义**：为企业提供大模型服务。
+- **包含原子数**：约 10 个
+- **代表人物**：张鹏（智谱 MaaS 平台 + ToB 商业化），王海峰（文心一言 + 飞桨），周靖人（通义 + 阿里云企业服务），李开复（零一万物 2025-01 与阿里云成立"产业大模型联合实验室"）
+- **典型证据**：
+  - 2025 智谱 MaaS 平台 ARR 从 2000 万跃升至 5 亿元（5 倍增长）
+  - 通义开源 300+ 款模型，Qwen MAU 2.03 亿增长 553%（2025）
+
+---
+
+## X. AI 时代商业洞察
+
+### 簇 77：AI 时代"摩尔定律"洞察
+- **簇定义**：对 AI 时代经济/算力/模型发展速度提出有影响力的洞察。
+- **包含原子数**：约 5 个
+- **代表人物**：Sam Altman（"Moore's Law for Everything" / "智能与能源是世界上两种限制性商品"），刘知远（2024 WAIC "知识密度" → 2025 升级"密度定律 Densing Law" 3.5 个月翻倍）
+- **典型证据**：
+  - 2024 WAIC 刘知远提出"知识密度"
+  - 2025 升级"密度定律 Densing Law" 3.5 个月翻倍
+
+### 簇 78：AI 时代组织 / 管理创新
+- **簇定义**：在 AI 时代提出新的组织/管理/人才理念。
+- **包含原子数**：约 5 个
+- **代表人物**：梁文锋（"小团队+极致人才密度>大团队+流程管理"），雷军（"专注、极致、口碑、快" 七字诀 + "AI 是下一个新战场"），闫俊杰（All in MoE + All in 全球化 + 80% C 端 + 20% B 端）
+- **典型证据**：
+  - DeepSeek 团队约 139 人（远少于 OpenAI 1200 / Anthropic 500+）
+  - 雷军规划未来三年 AI 投入 600 亿元
+
+---
+
+## Y. 大模型 / AGI 路线之争
+
+### 簇 79：LLM vs 世界模型路线
+- **簇定义**：在 LLM 主流路线之外，押注世界模型或其他替代路线。
+- **包含原子数**：约 5 个
+- **代表人物**：LeCun（"LLM 是通往超级智能的死路" / 2025-11 离开 Meta 创办 AMI Labs 30 亿欧元），Xie Saining（联合 LeCun 创立 AMI Labs + 两次拒绝 Ilya 邀请），Yan Shuicheng（"超级智能体"是 AGI 终局 2024 观点），Hinton（Forward-Forward 替代反向传播）
+- **典型证据**：
+  - 2025-11-20 LeCun 官宣离开 Meta 创办 Advanced Machine Intelligence Labs
+  - 2026 Xie Saining 联合 LeCun 创立 AMI Labs，种子轮 10.3 亿美元
+
+### 簇 80：AGI 路线不同假设
+- **簇定义**：对 AGI 范式/路径提出有影响力的不同假设。
+- **包含原子数**：约 10 个
+- **代表人物**：Hinton（30 年孤独长跑 → Forward-Forward），LeCun（JEPA 世界模型 + 工程派安全），杨立昆（AMI Labs），朱松纯（小数据大任务 + UV 双系统 + Tong Test），Bengio（LawZero "Scientist AI" 非生成式路线），Dario Amodei（"Machines of Loving Grace"），Demis Hassabis（AlphaFold 通用认知子能力 → AGI 5-10 年），Stuart Russell（CIRL Cooperative Inverse Reinforcement Learning），Dario Amodei（短/中/长期风险分类法）
+- **典型证据**：
+  - 2025-02 Bengio 公开 58 页《Scientist AI》论文
+  - 2024 朱松纯提出 UV 双系统理论 + Tong Test 平台
+
+---
+
+## Z. 公共议题 / 思想领导
+
+### 簇 81：公众舆论 / 政策倡导
+- **簇定义**：在主流媒体/政策场合主动发声，塑造 AI 公共叙事。
+- **包含原子数**：约 15 个
+- **代表人物**：Hinton（2023 辞职 Google 公开 + 诺奖演讲 "Godfather of AI"），Sam Altman（2023-05-16 美国国会作证 + 2024 OpenAI 政策博客），Dario Amodei（2023-07 美国参议院司法小组作证 + 《时代》TIME 100 AI 首位），李开复（2023-09 《时代》全球百大 AI 人物），梁文锋（2025-04《时代》全球 100 位最具影响力人物 + 2025-12《自然》2025 年度十大科学人物），Ilya Sutskever（2023-12-14《自然》Nature's 10 年度十大人物）
+- **典型证据**：
+  - 2023 暂停 GPT-4 公开信 1000+ 科学家联署（Stuart Russell 签署）
+  - 2025-09 DeepSeek-R1 训练方法发表于《Nature》（全球首个经同行评审的主流大模型）
+
+### 簇 82：AI 时代公共讨论
+- **簇定义**：在 AI 时代对公共议题（教育/就业/伦理/治理）做有影响力的讨论。
+- **包含原子数**：约 5 个
+- **代表人物**：Andrew Ng（data-centric AI + 1 亿学习者教育普及），Stuart Russell（Human Compatible + AIMA 对齐章节），Hinton（祖母细胞/30 年孤独长跑/诺奖演讲）
+- **典型证据**：
+  - AIMA 第四版新增 AI 安全/价值对齐章节
+  - Coursera 累计 1 亿+ 学习者（Andrew Ng）
 
 ---
 
@@ -271,13 +821,19 @@
 
 | 观察 | 证据 |
 |---|---|
-| "学术+创业"双轨融合是中国大模型时代标志 | 唐杰/刘知远/朱军/张鹏/杨植麟/梁文锋/汤晓鸥（已故） 7 人同时有顶尖学术身份和大模型公司 |
-| 单平台长期坚守 vs 多平台切换：两条路径 | 坚守派：Jeff Dean 25 年、黄学东 30 年、张钹 71 年；切换派：李航 4 平台、Karpathy 4 平台 |
-| 政府/政策对话与年龄负相关、与商业规模正相关 | 雷军、陈天石、王小川（年长+规模大）vs 印奇 28 岁、闫俊杰 30+ 入选座谈（年轻+规模大） |
-| AI 安全/治理在西方 vs 东方：从"思想" vs "制度"切入 | 西方：FHI/CHAI/ARC/US AISI 等独立机构；东方：Bengio LawZero/中央政治局讲解/全国政协 |
-| 长期主义在寒冬期尤见英雄本色 | Hinton 30 年寒冬、Sutton 70 年苦涩教训、余凯 14 年"边缘人"坚持 |
+| **"学术+创业"双轨融合是中国大模型时代标志** | 唐杰/刘知远/朱军/张鹏/杨植麟/梁文锋/汤晓鸥（已故）7 人同时有顶尖学术身份和大模型公司 |
+| **跨太平洋学术网络是 D6 长期主义的核心机制** | 颜水成（北大→港中文→UIUC→NUS→5 平台）、Xie Saining（交大→UCSD→FAIR→NYU→AMI）、张祥雨（西交大+MSRA→旷视→阶跃） |
+| **2023 未来科学大奖是"学术+创业"双轨的特殊里程碑** | 何恺明/孙剑/任少卿/张祥雨共同获得，张祥雨是大奖历史最年轻获奖者（"90 后"） |
+| **大模型时代"单平台深耕"与"多平台切换"两条路径** | 坚守派：Jeff Dean 25 年、刘铁岩 MSRA 21 年、张钹清华 71 年；切换派：李航 4 平台、颜水成 5 平台、Karpathy 4 平台 |
+| **政府/政策对话与年龄负相关、与商业规模正相关** | 雷军/陈天石/王小川（年长+规模大）vs 印奇 28 岁、闫俊杰 30+ 入选座谈（年轻+规模大） |
+| **AI 安全/治理在西方 vs 东方：从"思想" vs "制度"切入** | 西方：FHI/CHAI/ARC/US AISI 等独立机构；东方：Bengio LawZero/中央政治局讲解/全国政协 |
+| **长期主义在寒冬期尤见英雄本色** | Hinton 30 年寒冬、Sutton 70 年苦涩教训、余凯 14 年"边缘人"坚持 |
+| **DiT → Sora 是中国学者对全球 AI 产业最深远影响之一** | Xie Saining + William Peebles 2022-2023 DiT 一作 → OpenAI Sora 架构直接采用 |
+| **2026 路线之争是 AI 圈最戏剧化事件** | LeCun + Xie Saining 创立 AMI Labs（10.3 亿美元种子轮）vs LLM 主流；杨植麟两次拒绝 Ilya 邀请 |
+| **中国大模型时代"五系并立"** | 字节豆包/阿里通义/百度文心/腾讯混元/华为盘古/智谱 GLM/DeepSeek/Moonshot/MiniMax/百川/阶跃/零一万物/面壁/生数（14+ 主流玩家） |
 
 ---
 
-**统计**：20 个二级簇 × 平均 35 个原子 ≈ 700 个原子编码位（60 人 × 10-15 原子 实际 ~700 条）
-**层级**：每簇平均代表 3-5 人；高重叠簇（如 #4 师承 + #15 理论）共占主导。
+**统计**：82 个二级簇 × 平均 8-10 个原子 ≈ 700+ 个原子编码位（60 人 × 12 平均 L1 ≈ 720 条 L1）
+**覆盖**：80+ 簇 覆盖 4-6 大原型（学术源流/工业研究院/学术+创业/跨界整合/AI 治理/商业硬件）的所有关键能力维度
+**L3 选择性编码**：82 簇为 D1-D8 8 维打分的输入（见 dimensions.md）
