@@ -1,10 +1,10 @@
-# AI 领军人才画像研究 · 终极报告 v2
+# AI 领军人才画像研究 · 终极报告 v4
 
 **服务对象**：北京中关村学院 · 博士生人才培养目标
 **研究方法**：扎根理论（Grounded Theory）+ 8 维向量 + 6 原型聚类
 **研究样本**：60 位公认的 AI 领域领军人才（学术 10 / 中国本土 13 / 工业 10 / 创业中国 16 / 创业混合 11）
-**数据基础**：60 张 v2 事实卡 + 720+ 原子事实 + **82 条二级能力簇** + **8 个核心维度（D1-D8，0-3 分制）** + **6 个领军人才原型（P1-P6）**
-**版本**：v2（v1 → v2 关键升级：从 0-5 分制 → 0-3 分制；20 L2 簇 → 82 L2 簇；含 4 项重大事实修正）
+**数据基础**：60 张 v2/v2_rework 事实卡 + 720+ 原子事实 + **82 条二级能力簇** + **8 个核心维度（D1-D8，0-3 分制）** + **6 个领军人才原型（P1-P6）**
+**版本**：v4（v3 → v4 关键升级：5 份独立审计报告 + 70+ 处 D 维分数修订 + 张正友 P2→P1 唯一原型变化）
 **完成时间**：2026-06-04
 
 ---
@@ -32,8 +32,8 @@
 
 | 原型 | 人数 | 核心维度 | 中/西方 | 标志性人物 |
 |---|---|---|---|---|
-| **P1 学术源流派** | 11 | D1+D3+D6+D8 强 | 4 中 + 7 西 | Hinton, LeCun, Bengio, Sutton, He Kaiming, E Weinan, Zhu Songchun, Li Feifei, Stuart Russell, Zhang Bo, Zhou Zhihua |
-| **P2 工业研究院** | 13 | D2+D3+D6 强 | 6 中 + 7 西 | Jeff Dean, Xuedong Huang, Wang Haifeng, Tian Qi, Shen Xiangyang, Zhang Zhengyou, Zhou Jingren, Liu Tieyan, Ilya Sutskever, Karpathy, Aidan Gomez, Yang Zhilin, Lin Dahua |
+| **P1 学术源流派** | 12 | D1+D3+D6+D8 强 | 5 中 + 7 西 | Hinton, LeCun, Bengio, Sutton, He Kaiming, E Weinan, Zhu Songchun, Li Feifei, Stuart Russell, Zhang Bo, Zhou Zhihua, **Zhang Zhengyou**（v4 从 P2 改 P1）|
+| **P2 工业研究院** | 12 | D2+D3+D6 强 | 5 中 + 7 西 | Jeff Dean, Xuedong Huang, Wang Haifeng, Tian Qi, Shen Xiangyang, Zhou Jingren, Liu Tieyan, Ilya Sutskever, Karpathy, Aidan Gomez, Yang Zhilin, Lin Dahua |
 | **P3 学术+AI 创业** | 15 | D1+D3+D4+D7 强 | **14 中 + 1 西**（中国独有）| Tang Jie, Liu Zhiyuan, Zhu Jun, Yan Shuicheng, Jia Jiaya, Zhang Linfeng, Yan Junjie, Wang Xiaochuan, Wang Xingxing, Liang Wenfeng, Jiang Daxin, Lin Dahua, Sun Maosong, 汤晓鸥, Zhang Peng |
 | **P4 跨界整合多栖** | 9 | D4+D7+D8 强 | 1 中 + 8 西（西方为主）| Andrew Ng, Sam Altman, Dario Amodei, Aidan Gomez, Ilya Sutskever, Karpathy, Demis Hassabis, Li Kaifu, Nick Bostrom |
 | **P5 AI 治理/安全旗手** | 4 | D5=3 全员 | 0 中 + 4 西（**西方独有**）| Nick Bostrom, Paul Christiano, Chris Olah, LeCun（次型）|
@@ -74,15 +74,16 @@
 | 选择性编码 | 把 82 个二级聚类抽象为高阶核心维度 | 8 维（0-5 分）| **8 维 D1-D8（0-3 分制）**|
 | 聚类 | 按 8 维向量对 60 人聚类 | 6 个原型 P1-P6 | **6 个原型 P1-P6（精确分配 + 多次型标注）**|
 
-### 1.3 v2 关键升级
+### 1.3 方法论要点
 
-1. **评分更严格**——0-3 分制（0=无/1=有/2=有影响/3=改变方向）vs v1 的 0-5 分制。0-3 分制强制拉开"卓越 vs 有 vs 无"梯度。
-2. **L2 簇更细颗粒度**——82 簇 vs 20 簇。每簇平均 8-10 原子，能精确反映每个 L2 簇的能力画像。
-3. **D1-D8 映射更精确**——每个 D 维度对应 5-11 个 L2 簇（不是 v1 粗略的"D1 是算法贡献"）。
-4. **6 原型多次型标注**——少数人物（如 LeCun、Bengio、Demis Hassabis、Hinton）有次型，反映"晚年转向治理/创业"的动态。
-5. **4 项重大事实修正**（贯穿 v2）：
+1. **0-3 分制**——0=无 / 1=有 / 2=有影响 / 3=改变方向。比 0-5 分制更严格，强制拉开"卓越 vs 有 vs 无"梯度。
+2. **82 条 L2 二级能力簇**——比 v1 的 20 簇细 4 倍。每簇平均 8-10 L1 原子能力，能精确反映每个能力画像。L1 → L2 映射表见 `data/clusters/clusters.md`。
+3. **D1-D8 8 个核心维度**——每个维度对应 5-11 个 L2 簇（不是 v1 粗略的"D1 是算法贡献"）。详细映射 + L0 事实引用见 `data/clusters/dimensions.md`。
+4. **P1-P6 6 个原型 + 多次型标注**——少数人物（如 LeCun / Bengio / Demis Hassabis / Hinton）有次型，反映"晚年转向治理/创业"的动态。
 
-### 1.4 4 项重大事实修正（v2 阶段 1 资料层核查发现）
+### 1.4 资料层事实核查修正（v2 阶段 1 发现）
+
+> **本节为附录性参考**——下面 4 项重大事实修正是 v2 阶段 1（资料层）独立核查发现，反映"v1 资料层有错误需 v2 修正"。v4 阶段进一步对 60×8=480 个 D 维分数追溯审计（70+ 处修订），详见 [附录 A：v4 审计与证据追溯](#附录-a：v4-审计与证据追溯)。
 
 | 字段 | v1 原卡错误 | v2 核查后 |
 |---|---|---|
@@ -478,16 +479,52 @@ entrepreneur_mixed (11) 中: 李开复 1 人
 
 ---
 
-## 九、与 v1 版的差异
+## 九、版本演进与 v4 审计修订
 
-| 维度 | v1 | v2 |
-|---|---|---|
-| 评分制 | 0-5 分 | **0-3 分**（更严格）|
-| L2 簇数 | 20 簇 | **82 簇**（细颗粒度 4 倍）|
-| 评分依据 | 经验性 | **720+ L1 原子事实直接打分**（可追溯）|
-| 4 项重大事实修正 | 未做 | **已完成**（颜水成/张祥雨/谢赛宁 学历+现职）|
-| 原型多次型标注 | 未做 | **已完成**（Hinton/Bengio/LeCun 等少数 P1 同时是 P5 次型）|
-| 中西方分工核心模式 | 简述 | **"P3+P6 中国独有 + P4+P5 西方为主"清晰区分**|
+### 9.1 与 v1 版的差异
+
+| 维度 | v1 | v2 | v3 | v4 |
+|---|---|---|---|---|
+| 评分制 | 0-5 分 | 0-3 分（更严格）| 0-3 分 | 0-3 分 |
+| L2 簇数 | 20 簇 | 82 簇 | 82 簇 | 82 簇 |
+| 评分依据 | 经验性 | 720+ L1 原子事实（可追溯）| 720+ L1 | 720+ L1 + **5 份独立审计追溯** |
+| 重大事实修正 | 未做 | 4 项（资料层 v2 阶段 1）| 4 项 | 4 项 + **70+ 处 D 维分数追溯修订** |
+| 原型多次型标注 | 未做 | 已完成 | 已完成 | 已完成 |
+| 中西方分工 | 简述 | 清晰区分 | 清晰区分 | 清晰区分（**张正友 P2→P1**）|
+
+### 9.2 v4 审计与证据追溯（70+ 处修订的执行轨迹）
+
+> **核心问题**：v3 阶段的 60×8=480 个 D 维分数，部分（尤其 C 级 entrepreneur_cn 无独立核查）有系统性偏差。v4 阶段通过 5 个独立 worker 重新对照 fact card 追溯，发现并修订 70+ 处 D 维分数。
+
+**问题率分布（按组）**：
+
+| 组 | Trust 等级 | 样本 | 问题率 | 修订 |
+|---|---|---|---|---|
+| academic（海外学术） | B | 10 | 30% | 3 人 |
+| domestic_cn（中国学术）| A | 13 | 62% | 8 人 / 12 处 |
+| industry（工业） | B | 10 | 70% | 7 人 / 12 处 |
+| entrepreneur_mixed（海外创业）| B | 11 | 50% | 7 人 / 8 处 |
+| entrepreneur_cn（中国创业）| C | 16 | **87.5%** | 14 人 / 28 处 |
+| **合计** | A/B/C | **60** | **58%** | **35+ 人 / 70+ 处** |
+
+**4 类系统性问题**：
+1. **学界泰斗 D4 偏高 4 人**（高文/张钹/周志华/孙茂松 D4 1→0，无创业/联创/天使经历）
+2. **D6 长期主义低估 7+ 人**（Hassabis 14 年 / Russell 30 年 / Altman 9 年 / 王小川 18 年 / 张一鸣 14 年 / 余凯 22 年 / Bostrom 20+ 年被记 1 分）
+3. **C 级 D3 偏高 8 人**（梁文锋/雷军/王小川/张一鸣/印奇/闫俊杰/张鹏/朱珑 D3=1 但无 Fellow/学院副主任级 → 0）
+4. **公司董事/合伙人/CTO ≠ 创业**（王海峰/Xuedong Huang/周靖人 D4 1→0）
+
+**唯一原型变化**：张正友 P2 → P1（D1 1→2 + D6 2→3 符合 P1 标准）
+
+**证据追溯路径**（任意 D 维分数的 L0 事实查找）：
+1. `data/clusters/matrix.md` 找到 60×8 分数
+2. 5 份审计报告之一定位到该人物：<br>
+   - `data/clusters/audit/audit_group1_domestic_cn.md`（13 人 A 级）<br>
+   - `data/clusters/audit/audit_group2_academic.md`（10 人 B 级）<br>
+   - `data/clusters/audit/audit_group3_industry.md`（10 人 B 级）<br>
+   - `data/clusters/audit/audit_group4_entrepreneur_mixed.md`（11 人 B 级）<br>
+   - `data/clusters/audit/audit_group5_entrepreneur_cn.md`（16 人 C 级）
+3. 审计报告中每条 v3→v4 修订有 4 列："v3 分数 / v4 拟改 / L0 事实支撑 / 评分理由"
+4. L0 事实支撑列的 L1-NNN 编号 → `data/atomic_abilities/<组>/<人物>.md` → `data/fact_cards/<组>/<人物>.md`
 
 ---
 
