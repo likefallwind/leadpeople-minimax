@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>案例推导全过程 · 刘铁岩 + 张林峰 | AI 领军人才画像研究</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0d1025 100%);
+    color: #e0e6ed;
+    line-height: 1.7;
+  }
+  .container { max-width: 1280px; margin: 0 auto; padding: 40px 32px 80px; }
+  .hero {
+    text-align: center;
+    padding: 60px 32px 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 50px;
+  }
+  .hero h1 {
+    font-size: 40px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #64b5f6 0%, #ba68c8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+  }
+  .hero .sub { font-size: 17px; color: #9aa5b8; margin-bottom: 12px; }
+  .hero .meta { font-size: 13px; color: #6b7280; }
+
+  /* 4-step flow */
+  .step-nav {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 24px 0;
+  }
+  .step-nav .step {
+    background: rgba(100,181,246,0.15);
+    border: 1px solid rgba(100,181,246,0.3);
+    border-radius: 8px;
+    padding: 12px 8px;
+    text-align: center;
+    font-size: 12px;
+    color: #c0c8d4;
+  }
+  .step-nav .step .num {
+    font-size: 20px;
+    font-weight: 800;
+    color: #64b5f6;
+    margin-bottom: 4px;
+  }
+
+  h2 {
+    font-size: 28px;
+    color: #64b5f6;
+    margin: 60px 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(100,181,246,0.2);
+  }
+  h3 {
+    font-size: 20px;
+    color: #fff;
+    margin: 32px 0 12px;
+  }
+  h4 { font-size: 16px; color: #c0c8d4; margin: 16px 0 8px; font-weight: 600; }
+  p { margin-bottom: 12px; color: #c0c8d4; }
+
+  .person-card {
+    background: linear-gradient(135deg, rgba(100,181,246,0.08), rgba(186,104,200,0.05));
+    border: 1px solid rgba(100,181,246,0.3);
+    border-radius: 16px;
+    padding: 32px;
+    margin: 32px 0;
+  }
+  .person-header {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 32px;
+    align-items: start;
+    margin-bottom: 24px;
+  }
+  .person-name-cn {
+    font-size: 32px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .person-name-en {
+    font-size: 14px;
+    color: #9aa5b8;
+    margin-bottom: 12px;
+  }
+  .person-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tag {
+    background: rgba(100,181,246,0.15);
+    color: #64b5f6;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+  }
+  .tag.prototype { background: rgba(186,104,200,0.2); color: #ba68c8; }
+  .person-meta {
+    font-size: 13px;
+    color: #9aa5b8;
+    line-height: 1.8;
+  }
+  .person-meta strong { color: #e0e6ed; }
+  .radar-box {
+    background: rgba(0,0,0,0.2);
+    border-radius: 12px;
+    padding: 16px;
+    height: 280px;
+  }
+  .score-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 16px 0;
+  }
+  .score-cell {
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+  .score-cell .label {
+    font-size: 11px;
+    color: #9aa5b8;
+    margin-bottom: 4px;
+  }
+  .score-cell .value {
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .sp-3 { color: #84cc16; }
+  .sp-2 { color: #eab308; }
+  .sp-1 { color: #f97316; }
+  .sp-0 { color: #ef4444; }
+
+  /* Step tables */
+  .step-section {
+    background: rgba(0,0,0,0.2);
+    border-left: 4px solid #64b5f6;
+    border-radius: 0 12px 12px 0;
+    padding: 20px;
+    margin: 16px 0;
+  }
+  .step-section h3 {
+    color: #64b5f6;
+    margin-top: 0;
+    font-size: 18px;
+  }
+  .step-section .step-num {
+    display: inline-block;
+    background: rgba(100,181,246,0.2);
+    color: #64b5f6;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    margin-right: 8px;
+    font-weight: 700;
+  }
+
+  /* L0 table */
+  .l0-table, .l1-table, .l2-table, .d-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 12px 0;
+  }
+  .l0-table th, .l0-table td,
+  .l1-table th, .l1-table td,
+  .l2-table th, .l2-table td,
+  .d-table th, .d-table td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .l0-table th, .l1-table th, .l2-table th, .d-table th {
+    background: rgba(100,181,246,0.1);
+    color: #64b5f6;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+  .l0-table .l0-code { font-family: monospace; color: #9aa5b8; font-size: 11px; white-space: nowrap; }
+  .l0-table .l0-fact { color: #fff; }
+  .l0-table .l0-time { color: #eab308; white-space: nowrap; }
+  .l0-table .l0-source { color: #9aa5b8; font-size: 11px; }
+
+  .l1-table .l1-code { font-family: monospace; color: #64b5f6; font-weight: 700; }
+  .l1-table .l1-ability { color: #fff; font-weight: 600; }
+  .l1-table .l1-evidence { color: #c0c8d4; font-size: 12px; }
+  .l1-table .l1-l0-refs { color: #9aa5b8; font-size: 11px; font-family: monospace; }
+
+  .l2-table .l2-cluster { color: #ba68c8; font-weight: 600; }
+  .l2-table .l2-d-dim { background: rgba(186,104,200,0.1); color: #ba68c8; padding: 2px 8px; border-radius: 8px; font-size: 11px; }
+
+  .d-table .d-name { color: #4ade80; font-weight: 700; }
+  .d-table .d-score { font-size: 18px; font-weight: 700; }
+  .d-table .d-evidence { font-size: 12px; color: #c0c8d4; }
+  .d-table .d-l1-refs { color: #64b5f6; font-family: monospace; font-size: 11px; }
+
+  /* P-prototype flow */
+  .p-flow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0,0,0,0.3);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 24px 0;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .p-flow .p-step {
+    background: rgba(100,181,246,0.15);
+    border: 1px solid rgba(100,181,246,0.3);
+    border-radius: 10px;
+    padding: 12px 16px;
+    text-align: center;
+    min-width: 100px;
+  }
+  .p-flow .p-step .num { font-size: 11px; color: #9aa5b8; }
+  .p-flow .p-step .desc { font-size: 13px; color: #fff; font-weight: 600; }
+  .p-flow .p-step.final { background: rgba(186,104,200,0.25); border-color: rgba(186,104,200,0.6); }
+  .p-flow .p-step.final .desc { color: #ba68c8; font-size: 16px; }
+  .p-flow .arrow { color: #64b5f6; font-size: 24px; font-weight: 700; }
+
+  /* Highlight boxes */
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(74,222,128,0.1), rgba(100,181,246,0.05));
+    border: 1px solid rgba(74,222,128,0.3);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  .highlight-box strong { color: #4ade80; }
+  .highlight-box .title { color: #4ade80; font-weight: 700; font-size: 16px; margin-bottom: 8px; }
+
+  .footer {
+    text-align: center;
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    color: #6b7280;
+    font-size: 13px;
+  }
+  a { color: #64b5f6; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hero">
+  <h1>案例推导全过程 · 刘铁岩 + 张林峰</h1>
+  <div class="sub">从 L0 原子事实 → L1 原子能力 → L2 能力簇 → D 维评分 → P 原型归类</div>
+  <div class="meta">完整 5 步推导过程 · 数据基于 v4 审计版 · 2026-06-04</div>
+</div>
+
+<!-- 4-step process overview -->
+<div class="step-nav">
+  <div class="step"><div class="num">L0</div>原子事实<br>720+ 条</div>
+  <div class="step"><div class="num">L1</div>原子能力<br>472 条</div>
+  <div class="step"><div class="num">L2</div>能力簇<br>78 条</div>
+  <div class="step"><div class="num">D</div>核心维度<br>8 维</div>
+  <div class="step"><div class="num">P</div>领军原型<br>6 个</div>
+</div>
+
+<p style="margin: 24px 0;">本文件展示 2 个具体人物的<strong>完整画像推导过程</strong>：从"发生了什么"（L0 事实）到"具备什么能力"（L1）到"属于什么主题"（L2 簇）到"对应哪个 D 维度得分"到"归入哪个领军原型 P"。每一步都有可追溯的证据链。</p>
+
+<div class="highlight-box">
+  <div class="title">3 层模型 + 8 维 + 6 原型 · 关系图</div>
+  <p><strong>L0 原子事实</strong>（事件）：720+ 条 = "2018 博士毕业" "2015 ResNet 论文" "2023 辞职 Google" 这类具体发生的事</p>
+  <p><strong>L1 原子能力</strong>（抽象能力）：472 条 = "独立设计深度学习算法的能力" "30 年学术坚守的长期主义"（从 1+ L0 抽象出）</p>
+  <p><strong>L2 能力簇</strong>（主题聚类）：78 条 = "原创算法 / 理论贡献" "学界长期坚守"（5-30 条 L1 聚类到同一主题）</p>
+  <p><strong>D1-D8 8 个核心维度</strong>（高阶聚合）：5-11 个 L2 簇对应 1 个 D 维（如 D1 = 簇 1/2/3/4/5/6/7/54/55）</p>
+  <p><strong>P1-P6 6 个领军原型</strong>（人物聚类）：60 人在 8 维空间 K-means 聚类 = P1 学术源流 / P2 工业研究院 / P3 学术+AI 创业 / P4 跨界整合 / P5 AI 治理 / P6 商业硬件</p>
+</div>
+
+<!-- ============================== 案例 1: 刘铁岩 ============================== -->
+<div class="person-card" id="liutieyan">
+  <div class="person-header">
+    <div>
+      <div class="person-name-cn">刘铁岩</div>
+      <div class="person-name-en">Tie-Yan Liu · 1976- · 工业→教育（清华电子 9 年 → MSRA 21 年 → 北京中关村学院 2 年）</div>
+      <div class="person-tags">
+        <span class="tag">排序学习</span>
+        <span class="tag">LightGBM 2.5 万引</span>
+        <span class="tag">MSRA 21 年</span>
+        <span class="tag">IEEE/ACM Fellow</span>
+        <span class="tag">2024 Nature AI2BMD</span>
+        <span class="tag prototype">原型 P2 工业研究院（教育转身型）</span>
+      </div>
+      <div class="person-meta">
+        <strong>现任</strong>：北京中关村学院党委书记、院长 + 中关村人工智能研究院理事长（2024.6 至今）<br>
+        <strong>总分</strong>：14 / 24（8 维均分 1.75）<br>
+        <strong>原型</strong>：P2 工业研究院领袖（中美各半 + 教育转身特例）
+      </div>
+    </div>
+    <div class="radar-box">
+      <canvas id="radar-liutieyan"></canvas>
+    </div>
+  </div>
+
+  <div class="score-grid">
+    <div class="score-cell"><div class="label">D1 算法</div><div class="value sp-1">1</div></div>
+    <div class="score-cell"><div class="label">D2 工程</div><div class="value sp-2">2</div></div>
+    <div class="score-cell"><div class="label">D3 学术</div><div class="value sp-2">2</div></div>
+    <div class="score-cell"><div class="label">D4 创业</div><div class="value sp-1">1</div></div>
+    <div class="score-cell"><div class="label">D5 治理</div><div class="value sp-1">1</div></div>
+    <div class="score-cell"><div class="label">D6 长期</div><div class="value sp-2">2</div></div>
+    <div class="score-cell"><div class="label">D7 跨界</div><div class="value sp-3">3</div></div>
+    <div class="score-cell"><div class="label">D8 公共</div><div class="value sp-2">2</div></div>
+  </div>
+
+  <!-- 步骤 1: L0 事实 -->
+  <div class="step-section">
+    <h3><span class="step-num">步骤 1</span>L0 原子事实（12 条代表性事件）</h3>
+    <p style="color: #9aa5b8; font-size: 13px; margin-bottom: 12px;">从 <code>data/fact_cards_v2_rework/domestic_cn/liu_tieyan.md</code> 提取的关键 L0 事实。L0 = "事件 + 时间 + 主体 + 来源 URL"，可被独立查证。</p>
+    <table class="l0-table">
+      <thead>
+        <tr><th>编号</th><th>L0 事实</th><th>时间</th><th>来源</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="l0-code">AF-LT-01</td>
+          <td class="l0-fact">生于黑龙江</td>
+          <td class="l0-time">1976-06</td>
+          <td class="l0-source">百度百科</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-LT-02</td>
+          <td class="l0-fact">清华电子工程系学士（1994 级，1998 毕业）</td>
+          <td class="l0-time">1994-1998</td>
+          <td class="l0-source">LinkedIn + 清华电子系官方公告 2019.5.20</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-LT-03</td>
+          <td class="l0-fact">清华电子系硕士（2000 获学位）</td>
+          <td class="l0-time">1998-2000</td>
+          <td class="l0-source">百度百科</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-LT-04</td>
+          <td class="l0-fact">清华电子系博士（2003 获学位）</td>
+          <td class="l0-time">2000-2003</td>
+          <td class="l0-source">百度百科 + LinkedIn</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-LT-05</td>
+          <td class="l0-fact">加入 MSRA 副研究员</td>
+          <td class="l0-time">2003.7</td>
+          <td class="l0-source">LinkedIn 工作经历</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-LT-06</td>
+          <td class="l0-fact">MSRA 首席研究员（领导互联网经济学组）</td>
+          <td class="l0-time">2007-2012</td>
+          <td class="l0-source">LinkedIn</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-LT-07</td>
+          <td class="l0-fact">MSRA 副院长（最年轻之一）</td>
+          <td class="l0-time">2015.3-2024</td>
+          <td class="l0-source">LinkedIn + 清华电子系 2019.5.20 公告</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-LT-08</td>
+          <td class="l0-fact">发布 LightGBM（GitHub 1.83 万星 / 引用 25,000+）</td>
+          <td class="l0-time">2016-2017</td>
+          <td class="l0-source">首都文明网 + GitHub</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-LT-09</td>
+          <td class="l0-fact">当选 IEEE Fellow（机器学习算法 + 信息检索方向）</td>
+          <td class="l0-time">2016.11</td>
+          <td class="l0-source">IEEE 官方</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-LT-10</td>
+          <td class="l0-fact">对偶学习使中英翻译达人类专家水平 + WMT 2019 比赛 8 项冠军</td>
+          <td class="l0-time">2018-2019</td>
+          <td class="l0-source">百度百科 + 微软官方</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-LT-11</td>
+          <td class="l0-fact">当选 ACM Fellow（机器学习算法及其应用方向）</td>
+          <td class="l0-time">2021（2022.1.20 公布）</td>
+          <td class="l0-source">ACM 官方 2022.1.20</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-LT-12</td>
+          <td class="l0-fact">Nature 主刊发表 AI2BMD（首次量子化学精度全原子蛋白质动力学模拟）</td>
+          <td class="l0-time">2024</td>
+          <td class="l0-source">Nature 论文</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-LT-13</td>
+          <td class="l0-fact">创办北京中关村学院（任党委书记、院长）+ 中关村 AI 研究院理事长</td>
+          <td class="l0-time">2024.6</td>
+          <td class="l0-source">百度百科 + 首都文明网</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-LT-14</td>
+          <td class="l0-fact">入选 2025 年北京学者</td>
+          <td class="l0-time">2025.12</td>
+          <td class="l0-source">百度百科</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size: 12px; color: #6b7280; margin-top: 8px;"><strong>完整 L0 数量</strong>：约 60 条（涵盖教育/职业/获奖/研究/学生/国际合作/政策参与/思想等 10 个维度）。<strong>关键事实修正</strong>：原 fact card 错误写"2017 加入华为 + 2019 加入字节"，实际从未在华为/字节任职，2003-2024 全在 MSRA 21 年。</p>
+  </div>
+
+  <!-- 步骤 2: L1 原子能力 -->
+  <div class="step-section">
+    <h3><span class="step-num">步骤 2</span>L1 原子能力（8 条抽象能力）</h3>
+    <p style="color: #9aa5b8; font-size: 13px; margin-bottom: 12px;">从 60 条 L0 事实中抽象出 8 条 L1 原子能力。1 L1 = 1 个具体能力（不过宽不过窄），每条 L1 必须可追溯到 1+ L0 事实。</p>
+    <table class="l1-table">
+      <thead>
+        <tr><th>编号</th><th>L1 原子能力</th><th>关键 L0 支撑</th><th>对应 L0 编号</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="l1-code">AB-LT-01</td>
+          <td class="l1-ability">排序学习与机器学习算法原创</td>
+          <td class="l1-evidence">列表式排序学习 Listwise Learning to Rank 框架 + 2015 Springer 畅销书 + NIPS 2008/2009/2010 多篇代表作</td>
+          <td class="l1-l1-refs">AF-LT-05~07</td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-LT-02</td>
+          <td class="l1-ability">工业级开源算法工程化</td>
+          <td class="l1-evidence">2016 LightGBM（GitHub 1.83 万星 / 论文被引 25,000+ / "AI 领域发展至今最重要的百项研究成果之一"）+ DMTK/LightLDA</td>
+          <td class="l1-l1-refs">AF-LT-08</td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-LT-03</td>
+          <td class="l1-ability">工业研究长期坚守（21 年 MSRA 单平台）</td>
+          <td class="l1-evidence">2003.7-2024 全在 MSRA 21 年连续：副研究员→研究员→首席→高级→副院长 9 年</td>
+          <td class="l1-l1-refs">AF-LT-05~07</td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-LT-04</td>
+          <td class="l1-ability">AI for Science 第五范式推动</td>
+          <td class="l1-evidence">2024 Nature 主刊 AI2BMD + 2021 Graphormer 分子建模冠军 + 2022 BioGPT 达人类专家水平 + 2023 TamGen 候选分子</td>
+          <td class="l1-l1-refs">AF-LT-10, 12</td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-LT-05</td>
+          <td class="l1-ability">顶级学术荣誉满贯</td>
+          <td class="l1-evidence">2016 IEEE Fellow + 2021 ACM Fellow（2022.1.20 公布）+ 2022 AAIA Fellow + ACM Distinguished Scientist + 2025.12 北京学者</td>
+          <td class="l1-l1-refs">AF-LT-09, 11, 14</td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-LT-06</td>
+          <td class="l1-ability">学术机构建设（教育转型）</td>
+          <td class="l1-evidence">2024.6.7 创办北京中关村学院（任党委书记、院长）+ 中关村人工智能研究院理事长 + 2026.5 起北京少年人工智能学院院长</td>
+          <td class="l1-l1-refs">AF-LT-13</td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-LT-07</td>
+          <td class="l1-ability">跨太平洋学术网络</td>
+          <td class="l1-evidence">CMU/清华/中科大/华中科技/诺丁汉大学 兼职教授 + 与 Yoshua Bengio 等国际学者合作 Nature 综述（2023）+ MSRA 全球人才网络</td>
+          <td class="l1-l1-evidence">多 L0 关联</td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-LT-08</td>
+          <td class="l1-ability">政策影响力</td>
+          <td class="l1-evidence">CCF 理事 + 中文信息学会理事 + 昌平实验室学术委员 + 国家新一代 AI 战略咨询专家组成员 + 国务院政府特殊津贴</td>
+          <td class="l1-l1-refs">多 L0 关联</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 步骤 3: L2 簇归属 -->
+  <div class="step-section">
+    <h3><span class="step-num">步骤 3</span>L1 → L2 能力簇归属（8 条 L1 归属哪些 L2 簇）</h3>
+    <p style="color: #9aa5b8; font-size: 13px; margin-bottom: 12px;">L2 簇是 L1 能力的主题聚类（5-30 条 L1 → 1 个 L2 簇），每个 L2 簇对应 1 个 D 维度。下面 8 条 L1 归属于 8 个不同的 L2 簇。</p>
+    <table class="l2-table">
+      <thead>
+        <tr><th>L1 编号</th><th>L1 能力</th><th>归属 L2 簇</th><th>D 维归属</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="l1-code">AB-LT-01</td>
+          <td class="l1-ability">排序学习算法原创</td>
+          <td class="l2-cluster">簇 6 AI for Science 算法贡献（与鄂维南/Demis 共簇）</td>
+          <td><span class="l2-d-dim">D1 原创算法</span></td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-LT-02</td>
+          <td class="l1-ability">LightGBM 工程化</td>
+          <td class="l2-cluster">簇 9 深度学习框架构建（含 TensorFlow/飞桨/OpenMMLab）</td>
+          <td><span class="l2-d-dim">D2 系统工程</span></td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-LT-03</td>
+          <td class="l1-ability">MSRA 21 年坚守</td>
+          <td class="l2-cluster">簇 32 工业界单平台深耕 20+ 年</td>
+          <td><span class="l2-d-dim">D6 长期主义</span></td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-LT-04</td>
+          <td class="l1-ability">AI for Science 推动</td>
+          <td class="l2-cluster">簇 6 + 簇 38 AI for Science 创业（与鄂维南/张林峰/张亚勤共簇）</td>
+          <td><span class="l2-d-dim">D1 原创算法</span></td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-LT-05</td>
+          <td class="l1-ability">学术荣誉满贯</td>
+          <td class="l2-cluster">簇 49 国际 Fellow 头衔（与 Hinton/Bengio/Ilya 共簇）</td>
+          <td><span class="l2-d-dim">D3 学术机构地位</span></td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-LT-06</td>
+          <td class="l1-ability">中关村学院创建</td>
+          <td class="l2-cluster">簇 12 AI 学术机构/学院创建（与周志华/汤晓鸥/林达华共簇）</td>
+          <td><span class="l2-d-dim">D3 学术机构地位</span></td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-LT-07</td>
+          <td class="l1-ability">跨太平洋网络</td>
+          <td class="l2-cluster">簇 18 跨太平洋学术网络（与高文/汤晓鸥/张亚勤/沈向洋共簇）</td>
+          <td><span class="l2-d-dim">D7 跨界整合</span></td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-LT-08</td>
+          <td class="l1-ability">政策影响力</td>
+          <td class="l2-cluster">簇 24 国家级政策参与 政协/人大（与高文/黄铁军/张亚勤共簇）</td>
+          <td><span class="l2-d-dim">D5 政策治理</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size: 12px; color: #6b7280; margin-top: 8px;"><strong>D 维聚合</strong>：8 条 L1 → 7 个 L2 簇 → <strong>覆盖 7 个 D 维</strong>（D1/D2/D3/D5/D6/D7 都有 L1 支撑，仅 D4 创业 / D8 公共影响无直接 L1 支撑，靠 P2 类典型特征加分）</p>
+  </div>
+
+  <!-- 步骤 4: D 维评分 -->
+  <div class="step-section">
+    <h3><span class="step-num">步骤 4</span>D 维评分（8 个维度 0-3 分制）</h3>
+    <p style="color: #9aa5b8; font-size: 13px; margin-bottom: 12px;">从 L1 原子能力归纳为 0-3 分制 D 维分数。评分标准：0=无 / 1=有 / 2=有影响力 / 3=改变方向。</p>
+    <table class="d-table">
+      <thead>
+        <tr><th>D 维度</th><th>得分</th><th>评分证据（L1 → L2 簇 → L0 事实）</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="d-name">D1 原创算法</td>
+          <td class="d-score sp-1">1</td>
+          <td class="d-evidence">
+            <strong>Listwise Learning to Rank 框架</strong>（AB-LT-01）+ <strong>LightGBM</strong>（AB-LT-02，25,000+ 引）+ <strong>对偶学习</strong>（AF-LT-10，WMT 8 项冠军）+ <strong>AI2BMD</strong>（AF-LT-12，Nature 主刊）<br>
+            <span style="color: #9aa5b8; font-size: 12px;">评分依据</span>：<strong>1 分</strong> = "有可引用工作"。LightGBM 2.5 万引算"有影响力"，但未到"改变方向"（vs 何恺明 ResNet 25 万引 / 改变 CNN 范式）。
+            <br><span class="d-l1-refs">L1 引用：AB-LT-01, AB-LT-02, AB-LT-04</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="d-name">D2 系统工程</td>
+          <td class="d-score sp-2">2</td>
+          <td class="d-evidence">
+            <strong>LightGBM 开源生态</strong>（GitHub 1.83 万星 / Kaggle 主流）+ <strong>MSRA 副院长领导分布式机器学习组</strong>（AB-LT-03）+ <strong>DMTK/LightLDA</strong> 等工业级工具包<br>
+            <span style="color: #9aa5b8; font-size: 12px;">评分依据</span>：<strong>2 分</strong> = "主导过工业级系统（公司级/亿级用户）"。LightGBM + DMTK 已是工业级 ML 工具（vs Jeff Dean 3 分 = TensorFlow/MapReduce 级）。
+            <br><span class="d-l1-refs">L1 引用：AB-LT-02, AB-LT-03</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="d-name">D3 学术机构</td>
+          <td class="d-score sp-2">2</td>
+          <td class="d-evidence">
+            <strong>MSRA 副院长 9 年</strong>（AB-LT-03 + AF-LT-07，2015.3 起）+ <strong>创办北京中关村学院</strong>（AB-LT-06 + AF-LT-13）+ <strong>IEEE/ACM Fellow</strong>（AB-LT-05）<br>
+            <span style="color: #9aa5b8; font-size: 12px;">评分依据</span>：<strong>2 分</strong> = "担任核心机构领导"（MSRA 副院长 + 中关村学院院长都是机构领导级）。未到 3 分（vs Hinton 3 分 = Vector Institute 创始首席科学顾问 + 诺奖图灵双奖）。
+            <br><span class="d-l1-refs">L1 引用：AB-LT-03, AB-LT-05, AB-LT-06</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="d-name">D4 创业</td>
+          <td class="d-score sp-1">1</td>
+          <td class="d-evidence">
+            <strong>未创办任何商业公司</strong>（仅 2024 创办中关村学院——事业单位非企业）+ <strong>无天使投资/联创/创业经历</strong><br>
+            <span style="color: #9aa5b8; font-size: 12px;">评分依据</span>：<strong>1 分</strong> = "有创业相关经历"（教育机构创办算边缘创业）。未到 2 分（vs 雷军/梁文锋 = 商业化独角兽）。
+            <br><span class="d-l1-refs">L1 引用：AB-LT-06（弱支撑）</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="d-name">D5 政策治理</td>
+          <td class="d-score sp-1">1</td>
+          <td class="d-evidence">
+            <strong>CCF 理事 + 中文信息学会理事 + 昌平实验室学术委员 + 国家新一代 AI 战略咨询专家组成员</strong>（AB-LT-08）+ <strong>国务院政府特殊津贴 + 海聚工程战略科学家</strong><br>
+            <span style="color: #9aa5b8; font-size: 12px;">评分依据</span>：<strong>1 分</strong> = "参与国家级政策对话"（CCF 理事 / 战略咨询组成员算边缘政策参与）。未到 2 分（vs 高文/黄铁军 = 政协人大级）。
+            <br><span class="d-l1-refs">L1 引用：AB-LT-08</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="d-name">D6 长期主义</td>
+          <td class="d-score sp-2">2</td>
+          <td class="d-evidence">
+            <strong>2003.7-2024 全在 MSRA 21 年</strong>（AB-LT-03，单平台坚守 21 年）+ <strong>2024 转身教育</strong>（AF-LT-13，放弃 MSRA 高管创办中关村学院，21+2 双段式长期）<br>
+            <span style="color: #9aa5b8; font-size: 12px;">评分依据</span>：<strong>2 分</strong> = "10-20 年坚持"（21 年 MSRA 跨入 20 年阈值）。未到 3 分（vs Hinton 3 分 = 42 年多伦多 30 年寒冬坚守）。
+            <br><span class="d-l1-refs">L1 引用：AB-LT-03</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="d-name">D7 跨界整合</td>
+          <td class="d-score sp-3">3 ★</td>
+          <td class="d-evidence">
+            <strong>3 角色</strong>：学界（清华电子 9 年 + CMU/中科大/华中科技等兼职教授）+ 工业（MSRA 21 年）+ 教育（中关村学院 2 年，AB-LT-06）<br>
+            <strong>5 大研究主线</strong>：排序学习 → LightGBM → 博弈论/对偶学习 → AI for Science → 教育实验<br>
+            <strong>跨太平洋网络</strong>（AB-LT-07：CMU/清华/中科大/华中科技/诺丁汉 + 与 Bengio Nature 综述）<br>
+            <span style="color: #9aa5b8; font-size: 12px;">评分依据</span>：<strong>3 分</strong> = "跨 3+ 个领域"（学界+工业+教育 3 角色 + 5 研究方向 + 跨太平洋）。<strong>刘铁岩最强项</strong>。
+            <br><span class="d-l1-refs">L1 引用：AB-LT-03, AB-LT-06, AB-LT-07</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="d-name">D8 公共影响</td>
+          <td class="d-score sp-2">2</td>
+          <td class="d-evidence">
+            <strong>2023 入选"1943-2023 AI 领域百位最重要学者"</strong>（国际开放测评委员会）+ <strong>2024 央视《面对面》深度专访</strong> + <strong>2025.12 北京学者</strong> + 2024 Nature 主刊 AI2BMD 公开报道<br>
+            <span style="color: #9aa5b8; font-size: 12px;">评分依据</span>：<strong>2 分</strong> = "公共影响力百万级"（国际榜单 + 央视专访 + 顶级学术期刊）。未到 3 分（vs Hinton 3 分 = 诺奖 + TED 千万级 + 辞 Google 公开）。
+            <br><span class="d-l1-refs">L1 引用：AB-LT-04, AB-LT-05（间接）</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size: 12px; color: #6b7280; margin-top: 8px;"><strong>总分 14/24</strong> = 1+2+2+1+1+2+3+2 = 14（D7 跨界 3 分满分最高 + D2/D3/D6/D8 各 2 分中等 + D1/D4/D5 各 1 分边缘）</p>
+  </div>
+
+  <!-- 步骤 5: P 原型归类 -->
+  <div class="step-section">
+    <h3><span class="step-num">步骤 5</span>P 原型归类（K-means 聚类）</h3>
+    <p style="color: #9aa5b8; font-size: 13px; margin-bottom: 12px;">60 人在 8 维空间 K-means 聚类得到 6 个原型。刘铁岩的 8 维向量 [1,2,2,1,1,2,3,2] 最接近 P2 质心 [1.50, 1.92, 2.00, 1.25, 0.67, 1.83, 2.00, 2.08]。</p>
+    <div class="p-flow">
+      <div class="p-step"><div class="num">D2=2 / D6=2</div><div class="desc">工程 + 长期</div></div>
+      <span class="arrow">→</span>
+      <div class="p-step"><div class="num">D7=3</div><div class="desc">学界+工业+教育</div></div>
+      <span class="arrow">→</span>
+      <div class="p-step"><div class="num">D3=2</div><div class="desc">机构</div></div>
+      <span class="arrow">→</span>
+      <div class="p-step final"><div class="num">→ P2</div><div class="desc">工业研究院（教育转身型）</div></div>
+    </div>
+    <div class="highlight-box">
+      <div class="title">P2 工业研究院 · 12 人</div>
+      <p><strong>核心特征</strong>：D2 系统工程 + D3 学术机构 + D6 长期主义强 + D4 创业弱。"工业研究院领袖 = 在顶级工业研究院（MSRA/Google Brain/FAIR/OpenAI）做 10-20 年深耕 + 主导过定义行业的基础设施 + 长期主义坚守"。</p>
+      <p><strong>代表</strong>：Jeff Dean / Xuedong Huang / Wang Haifeng / Tian Qi / Shen Xiangyang / Zhou Jingren / Liu Tieyan / Ilya Sutskever / Karpathy / Aidan Gomez / Yang Zhilin / Lin Dahua</p>
+      <p><strong>刘铁岩 vs Jeff Dean</strong>：同样是"长期主义 + 工程化"，Jeff Dean D2=3（MapReduce/MapReduce/TensorFlow）+ D6=3（25 年 Google），刘铁岩 D2=2（LightGBM 级）+ D6=2（21 年 MSRA）；刘铁岩 D7=3（学界+工业+教育 3 角色）vs Jeff Dean D7=2（工业+学术合作）。<strong>差异</strong>：Jeff Dean 是"工业研究院纯血"，刘铁岩是"工业研究院 + 教育转身"混合型（P2 12 人中的特例）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== 案例 2: 张林峰 ============================== -->
+<div class="person-card" id="zhanglinfeng">
+  <div class="person-header">
+    <div>
+      <div class="person-name-cn">张林峰</div>
+      <div class="person-name-en">Zhang Linfeng · 1988- · 学术+创业（普林斯顿应用数学博士 + 深势科技创始人）</div>
+      <div class="person-tags">
+        <span class="tag">数学/物理/CS 三栖</span>
+        <span class="tag">2020 Gordon Bell 奖</span>
+        <span class="tag">深势科技创始人</span>
+        <span class="tag">AISI 北京院长</span>
+        <span class="tag">AlphaFold 复现开源</span>
+        <span class="tag prototype">原型 P3 学术+AI 创业</span>
+      </div>
+      <div class="person-meta">
+        <strong>现任</strong>：深势科技创始人 + 院长 AISI 北京 + 鄂维南院士嫡系<br>
+        <strong>总分</strong>：12 / 24（8 维均分 1.5）<br>
+        <strong>原型</strong>：P3 学术+AI 创业（中国独有模式 14 中 + 1 西）
+      </div>
+    </div>
+    <div class="radar-box">
+      <canvas id="radar-zhanglinfeng"></canvas>
+    </div>
+  </div>
+
+  <div class="score-grid">
+    <div class="score-cell"><div class="label">D1 算法</div><div class="value sp-2">2</div></div>
+    <div class="score-cell"><div class="label">D2 工程</div><div class="value sp-1">1</div></div>
+    <div class="score-cell"><div class="label">D3 学术</div><div class="value sp-2">2</div></div>
+    <div class="score-cell"><div class="label">D4 创业</div><div class="value sp-2">2</div></div>
+    <div class="score-cell"><div class="label">D5 治理</div><div class="value sp-0">0</div></div>
+    <div class="score-cell"><div class="label">D6 长期</div><div class="value sp-1">1</div></div>
+    <div class="score-cell"><div class="label">D7 跨界</div><div class="value sp-3">3</div></div>
+    <div class="score-cell"><div class="label">D8 公共</div><div class="value sp-1">1</div></div>
+  </div>
+
+  <!-- 步骤 1: L0 事实 -->
+  <div class="step-section">
+    <h3><span class="step-num">步骤 1</span>L0 原子事实（10 条代表性事件）</h3>
+    <p style="color: #9aa5b8; font-size: 13px; margin-bottom: 12px;">从 <code>data/fact_cards/entrepreneur_cn/张林峰.md</code> 提取的关键 L0 事实。</p>
+    <table class="l0-table">
+      <thead>
+        <tr><th>编号</th><th>L0 事实</th><th>时间</th><th>来源</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="l0-code">AF-ZL-01</td>
+          <td class="l0-fact">本科同时主修数学、物理、计算机三专业</td>
+          <td class="l0-time">本科阶段</td>
+          <td class="l0-source">fact card 1</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-ZL-02</td>
+          <td class="l0-fact">普林斯顿大学应用数学系博士（分子模拟的高维函数建模）</td>
+          <td class="l0-time">博士阶段</td>
+          <td class="l0-source">fact card 1</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-ZL-03</td>
+          <td class="l0-fact">2018.6 参加鄂维南"AI for Science"会议决定回国创业</td>
+          <td class="l0-time">2018-06</td>
+          <td class="l0-source">fact card 2</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-ZL-04</td>
+          <td class="l0-fact">联合创立深势科技（与鄂维南、孙伟杰）</td>
+          <td class="l0-time">2018</td>
+          <td class="l0-source">fact card 2 / 公司公开</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-ZL-05</td>
+          <td class="l0-fact">DPMD（Deep Potential Molecular Dynamics）算法 + Gordon Bell Prize</td>
+          <td class="l0-time">2020</td>
+          <td class="l0-source">ACM 官方</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-ZL-06</td>
+          <td class="l0-fact">2020 中国十大科技进展 + 全球 AI 十大科技进展</td>
+          <td class="l0-time">2020</td>
+          <td class="l0-source">公开榜单</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-ZL-07</td>
+          <td class="l0-fact">发布"深势·宇知"大模型体系（Uni-SMART / Hermes / Uni-FEP / Uni-QM）</td>
+          <td class="l0-time">2024-04</td>
+          <td class="l0-source">深势科技官网</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-ZL-08</td>
+          <td class="l0-fact">2024 领导复现并开源 AlphaFold 全部工作（中国首家）</td>
+          <td class="l0-time">2024</td>
+          <td class="l0-source">深势科技官方</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-ZL-09</td>
+          <td class="l0-fact">任北京科学智能研究院（AISI）院长</td>
+          <td class="l0-time">2024 至今</td>
+          <td class="l0-source">fact card 4</td>
+        </tr>
+        <tr>
+          <td class="l0-code">AF-ZL-10</td>
+          <td class="l0-fact">2024.10.29 接受新华网专访回应 2024 诺奖颁发给 AI 科学家</td>
+          <td class="l0-time">2024-10-29</td>
+          <td class="l0-source">新华网</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size: 12px; color: #6b7280; margin-top: 8px;"><strong>完整 L0 数量</strong>：约 50 条（涵盖教育/职业/技术贡献/获奖/创业/政策/思想等 10 个维度）。<strong>关键事实确认</strong>：原任务描述中"张林峰 = 潞晨科技"是错误——潞晨科技创始人实为尤洋教授，张林峰 = 深势科技创始人。</p>
+  </div>
+
+  <!-- 步骤 2: L1 原子能力 -->
+  <div class="step-section">
+    <h3><span class="step-num">步骤 2</span>L1 原子能力（8 条抽象能力）</h3>
+    <table class="l1-table">
+      <thead>
+        <tr><th>编号</th><th>L1 原子能力</th><th>关键 L0 支撑</th><th>对应 L0 编号</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="l1-code">AB-ZL-01</td>
+          <td class="l1-ability">AI for Science 范式实践</td>
+          <td class="l1-evidence">DPMD-kit 开源框架 + 4 平台体系 Uni-SMART/Hermes/Uni-FEP/Uni-QM + 2024 复现并开源 AlphaFold</td>
+          <td class="l1-l1-refs">AF-ZL-05, 07, 08</td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-ZL-02</td>
+          <td class="l1-ability">顶级学术荣誉获取</td>
+          <td class="l1-evidence">2020 ACM Gordon Bell 奖 + 2020 中国十大科技进展 + 全球 AI 十大科技进展（与鄂维南共得）</td>
+          <td class="l1-l1-refs">AF-ZL-05, 06</td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-ZL-03</td>
+          <td class="l1-ability">学术创业与机构建设</td>
+          <td class="l1-evidence">2018 共同创立深势科技（与鄂维南院士、孙伟杰联合）+ 院长 AISI 北京</td>
+          <td class="l1-l1-refs">AF-ZL-04, 09</td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-ZL-04</td>
+          <td class="l1-ability">跨学科整合</td>
+          <td class="l1-evidence">本科同时主修数学/物理/计算机三专业（普林斯顿路径）</td>
+          <td class="l1-l1-refs">AF-ZL-01</td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-ZL-05</td>
+          <td class="l1-ability">顶级学术师承网络</td>
+          <td class="l1-evidence">鄂维南院士嫡系 + Roberto Car（普林斯顿导师）+ 鹏城实验室 + AISI 北京</td>
+          <td class="l1-l1-refs">AF-ZL-02, 03</td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-ZL-06</td>
+          <td class="l1-ability">政策与产业落地</td>
+          <td class="l1-evidence">科技部 + 国家自然科学基金委 + 北京/海淀政府 AI for Science 重点项目</td>
+          <td class="l1-l1-refs">多 L0 关联</td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-ZL-07</td>
+          <td class="l1-ability">长期主义科学坚守</td>
+          <td class="l1-evidence">"AI for Science 长期高投入、慢产出" + "好奇心+责任心双轮" 创业理念（深势 8 年）</td>
+          <td class="l1-l1-refs">AF-ZL-04~09</td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-ZL-08</td>
+          <td class="l1-ability">博士级算法深度</td>
+          <td class="l1-evidence">普林斯顿应用数学博士 + 分子模拟高维函数建模（DPMD 核心理论）</td>
+          <td class="l1-l1-refs">AF-ZL-02, 05</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 步骤 3: L2 簇归属 -->
+  <div class="step-section">
+    <h3><span class="step-num">步骤 3</span>L1 → L2 能力簇归属</h3>
+    <table class="l2-table">
+      <thead>
+        <tr><th>L1 编号</th><th>L1 能力</th><th>归属 L2 簇</th><th>D 维归属</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="l1-code">AB-ZL-01</td>
+          <td class="l1-ability">AI for Science 范式</td>
+          <td class="l2-cluster">簇 6 AI for Science 算法贡献（与鄂维南/Demis Hassabis/刘铁岩共簇）</td>
+          <td><span class="l2-d-dim">D1 原创算法</span></td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-ZL-02</td>
+          <td class="l1-ability">Gordon Bell 奖</td>
+          <td class="l2-cluster">簇 50 中国本土最高学术荣誉（与鄂维南/朱松纯共簇）</td>
+          <td><span class="l2-d-dim">D3 学术机构地位</span></td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-ZL-03</td>
+          <td class="l1-ability">深势+AISI 创建</td>
+          <td class="l2-cluster">簇 19 学术谱系创业（与唐杰/刘知远/朱军/汤晓鸥共簇）</td>
+          <td><span class="l2-d-dim">D4 创业</span></td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-ZL-04</td>
+          <td class="l1-ability">数学/物理/CS 三栖</td>
+          <td class="l2-cluster">簇 20 跨学科整合 数学/物理/认知/神经科学（与 Hinton/鄂维南共簇）</td>
+          <td><span class="l2-d-dim">D7 跨界整合</span></td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-ZL-05</td>
+          <td class="l1-ability">鄂维南嫡系</td>
+          <td class="l2-cluster">簇 18 跨太平洋学术网络（与高文/汤晓鸥/沈向洋/何恺明共簇）</td>
+          <td><span class="l2-d-dim">D7 跨界整合</span></td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-ZL-06</td>
+          <td class="l1-ability">政策与产业落地</td>
+          <td class="l2-cluster">簇 24 国家级政策参与（与高文/黄铁军/张亚勤共簇）</td>
+          <td><span class="l2-d-dim">D5 政策治理</span></td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-ZL-07</td>
+          <td class="l1-ability">AI4S 长期主义</td>
+          <td class="l2-cluster">簇 33 大模型/AI 长期主义路线（与梁文锋/王小川/王慧文共簇）</td>
+          <td><span class="l2-d-dim">D6 长期主义</span></td>
+        </tr>
+        <tr>
+          <td class="l1-code">AB-ZL-08</td>
+          <td class="l1-ability">DPMD 博士级深度</td>
+          <td class="l2-cluster">簇 6 AI for Science 算法贡献（同 AB-ZL-01）</td>
+          <td><span class="l2-d-dim">D1 原创算法</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size: 12px; color: #6b7280; margin-top: 8px;"><strong>D 维聚合</strong>：8 条 L1 → 6 个 L2 簇（其中 2 条 L1 归同一簇 6）→ <strong>覆盖 6 个 D 维</strong>（D1/D3/D4/D5/D6/D7 都直接覆盖，D2/D8 靠 P3 类典型特征评分）</p>
+  </div>
+
+  <!-- 步骤 4: D 维评分 -->
+  <div class="step-section">
+    <h3><span class="step-num">步骤 4</span>D 维评分</h3>
+    <table class="d-table">
+      <thead>
+        <tr><th>D 维度</th><th>得分</th><th>评分证据（L1 → L2 簇 → L0 事实）</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="d-name">D1 原创算法</td>
+          <td class="d-score sp-2">2</td>
+          <td class="d-evidence">
+            <strong>DPMD 算法</strong>（AB-ZL-08，普林斯顿博士论文方向）+ <strong>2020 Gordon Bell 奖</strong>（AB-ZL-02，超算界最高奖）+ <strong>2024 复现并开源 AlphaFold</strong>（AB-ZL-01，独立完成）<br>
+            <span style="color: #9aa5b8; font-size: 12px;">评分依据</span>：<strong>2 分</strong> = "领域影响力"（Gordon Bell 奖级 + AlphaFold 复现开源）。未到 3 分（vs 鄂维南 3 分 = Neural ODE/DeePMD 原创 + 2020 Gordon Bell 同一奖级但提出更早）。
+            <br><span class="d-l1-refs">L1 引用：AB-ZL-01, AB-ZL-02, AB-ZL-08</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="d-name">D2 系统工程</td>
+          <td class="d-score sp-1">1</td>
+          <td class="d-evidence">
+            <strong>DPMD-kit 开源框架</strong>（AB-ZL-01）+ <strong>4 平台体系</strong>（Uni-SMART/Hermes/Uni-FEP/Uni-QM，AB-ZL-01）+ <strong>AlphaFold 训练代码</strong>（AB-ZL-01，复现开源）<br>
+            <span style="color: #9aa5b8; font-size: 12px;">评分依据</span>：<strong>1 分</strong> = "主导过小型系统"（开源框架 + 平台体系，但未到 TensorFlow/MapReduce 级工业系统）。未到 2 分（vs Jeff Dean 3 分 = TensorFlow 级）。
+            <br><span class="d-l1-refs">L1 引用：AB-ZL-01</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="d-name">D3 学术机构</td>
+          <td class="d-score sp-2">2</td>
+          <td class="d-evidence">
+            <strong>2020 Gordon Bell 奖</strong>（AB-ZL-02，超算界最高奖）+ <strong>院长 AISI 北京</strong>（AB-ZL-03，北京市科委联合支持）<br>
+            <span style="color: #9aa5b8; font-size: 12px;">评分依据</span>：<strong>2 分</strong> = "担任核心学术机构领导 + 顶级学术荣誉"（Gordon Bell 奖级 + AISI 院长级）。未到 3 分（vs Hinton 3 分 = Vector Institute 创始 + 诺奖图灵双奖）。
+            <br><span class="d-l1-refs">L1 引用：AB-ZL-02, AB-ZL-03</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="d-name">D4 创业</td>
+          <td class="d-score sp-2">2</td>
+          <td class="d-evidence">
+            <strong>2018 共同创立深势科技</strong>（AB-ZL-03，与鄂维南院士联合 + 国内最早 AI for Science 创业公司）+ <strong>院长 AISI 北京</strong>（AB-LT-03）<br>
+            <span style="color: #9aa5b8; font-size: 12px;">评分依据</span>：<strong>2 分</strong> = "主导 AI 创业 + 重要机构领导"（深势科技虽未上市但已是 AI for Science 行业代表）。未到 3 分（vs 梁文锋 3 分 = DeepSeek 估值 1500 亿美元独角兽）。
+            <br><span class="d-l1-refs">L1 引用：AB-ZL-03</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="d-name">D5 政策治理</td>
+          <td class="d-score sp-0">0</td>
+          <td class="d-evidence">
+            <strong>无政协/人大代表/国家 AI 战略咨询组身份</strong>——AB-ZL-06 虽参与"科技部 + 国家自然科学基金委"项目，但属"产业落地"非"政策治理"<br>
+            <span style="color: #9aa5b8; font-size: 12px;">评分依据</span>：<strong>0 分</strong> = "无政策治理参与"（v4 审计严格：仅科技部项目不构成政策治理参与；需政协/人大/国务院/院士级标准）。<strong>修订理由</strong>：v3 阶段曾评 1 分（科技部专家咨询），v4 审计认为这不构成 D5 标准（与高文/黄铁军/张亚勤政协人大级对比）。
+            <br><span class="d-l1-refs">L1 引用：AB-ZL-06（不构成）</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="d-name">D6 长期主义</td>
+          <td class="d-score sp-1">1</td>
+          <td class="d-evidence">
+            <strong>深势科技 8 年</strong>（2018-2026，AB-ZL-07）+ <strong>普林斯顿博士 + 鄂维南团队</strong>（长期学术积累）<br>
+            <span style="color: #9aa5b8; font-size: 12px;">评分依据</span>：<strong>1 分</strong> = "5-10 年坚持"（深势 8 年在 AI 创业中算长期但未到 20+ 年阈值）。未到 2 分（vs 余凯 22 年 = 地平线机器人；刘铁岩 21 年 MSRA）。
+            <br><span class="d-l1-refs">L1 引用：AB-ZL-07</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="d-name">D7 跨界整合</td>
+          <td class="d-score sp-3">3 ★</td>
+          <td class="d-evidence">
+            <strong>3 学科跨界</strong>（AB-ZL-04）：数学 + 物理 + 计算机（本科三专业）<br>
+            <strong>2 角色跨界</strong>（AB-ZL-03）：学界（鄂维南嫡系 + 普林斯顿博士）+ 创业（深势科技创始人）<br>
+            <strong>1 思想跨界</strong>（AB-ZL-07）：从"AI 应用"到"AI for Science 第五范式"的概念推动者<br>
+            <span style="color: #9aa5b8; font-size: 12px;">评分依据</span>：<strong>3 分</strong> = "跨 4+ 领域"（数学+物理+CS+创业+AI4S 推动 5 领域）。<strong>张林峰最强项</strong>。
+            <br><span class="d-l1-refs">L1 引用：AB-ZL-03, AB-ZL-04, AB-ZL-05, AB-ZL-07</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="d-name">D8 公共影响</td>
+          <td class="d-score sp-1">1</td>
+          <td class="d-evidence">
+            <strong>2024.10.29 新华网专访</strong>（AB-ZL-10，回应诺奖 AI 议题）+ <strong>深势科技"安卓模式"理念</strong>（公开演讲）<br>
+            <span style="color: #9aa5b8; font-size: 12px;">评分依据</span>：<strong>1 分</strong> = "专业媒体受访"（新华网单次专访 + 行业演讲，未到 2 分级百万级公共影响）。未到 2 分（vs Andrew Ng/Coursera 千万级 / Hinton TED 千万级）。
+            <br><span class="d-l1-refs">L1 引用：AB-ZL-10</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size: 12px; color: #6b7280; margin-top: 8px;"><strong>总分 12/24</strong> = 2+1+2+2+0+1+3+1 = 12（D7 跨界 3 分满分最高 + D1/D3/D4 各 2 分中等 + D2/D6/D8 各 1 分边缘 + D5 0 分因 v4 审计严格化）</p>
+  </div>
+
+  <!-- 步骤 5: P 原型归类 -->
+  <div class="step-section">
+    <h3><span class="step-num">步骤 5</span>P 原型归类</h3>
+    <p style="color: #9aa5b8; font-size: 13px; margin-bottom: 12px;">张林峰的 8 维向量 [2,1,2,2,0,1,3,1] 最接近 P3 质心 [1.93, 1.20, 2.27, 2.73, 0.80, 1.13, 2.00, 1.27]。</p>
+    <div class="p-flow">
+      <div class="p-step"><div class="num">D1=2 / D4=2</div><div class="desc">算法 + 创业</div></div>
+      <span class="arrow">→</span>
+      <div class="p-step"><div class="num">D7=3</div><div class="desc">三栖跨界</div></div>
+      <span class="arrow">→</span>
+      <div class="p-step final"><div class="num">→ P3</div><div class="desc">学术+AI 创业</div></div>
+    </div>
+    <div class="highlight-box">
+      <div class="title">P3 学术+AI 创业 · 15 人（14 中 + 1 西 · 中国独有）</div>
+      <p><strong>核心特征</strong>：D1 原创算法 + D3 学术机构 + D4 创业 + D7 跨界整合强。"学术 + AI 创业 = 中国 AI 时代特色模式——学界顶尖博士 + 创办/联合创办 AI 公司 + 学术反哺创业 + 创业反哺学术"</p>
+      <p><strong>代表</strong>：唐杰/刘知远/朱军/颜水成/贾佳亚/张林峰/闫俊杰/王小川/王兴兴/梁文锋/姜大昕/林达华/孙茂松/汤晓鸥/张鹏（15 人）</p>
+      <p><strong>张林峰 vs 梁文锋（同 P3）</strong>：都是 P3 但侧重不同——张林峰 D1=2（DPMD/Gordon Bell）vs 梁文锋 D1=3（DeepSeek-V3/R1 改变方向级）；张林峰 D4=2（深势科技 AI4S）vs 梁文锋 D4=3（DeepSeek 1500 亿美元独角兽）；张林峰 D5=0 vs 梁文锋 D5=3（李强总理座谈）。<strong>张林峰是"AI for Science P3 极致样本"</strong>。</p>
+      <p><strong>P3 vs P2 区分关键</strong>：P3 D4 创业 ≥ 2（必须有创业经历），P2 D4 ≤ 1（纯工业研究）。张林峰 = 深势科技创始人 → P3；刘铁岩 = 未创办公司（P2 12 人中唯一 D4=1 但靠 D3 院校 + D6 长期归 P2）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- 总结：两个案例的对比 -->
+<section>
+  <h2>两个案例的横向对比</h2>
+  <div class="highlight-box">
+    <div class="title">L0 → L1 → L2 → D → P 推导的"关键洞察"</div>
+    <p><strong>1. 同一 L2 簇可来自不同人物的 L1 能力</strong>——刘铁岩 AB-LT-04 和张林峰 AB-ZL-01 都归"簇 6 AI for Science 算法贡献"，但 L1 截然不同（刘 = 排序学习/LightGBM/AI2BMD 推动者；张 = DPMD/AlphaFold 复现）。</p>
+    <p><strong>2. 同一 D 维度的评分依据可来自多个 L2 簇</strong>——刘铁岩 D7=3 由 3 条 L1 支撑（学界+工业+教育）；张林峰 D7=3 由 3 条 L1 支撑（数学+物理+CS 学科跨界 + 学界+创业角色跨界 + AI4S 思想跨界）。</p>
+    <p><strong>3. 8 维向量的"形状"决定原型</strong>——刘铁岩 [1,2,2,1,1,2,3,2] "高 D2/D3/D6/D7" 接近 P2 工业研究院；张林峰 [2,1,2,2,0,1,3,1] "高 D1/D3/D4/D7" 接近 P3 学术+AI 创业。<strong>同样的 D7=3 满分，但其他维度组合决定了 P2 vs P3</strong>。</p>
+    <p><strong>4. v4 审计的证据</strong>：张林峰 D5 0→0 在 v3 阶段被审计建议改为 0（原 v3 是 1 分）——v4 严格化"政策治理"标准（需政协/人大/院士级，科技部项目不构成 D5）。这是 v4 阶段 70+ 处修订的代表性案例之一。</p>
+  </div>
+</section>
+
+<div class="footer">
+  AI 领军人才画像研究 v4 · 2 个具体人物画像推导全过程（刘铁岩 + 张林峰）<br>
+  完整 L0 事实见 <code>data/fact_cards_v2_rework/domestic_cn/liu_tieyan.md</code> + <code>data/fact_cards/entrepreneur_cn/张林峰.md</code><br>
+  完整 L1 列表见 <code>data/clusters/atomic_abilities.md</code> · 完整 L2 簇见 <code>data/clusters/clusters.md</code><br>
+  60 人完整画像 + 8 维矩阵 + 6 原型见 <a href="docs/portrait.html">docs/portrait.html</a><br>
+  9 案例打分明细见 <a href="docs/scoring_process.html">docs/scoring_process.html</a><br>
+  2026-06-04 · Mavis + 60 个并行 worker session
+</div>
+
+</div>
+
+<script>
+const dimLabels = ['D1 算法','D2 工程','D3 学术','D4 创业','D5 治理','D6 长期','D7 跨界','D8 公共'];
+const cfg = (data, color) => ({
+  type: 'radar',
+  data: {
+    labels: dimLabels,
+    datasets: [{
+      label: '8 维能力',
+      data: data,
+      backgroundColor: color + '40',
+      borderColor: color,
+      borderWidth: 2,
+      pointBackgroundColor: color,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      r: {
+        beginAtZero: true,
+        max: 3,
+        ticks: { stepSize: 1, color: '#6b7280', backdropColor: 'transparent' },
+        grid: { color: 'rgba(255,255,255,0.1)' },
+        angleLines: { color: 'rgba(255,255,255,0.1)' },
+        pointLabels: { color: '#c0c8d4', font: { size: 11 } }
+      }
+    },
+    plugins: { legend: { display: false } }
+  }
+});
+new Chart(document.getElementById('radar-liutieyan'), cfg([1,2,2,1,1,2,3,2], '#64b5f6'));
+new Chart(document.getElementById('radar-zhanglinfeng'), cfg([2,1,2,2,0,1,3,1], '#ba68c8'));
+</script>
+</body>
+</html>
