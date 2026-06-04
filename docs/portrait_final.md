@@ -452,7 +452,7 @@ entrepreneur_mixed (11) 中: 李开复 1 人
 | 阶段 3.1 8 维 | **D1-D8 0-3 分制 + 5-11 L2 簇映射** | `data/clusters/dimensions.md` |
 | 阶段 3.2 矩阵 | **60×8 = 480 个分数 + 总分排名 Top 21 + 8 维单维度 Top 3** | `data/clusters/matrix.md` |
 | 阶段 3.3 原型 | **P1-P6 6 个原型（11+13+15+9+4+8=60）** | `data/clusters/prototypes.md` |
-| 阶段 4 终交付 | portrait_final.md（本文）+ 3 个 HTML（portrait/methodology/scoring_process）+ phd_recommendations.md | `docs/` |
+| 阶段 4 终交付 v3 | portrait_final.md（本文）+ 3 个 HTML（portrait/methodology/scoring_process v3 9 案例）+ phd_recommendations.md | `docs/` |
 
 ---
 
