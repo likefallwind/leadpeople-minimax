@@ -4,3 +4,9 @@ data/list_files.ps1
 *.log
 .DS_Store
 Thumbs.db
+
+# v2 阶段临时抓取材料（学术原始资料 / 调试日志）
+web/
+filenames_utf8.txt
+data/fact_cards_v2/_raw_search/
+data/atomic_facts/_raw_search/
